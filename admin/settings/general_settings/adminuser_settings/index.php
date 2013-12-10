@@ -41,7 +41,7 @@ if(isset($_GET['action']))
 {
 	if($_GET['action']=='add')
 	{
-		$result=insertAdminUser($_POST["name"], $_POST["username"], $_POST["password"], $_POST["email"], $_POST["right"]);
+		$result=insertAdminUser($_POST["name"], $_POST["username"], $_POST["password"], $_POST["email"], $_POST["right"], $_POST['department_id'], $_POST['designation_id'], $_POST['contact_nos']);
 		
 		if($result=="success")
 			{

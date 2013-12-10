@@ -31,6 +31,28 @@ if(isset($_SESSION['ack']['msg']) && isset($_SESSION['ack']['type']))
 
 <tr>
 <td>
+Department<span class="requiredField">* </span> : 
+</td>
+<td>
+<select type="text" name="deparment_id" id="deparment_id" onchange="" onblur="">
+	<option value="-1">-- Please Select --</option>
+</select> 
+</td>
+</tr>
+
+<tr>
+<td>
+Designation<span class="requiredField">* </span> : 
+</td>
+<td>
+<Select type="text" name="designation_id" id="designation_id">
+	<option value="-1">-- Please Select --</option>
+</Select> 
+</td>
+</tr>
+
+<tr>
+<td>
 Email<span class="requiredField">* </span> : 
 </td>
 <td>
