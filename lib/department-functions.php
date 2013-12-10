@@ -60,6 +60,11 @@ function checkForDuplicateDepartment($name, $parent_id)
 	
 }
 
+function getAllChildDepartmentsFromItsParent($parent_id)
+{
+	
+	}
+
 function getDepartmentFromItsParent($parent_id)
 {
 	$sql="SELECT department_name
