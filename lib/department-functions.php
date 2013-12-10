@@ -149,6 +149,7 @@ function checkIfDepartmentInUse($department_id)
 	$result=dbQuery($sql);
 	if(dbNumRows($result)>0)
 	return true;
+
 	 
 	 $sql="SELECT department_id 
 	      FROM min_designation
@@ -164,8 +165,8 @@ function checkIfDepartmentInUse($department_id)
 	if(dbNumRows($result)>0)
 	return true;
 	 	  
-	 	  	  
-	
+	 	  	 
+	return false;	  	
 }
 	
 
