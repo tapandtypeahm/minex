@@ -58,8 +58,8 @@ if($_GET['action']=='listAdmin')
 		}	
 		else if($_GET['action']=="login")
 		{
-			$oc_id=$_POST['ourcompany_id'];
-			loginAdmin($_POST["username"],$_POST["password"],$oc_id);
+			$department_id=$_POST['department_id'];
+			loginAdmin($_POST["username"],$_POST["password"],$department_id);
 			}
 		else if($_GET['action']=="logout")
 		{
@@ -78,14 +78,14 @@ function listAdminUsers()
 
 {
 		   $sql = "SELECT * 
-		   		   FROM fin_admin 
+		   		   FROM min_admin 
 		   			WHERE is_active=1";  
 		   $result = dbQuery($sql);
 		   $resultArray = dbResultToArray($result);
 		   return $resultArray;
 }
 
-function insertAdminUser($name, $username, $pass, $email, $access)
+function insertAdminUser($name, $username, $pass, $email, $access, $department_id, $designation_id, $contact_nos)
 {
 	try{
 		
@@ -102,7 +102,7 @@ function insertAdminUser($name, $username, $pass, $email, $access)
 			$pass=clean_data($pass);
 			$username=clean_data($username);
 			$email=clean_data($email);
-			if(validateForNull($name,$pass,$email,$username) && !checkDuplicateAdminUser($username,$email))
+			if(validateForNull($name,$pass,$email,$username,$contact_nos[0]) && checkForNumeric($department_id,$designation_id,$contact_nos[0]) && !checkDuplicateAdminUser($username,$email))
 			{
 			if($access==null || empty($access))
 			$access=array(1);	
@@ -111,20 +111,20 @@ function insertAdminUser($name, $username, $pass, $email, $access)
 			$email=trim($email);
 			$name=trim($name);
 			$uniqueHash=$algo.$cost.unique_salt();	
-			
+			$ip_address=$_SERVER['REMOTE_ADDR'];
 			$safePassword=crypt($pass , $uniqueHash); 
 			
 			
 			$sql = "INSERT INTO 
-					fin_admin 
-					(admin_email, admin_name, admin_username , admin_password, last_login, date_added, date_modified, admin_hash, is_active) 
+					min_admin 
+					(admin_email, admin_name, admin_username , admin_password,department_id, designation_id, last_login, last_login_ip, date_added, date_modified, admin_hash, is_active) 
 					VALUES 
-					('$email', '$name', '$username', '$safePassword', NOW(), NOW(), NOW(), '$uniqueHash', 1)";
+					('$email', '$name', '$username', '$safePassword', $department_id, $designation_id, NOW(), '$ip_address', NOW(), NOW(), '$uniqueHash', 1)";
 			$result = dbQuery($sql); 
 			$admin_id=dbInsertId();
 			
 			insertAccessRightsForAdmin($admin_id,$access);
-			
+			addAdminContactNo($admin_id,$contact_nos);
 			
 			return "success";
 			
@@ -153,7 +153,7 @@ function insertAccessRightsForAdmin($admin_id,$access)
 		{
 					
 					$sql="INSERT INTO
-						  fin_rel_admin_right(admin_id,admin_right_id)
+						  min_rel_admin_right(admin_id,admin_right_id)
 						  VALUES
 						  ($admin_id,$right)";
 					$result=dbQuery($sql);	  
@@ -162,7 +162,7 @@ function insertAccessRightsForAdmin($admin_id,$access)
 	else if($access!=null && $access!="")
 	{
 		$sql="INSERT INTO
-						  fin_rel_admin_right(admin_id,admin_right_id)
+						  min_rel_admin_right(admin_id,admin_right_id)
 						  VALUES
 						  ($admin_id,$access)";
 					$result=dbQuery($sql);
@@ -175,7 +175,7 @@ function deleteAccessRightsForAdminWithoutRead($admin_id)
 {
 	if(checkForNumeric($admin_id))
 	{
-	$sql="DELETE FROM fin_rel_admin_right
+	$sql="DELETE FROM min_rel_admin_right
 			WHERE admin_id=$admin_id
 			AND admin_right_id!=1";
 	dbQuery($sql);	
@@ -188,7 +188,7 @@ function deleteAdminUser($id)
 	
 	if($admins>1 && $_SESSION['adminSession']['admin_id']!=$id)
 	{
-	$sql = "UPDATE fin_admin
+	$sql = "UPDATE min_admin
 			SET is_active=0 
 			WHERE admin_id = '$id'";
 	$result = dbQuery($sql);
@@ -203,7 +203,7 @@ function deleteAdminUser($id)
 
 function getAllActiveAdmin()
 {
-	$sql="SELECT count(admin_id) FROM fin_admin WHERE is_active=1";
+	$sql="SELECT count(admin_id) FROM min_admin WHERE is_active=1";
 	$result=dbQuery($sql);
 	$resultArray=dbResultToArray($result);
 	if(isset($resultArray[0][0]))
@@ -211,8 +211,7 @@ function getAllActiveAdmin()
 	else return 0;
 	}
 
-function loginAdmin($username,$password,$oc_id=1){
-	
+function loginAdmin($username,$password,$department_id){
 	
 	if(isset($_SESSION["login_error"]))	
 	{
@@ -224,10 +223,11 @@ function loginAdmin($username,$password,$oc_id=1){
 	$sql="SELECT 
 		  admin_id, admin_hash, admin_name, admin_password
 		  FROM 
-		  fin_admin
+		  min_admin
 		  WHERE 
 		  admin_username='$username'
-		  AND is_active=1";
+		  AND is_active=1
+		  AND department_id=$department_id";
 	$result=dbQuery($sql);
 	$adminArray=dbResultToArray($result);
 	$result=dbQuery($sql);
@@ -236,10 +236,9 @@ function loginAdmin($username,$password,$oc_id=1){
 	if($all==0)
 	{
 		$_SESSION["login_error"]["invalid_login"]="LICENCE EXPIRED! CALL 09824143009 OR 09428592016!";
-		  header("Location: ".WEB_ROOT."login.php");
-			exit;
-		
-		}
+		header("Location: ".WEB_ROOT."login.php");
+	    exit;
+	}
 	if(dbNumRows($result)>0)
 	{
 		
@@ -262,13 +261,13 @@ function loginAdmin($username,$password,$oc_id=1){
 		$_SESSION['adminSession']['report_rights']=getReportRightsForAdminId($admin_id);
 	
 		$_SESSION['adminSession']['admin_logged_in']=true;
-	    $_SESSION['adminSession']['oc_id']=$oc_id;
-	   
+	    $_SESSION['adminSession']['department_id']=$department_id;
+	    $ip_address=$_SERVER['REMOTE_ADDR'];
 	
 		$sql="UPDATE 
-		      fin_admin
+		      min_admin
 			  SET 
-			  last_login=NOW()
+			  last_login=NOW(), last_login_ip='$ip_address'
 			  WHERE admin_id=$admin_id";
 		$result=dbQuery($sql);	 
 		if(isset($_GET['r']))
@@ -304,10 +303,10 @@ function logoutAdmin(){
 
 function getAdminRightsDetailsForAdminId($id)
 {
-	$sql="SELECT fin_rel_admin_right.admin_right_id,admin_right
-		      FROM fin_rel_admin_right,fin_admin_right
+	$sql="SELECT min_rel_admin_right.admin_right_id,admin_right
+		      FROM min_rel_admin_right,min_admin_right
 			  WHERE admin_id=$id
-			  AND fin_rel_admin_right.admin_right_id=fin_admin_right.admin_right_id";
+			  AND min_rel_admin_right.admin_right_id=min_admin_right.admin_right_id";
 		$result=dbQuery($sql);	  
 		$resultArray=dbResultToArray($result);
 		return $resultArray;	  
@@ -317,7 +316,7 @@ function getAdminRightsForAdminId($id){
 	
 	try{
 		$sql="SELECT admin_right_id
-		      FROM fin_rel_admin_right
+		      FROM min_rel_admin_right
 			  WHERE admin_id=$id";
 		$result=dbQuery($sql);	  
 		$resultArray=dbResultToArray($result);
@@ -337,7 +336,7 @@ function getReportRightsForAdminId($id){
 	
 	try{
 		$sql="SELECT admin_right_id
-		      FROM fin_rel_admin_right
+		      FROM min_rel_admin_right
 			  WHERE admin_id=$id
 			  AND admin_right_id>100";
 		$result=dbQuery($sql);	  
@@ -358,7 +357,7 @@ function getAllAdminRights()
 {
 	try{
 		$sql="SELECT admin_right_id, admin_right
-		      FROM fin_admin_right WHERE admin_right_id<100";
+		      FROM min_admin_right WHERE admin_right_id<100";
 		$result=dbQuery($sql);	  
 		$resultArray=dbResultToArray($result);
 		
@@ -372,7 +371,7 @@ function getAllAdminReportRights()
 {
 	try{
 		$sql="SELECT admin_right_id, admin_right
-		      FROM fin_admin_right WHERE admin_right_id>100";
+		      FROM min_admin_right WHERE admin_right_id>100";
 		$result=dbQuery($sql);	  
 		$resultArray=dbResultToArray($result);
 		
@@ -387,7 +386,7 @@ function checkDuplicateAdminUser($username,$email)
 	$sql="SELECT 
 		  admin_id
 		  FROM 
-		  fin_admin
+		  min_admin
 		  WHERE 
 		  (admin_username='$username'
 		  OR admin_email='email')
@@ -405,10 +404,10 @@ function getAdminUserByID($id)
 {
 	if(checkForNumeric($id))
 	{
-	$sql="SELECT fin_admin.admin_id,admin_name,admin_username,admin_email,last_login,date_added
-	      FROM fin_admin,fin_rel_admin_right
-		  WHERE fin_admin.admin_id=fin_rel_admin_right.admin_id
-		  AND fin_admin.admin_id=$id
+	$sql="SELECT min_admin.admin_id,admin_name,admin_username,admin_email,last_login,date_added
+	      FROM min_admin,min_rel_admin_right
+		  WHERE min_admin.admin_id=min_rel_admin_right.admin_id
+		  AND min_admin.admin_id=$id
 		  AND is_active=1";
 	$result=dbQuery($sql);	
 	$resultArray=dbResultToArray($result);
@@ -421,8 +420,8 @@ function getAdminUserNameByID($id)
 	if(checkForNumeric($id))
 	{
 	$sql="SELECT admin_name
-	      FROM fin_admin
-		  WHERE  fin_admin.admin_id=$id
+	      FROM min_admin
+		  WHERE  min_admin.admin_id=$id
 		  AND is_active=1";
 	$result=dbQuery($sql);	
 	$resultArray=dbResultToArray($result);
@@ -442,7 +441,7 @@ function checkPasswordForDeletion($id,$password)
 	$sql="SELECT 
 		  admin_hash, admin_password
 		  FROM 
-		  fin_admin
+		  min_admin
 		  WHERE 
 		  admin_id=$id
 		  AND is_active=1";
@@ -481,7 +480,7 @@ function changePassword($id,$oldpassword,$newPassword)
 		
 		$safePassword=crypt($newPassword , $admin_hash); 	
 		
-		$sql="UPDATE  fin_admin SET admin_password='$safePassword' WHERE admin_id=$id";
+		$sql="UPDATE  min_admin SET admin_password='$safePassword' WHERE admin_id=$id";
 		dbQuery($sql);
 		return "success";
 		}
@@ -496,7 +495,7 @@ function getHashForAdmin($id)
 		$sql="SELECT 
 		  admin_hash
 		  FROM 
-		  fin_admin
+		  min_admin
 		  WHERE 
 		  admin_id=$id
 		  AND is_active=1";
@@ -514,4 +513,110 @@ function getHashForAdmin($id)
 	else return null;	
 	}
 }	
+
+function addAdminContactNo($Admin_id,$contact_no)
+{
+	try
+	{
+		if(is_array($contact_no))
+		{
+			foreach($contact_no as $no)
+			{
+				if(checkForNumeric($no))
+				{
+				insertContactNoAdmin($Admin_id,$no); 
+				}
+			}
+		}
+		else
+		{
+			
+			if(checkForNumeric($contact_no))
+				{
+				insertContactNoAdmin($Admin_id,$contact_no); 
+				}
+			
+		}
+	}
+	catch(Exception $e)
+	{
+	}
+}
+
+function insertContactNoAdmin($id,$contact_no)
+{
+	try
+	{
+		
+		if(checkForNumeric($id)==true && checkForNumeric($contact_no))
+		{
+			
+		$sql="INSERT INTO min_admin_contact_no
+				      (admin_contact_no, admin_id)
+					  VALUES
+					  ('$contact_no', $id)";
+				dbQuery($sql);	  
+		}
+	}
+	catch(Exception $e)
+	{}
+	
+	
+}
+function deleteContactNoAdmin($id)
+{
+	try
+	{
+		$sql="DELETE FROM min_admin_contact_no
+			  WHERE admin_contact_no_id=$id";
+		dbQuery($sql);	  
+	}
+	catch(Exception $e)
+	{}
+	
+	
+	
+	}
+function deleteAllContactNoAdmin($id)
+{
+	try
+	{
+		$sql="DELETE FROM min_admin_contact_no
+			  WHERE admin_id=$id";
+		dbQuery($sql);
+	}
+	catch(Exception $e)
+	{}
+	
+	
+	
+	}	
+function updateContactNoAdmin($id,$contact_no)
+{
+	try
+	{
+		deleteAllContactNoAdmin($id);
+		addAdminContactNo($id,$contact_no);
+	}
+	catch(Exception $e)
+	{}
+	
+	
+	
+	}
+
+function getAdminContactNo($id)
+{
+	if(checkForNumeric($id))
+	{
+		$sql="SELECT admin_contact_no FROM min_admin_contact_no
+				WHERE admin_id=$id";
+				$result=dbQuery($sql);	  
+		$resultArray=dbResultToArray($result);
+		if(dbNumRows($result)>0)
+		return $resultArray;
+		else
+		return false;
+		}
+	}
 ?>

@@ -1,25 +1,17 @@
 <?php
 require_once "lib/cg.php";
 require_once "lib/bd.php"; 
-require_once "lib/our-company-function.php"; 
+require_once "lib/department-functions.php"; 
 $jsArray=array("js/formSubmit.js");
 ?>
 <?php
-$companies=listOurCompaniesNames();
+$departments=listDepartment();
 if(isset($_SESSION['adminSession']['admin_id']))
 {
 	header("Location: ".WEB_ROOT."admin/index.php");
 }
 require_once "lib/adminuser-functions.php";
-if(isset($_GET['action'])){
-	if($_GET['action']=="login")
-	{
-		$username=$_POST['username'];
-		$password=$_POST['password'];
-		$oc_id=$_POST['ourcompany_id'];
-		loginAdmin($username,$password,$oc_id);
-	}
-	}
+
  ?>
  <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -59,13 +51,13 @@ if(isset($_GET['action'])){
         <h4>Sign in</h4>
         	<form class="form-horizontal" name="loginForm" action="<?php echo WEB_ROOT ?>lib/adminuser-functions.php?action=login" method="post">
   <div class="control-group">
-    <label class="control-label" for="ourCompanySelect">Select Company</label>
+    <label class="control-label" for="ourCompanySelect">Department</label>
     <div class="controls">
-      <select id="ourCompanySelect" name="ourcompany_id">
-      	<?php foreach($companies as $company)
+      <select id="ourCompanySelect" name="department_id">
+      	<?php foreach($departments as $department)
 		{
 			?>
-            <option value="<?php echo $company['our_company_id']; ?>"><?php echo $company['our_company_name'] ?></option>
+            <option value="<?php echo $department['department_id']; ?>"><?php echo $department['department_name'] ?></option>
             <?php
 			} ?>
       </select>

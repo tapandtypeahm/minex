@@ -89,12 +89,25 @@ function getDepartmentById($id)
 	
 }
 
+function getDepartmentNameById($id)
+{
+	$sql="SELECT department_name , description
+	      FROM min_departments
+		  WHERE department_id=$id";
+
+   $result=dbQuery($sql);
+   $resultArray=dbResultToArray($result);
+   return $resultArray[0];	
+	
+}
+
 
 function listDepartment()
 {
 	
 	$sql="SELECT department_id, department_name, parent_id , description
-	      FROM min_departments";
+	      FROM min_departments
+		  ORDER BY department_name";
 		$result=dbQuery($sql);	 
 		$resultArray=dbResultToArray($result);
 		for($i=0;$i<count($resultArray);$i++)
