@@ -142,7 +142,18 @@ function deleteDepartment($id)
 
 function checkIfDepartmentInUse($department_id)
 {
-	$sql="";
+<<<<<<< HEAD
+	$sql="SELECT department_id 
+	      FROM min_admin
+	      WHERE department_id=$department_id";
+	$result=dbQuery($sql);
+	if(dbNumRows($result)>0)
+	return true;
+	else
+	return false;	  
+=======
+
+>>>>>>> f6e6f908b4e2c593c8e7bcd17ac060f480ada2b7
 	
 }
 	
