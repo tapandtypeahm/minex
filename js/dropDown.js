@@ -1,6 +1,6 @@
 // JavaScript Document
 
-function createDropDownModelCompany(company_id)
+function createDropDownDesignationDepartment(department_id)
 {	
 	var xmlhttp1;
 if (window.XMLHttpRequest)
@@ -21,14 +21,14 @@ else
 	
 // Before adding new we must remove previously loaded elements
 
-removeData("vehicle_model");
+removeData("designation_id");
 
 var plsOptn = document.createElement("OPTION");
 
 plsOptn.value = -1;
 plsOptn.text = "--Please Select--";
 
-document.getElementById("vehicle_model").options.add(plsOptn);
+document.getElementById("designation_id").options.add(plsOptn);
 
 for (var i=0; i<myarray.length; i++)
 {
@@ -38,62 +38,15 @@ var optn = document.createElement("OPTION");
 optn.value = myarray[i];
 optn.text = myarray[++i];
 
-document.getElementById("vehicle_model").options.add(optn);
+document.getElementById("designation_id").options.add(optn);
 
 } 
     }
   }
   
-  xmlhttp1.open('GET', "getRelatedModels.php?id="+company_id, true );    
+  xmlhttp1.open('GET', "getDesignationFromDepartment.php?id="+department_id, true );    
   xmlhttp1.send(null);
 	
-	var xmlhttp2;
-if (window.XMLHttpRequest)
-  {// code for IE7+, Firefox, Chrome, Opera, Safari
-  xmlhttp2 = new XMLHttpRequest();
-  }
-else
-  {// code for IE6, IE5
-  xmlhttp2 = new ActiveXObject("Microsoft.XMLHTTP");
-  }
-
-  xmlhttp2.onreadystatechange=function()                        
-  {
-  if (xmlhttp2.readyState==4 && xmlhttp2.status==200)
-    {
-
-    var myarray2=eval(xmlhttp2.responseText);
-		
-// Before adding new we must remove previously loaded elements
-
-removeData("dealer");
-
-
-var plsOptn1 = document.createElement("OPTION");
-
-plsOptn1.value = -1;
-plsOptn1.text = "--Please Select--";
-
-document.getElementById("dealer").options.add(plsOptn1);
-
-for (var i=0; i<myarray2.length; i++)
-{
-	
-var optn1 = document.createElement("OPTION");
-
-optn1.value = myarray2[i];
-optn1.text = myarray2[++i];
-
-document.getElementById("dealer").options.add(optn1);
-
-} 
-    }
-  }
-  
-  xmlhttp2.open('GET', "getRelatedDealers.php?id="+company_id, true );    
-  xmlhttp2.send(null);
-	
-
 }
 
 function createDropDownAreaCustomer(city_id)

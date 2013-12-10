@@ -2,6 +2,8 @@
 require_once "../../../../lib/cg.php";
 require_once "../../../../lib/bd.php";
 require_once "../../../../lib/adminuser-functions.php";
+require_once "../../../../lib/designation-functions.php";
+require_once "../../../../lib/department-functions.php";
 
 if(isset($_SESSION['adminSession']['admin_rights']))
 $admin_rights=$_SESSION['adminSession']['admin_rights'];
@@ -94,6 +96,6 @@ if(isset($_GET['action']))
 
 $pathLinks=array("Home","Registration Form","Manage Locations");
 $selectedLink="settings";
-$jsArray=array("jquery.validate.js","validators/adminuser.js");
+$jsArray=array("jquery.validate.js","validators/adminuser.js","dropDown.js");
 require_once "../../../../inc/template.php";
  ?>

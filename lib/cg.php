@@ -95,5 +95,5 @@ define('MAX_EVENT_IMAGE_WIDTH', 1000);
 require_once 'common.php';
 require_once 'bd.php';
 require_once 'EMI-functions.php';
-
+require_once 'department-functions.php';
 ?>

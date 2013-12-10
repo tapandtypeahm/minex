@@ -29,13 +29,22 @@ if(isset($_SESSION['ack']['msg']) && isset($_SESSION['ack']['type']))
 <form id="addLocForm" action="<?php echo $_SERVER['PHP_SELF'].'?action=add'; ?>" method="post">
 <table class="insertTableStyling no_print">
 
-<tr>
-<td>
+<tr >
+<td width="200px">
 Department<span class="requiredField">* </span> : 
 </td>
 <td>
-<select type="text" name="deparment_id" id="deparment_id" onchange="" onblur="">
+<select type="text" name="deparment_id" id="deparment_id" onchange="createDropDownDesignationDepartment(this.value)" onblur="createDropDownDesignationDepartment(this.value)">
 	<option value="-1">-- Please Select --</option>
+    <?php $departments=listDepartment();
+	foreach($departments as $department)
+	{
+	?>
+    <option value="<?php echo $department['department_id'] ?>"><?php echo $department['department_name']; ?></option>
+    <?php 	
+		
+		}
+	 ?>
 </select> 
 </td>
 </tr>

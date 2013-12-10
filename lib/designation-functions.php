@@ -102,7 +102,7 @@ function updatedesignation($id,$name,$parent_id,$department_id){
 		$ip_address=$_SERVER['REMOTE_ADDR'];	
 		$admin_id=$_SESSION['adminSession']['admin_id'];
 		$sql="UPDATE min_designation
-			  SET designation_name='$name', parent_id=$parent_id, last_updated_by=$admin_id, date_modified=NOW(), ip_modified=$ip_address
+			  SET designation_name='$name', parent_id=$parent_id, department_id=$department_id, last_updated_by=$admin_id, date_modified=NOW(), ip_modified=$ip_address
 			  WHERE designation_id=$id";	  
 		dbQuery($sql);
 		return "success";	
@@ -118,13 +118,13 @@ function updatedesignation($id,$name,$parent_id,$department_id){
 	
 }
 
-function checkForDuplicatedesignation($name,$parent_id,$id=false)
+function checkForDuplicatedesignation($name,$department_id,$id=false)
 {
 	try{
 		$sql="SELECT designation_id 
 			  FROM 
 			  min_designation 
-			  WHERE designation_name='$name' AND parent_id=$parent_id";
+			  WHERE designation_name='$name' AND department_id=$department_id";
 		if($id==false)
 		$sql=$sql."";
 		else
@@ -151,7 +151,7 @@ function checkForDuplicatedesignation($name,$parent_id,$id=false)
 
 function getdesignationByID($id)
 {
-	$sql="SELECT designation_id, designation_name, parent_id
+	$sql="SELECT designation_id, designation_name, parent_id, department_id
 			  FROM 
 			  min_designation 
 			  WHERE designation_id=$id";
@@ -178,6 +178,18 @@ function checkIfdesignationInUse($id)
 		}
 		return false;  
 	}	
-	
+function getDesignationsForDepartment($department_id)
+{
+	if(checkForNumeric($department_id))
+	{
+		
+		$sql="SELECT designation_id, designation_name, parent_id
+	      FROM min_designation
+		  WHERE department_id=$department_id";
+		$result=dbQuery($sql);
+		$resultArray=dbResultToArray($result);
+		return $resultArray;  
+		}
+	}	
 	
 ?>
