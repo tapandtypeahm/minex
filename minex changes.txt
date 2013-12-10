@@ -4,6 +4,10 @@
 Code Changes
 \\\\\\\\\\\\\\\\
 
+Sanket Jasani
+
+Added department-functions.php - The file includes insert, list, delete functions.
+
 Database changes
 \\\\\\\\\\\\\\\\\\\\
 
