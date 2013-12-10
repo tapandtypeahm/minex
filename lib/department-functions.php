@@ -142,7 +142,7 @@ function deleteDepartment($id)
 
 function checkIfDepartmentInUse($department_id)
 {
-	$sql="";
+
 	
 }
 	
