@@ -149,8 +149,22 @@ function checkIfDepartmentInUse($department_id)
 	$result=dbQuery($sql);
 	if(dbNumRows($result)>0)
 	return true;
-	else
-	return false;	  
+	 
+	 $sql="SELECT department_id 
+	      FROM min_designation
+	      WHERE department_id=$department_id";
+	$result=dbQuery($sql);
+	if(dbNumRows($result)>0)
+	return true;
+	
+	$sql="SELECT department_id 
+	      FROM min_machines
+	      WHERE department_id=$department_id";
+	$result=dbQuery($sql);
+	if(dbNumRows($result)>0)
+	return true;
+	 	  
+	 	  	  
 	
 }
 	
