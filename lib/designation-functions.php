@@ -166,6 +166,24 @@ function getdesignationByID($id)
 		return false;
 		}
 	}
+
+function getdesignationNameByID($id)
+{
+	$sql="SELECT  designation_name
+			  FROM 
+			  min_designation 
+			  WHERE designation_id=$id";
+		$result=dbQuery($sql);	
+		$resultArray=dbResultToArray($result);
+	if(dbNumRows($result)>0)
+	{
+		return $resultArray[0][0];
+		}
+	else
+	{
+		return false;
+		}
+	}	
 function checkIfdesignationInUse($id)
 {
 	$sql="SELECT designation_id

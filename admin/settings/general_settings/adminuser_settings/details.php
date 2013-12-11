@@ -35,6 +35,24 @@ if(isset($_SESSION['ack']['msg']) && isset($_SESSION['ack']['type']))
 ?>
 <table id="DetailsTable" class="insertTableStyling">
 
+<tr >
+<td width="200px">
+Department : 
+</td>
+<td>
+ <?php echo getDepartmentNameById($admin['designation_id']); ?>
+</td>
+</tr>
+
+<tr>
+<td>
+Designation : 
+</td>
+<td>
+<?php echo getdesignationNameByID($admin['designation_id']); ?>
+</td>
+</tr>
+
 <tr>
 <td>
 Email : 
@@ -53,18 +71,34 @@ Email :
 <td> User Name : </td>
 <td> <?php echo $admin['admin_username']; ?></td> 
 </tr>
-
-
-
+<tr>
+            <td>
+            Contact No : 
+            </td>
+            <td id="addcontactTd">
+<?php $contactNumbers = $admin['contact_no'];
+$lj=0;
+$count_numbers=count($contactNumbers);
+foreach($contactNumbers as $contact)
+{
+echo  $contact['admin_contact_no'];
+if($lj!=($count_numbers-1)) echo " | ";
+$lj++;
+ } ?> 
+   </td>
+            
+            </tr>
 <tr>
 
 <td>Access Rights : </td>
 <td><?php $admin_rights=getAllAdminRights();
 $currentRights=getAdminRightsForAdminId($admin_id);
+$i=0;
+$count=count($currentRights);
 foreach($admin_rights as $right)
 {
 	?>
-  <?php  if(in_array($right['admin_right_id'],$currentRights)) { ?><?php echo $right['admin_right']." | "; } ?>
+  <?php  if(in_array($right['admin_right_id'],$currentRights)) { ?><?php echo $right['admin_right']; if($i!=($count-1)) echo " | "; } $i++; ?>
 <?php    
 }?></td>
 </tr>

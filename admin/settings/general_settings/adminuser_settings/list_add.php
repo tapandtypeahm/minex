@@ -26,7 +26,7 @@ if(isset($_SESSION['ack']['msg']) && isset($_SESSION['ack']['type']))
 }
 
 ?>
-<form id="addLocForm" action="<?php echo $_SERVER['PHP_SELF'].'?action=add'; ?>" method="post">
+<form id="addLocForm" action="<?php echo $_SERVER['PHP_SELF'].'?action=add'; ?>" method="post" onsubmit="addAdminUser()">
 <table id="insertAdminTable" class="insertTableStyling no_print">
 
 <tr >
@@ -34,7 +34,7 @@ if(isset($_SESSION['ack']['msg']) && isset($_SESSION['ack']['type']))
 Department<span class="requiredField">* </span> : 
 </td>
 <td>
-<select type="text" name="department_id" id="deparment_id" onchange="createDropDownDesignationDepartment(this.value)" onblur="createDropDownDesignationDepartment(this.value)">
+<select type="text" name="department_id" id="department_id" onchange="createDropDownDesignationDepartment(this.value)" onblur="createDropDownDesignationDepartment(this.value)">
 	<option value="-1">-- Please Select --</option>
     <?php $departments=listDepartment();
 	foreach($departments as $department)
@@ -99,7 +99,7 @@ Email<span class="requiredField">* </span> :
                 </td>
                 
                 <td id="addcontactTd">
-                <input type="text" class="contact" id="AdminContact" name="contact_no[]" placeholder="more than 6 Digits!" onblur="checkContactNo(this.value,this)"/> <span class="addContactSpan"><input type="button" title="add more contact no" value="+" class="btn btn-success addContactbtnAdmin"/></span><span class="ValidationErrors contactNoError">Please enter a valid Phone No (only numbers)</span>
+                <input type="text" class="contact" id="AdminContact" name="contact_no[]" placeholder="more than 6 Digits!" onblur="checkContactNo(this.value,this)"/> <span class="addContactSpan"><input type="button" title="add more contact no" value="+" class="btn btn-success addContactbtnAdmin"/></span><span class="ValidationErrors contactNoError"></span>
                 </td>
             </tr>
 
@@ -145,7 +145,7 @@ foreach($admin_rights_report as $right)
 
 <tr>
 <td></td>
-<td><input type="submit" value="Add Admin User" class="btn btn-warning">
+<td><input type="submit" value="Add User" class="btn btn-warning">
 <a href="<?php echo WEB_ROOT ?>admin/settings/"><input type="button" value="back" class="btn btn-success" /></a>
 </td>
 

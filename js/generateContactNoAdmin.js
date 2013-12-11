@@ -5,11 +5,15 @@ if($('.addContactbtnAdmin'))
 $('.addContactbtnAdmin').click(function(e) {
 	
     var newRowData=document.getElementById('addcontactTrGeneratedAdmin').innerHTML;
+	
 	var insertTable=document.getElementById('insertAdminTable');
+	
 	var newIndex=$('#addcontactTrAdmin').index();
 	newIndex=newIndex+2;
 	var newRow=insertTable.insertRow(newIndex);
+	
 	newRow.innerHTML=newRowData;
+	
 });
 }
 

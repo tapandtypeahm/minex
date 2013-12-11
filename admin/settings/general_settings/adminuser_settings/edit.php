@@ -34,7 +34,7 @@ if(isset($_SESSION['ack']['msg']) && isset($_SESSION['ack']['type']))
 
 ?>
 <form id="addLocForm" action="<?php echo $_SERVER['PHP_SELF'].'?action=edit'; ?>" method="post">
-<table class="insertTableStyling no_print">
+<table id="insertAdminTable" class="insertTableStyling no_print">
 
 <tr >
 <td width="200px">
@@ -93,7 +93,7 @@ Email :
 
 <tr>
 <td> User Name : </td>
-<td><?php echo $admin['admin_username']; ?>
+<td><input type="text" disabled="disabled" value="<?php echo $admin['admin_username']; ?>"  />
 <input type="hidden" name="username"  value="<?php echo $admin['admin_username']; ?>"/> 
 </td> 
 </tr>

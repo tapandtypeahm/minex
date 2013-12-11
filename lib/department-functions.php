@@ -91,13 +91,13 @@ function getDepartmentById($id)
 
 function getDepartmentNameById($id)
 {
-	$sql="SELECT department_name , description
+	$sql="SELECT department_name 
 	      FROM min_departments
 		  WHERE department_id=$id";
 
    $result=dbQuery($sql);
    $resultArray=dbResultToArray($result);
-   return $resultArray[0];	
+   return $resultArray[0][0];	
 	
 }
 
