@@ -43,7 +43,7 @@ if(isset($_GET['action']))
 {
 	if($_GET['action']=='add')
 	{
-		$result=insertAdminUser($_POST["name"], $_POST["username"], $_POST["password"], $_POST["email"], $_POST["right"], $_POST['department_id'], $_POST['designation_id'], $_POST['contact_nos']);
+		$result=insertAdminUser($_POST["name"], $_POST["username"], $_POST["password"], $_POST["email"], $_POST["right"], $_POST['department_id'], $_POST['designation_id'], $_POST['contact_no']);
 		
 		if($result=="success")
 			{
@@ -83,7 +83,7 @@ if(isset($_GET['action']))
 		}
 	if($_GET['action']=='edit')
 	{
-		updateAccessRightsForUser($_POST["lid"],$_POST["right"]);
+		updateAdminUser($_POST['lid'],$_POST["name"], $_POST["username"], $_POST["email"], $_POST["right"], $_POST['department_id'], $_POST['designation_id'], $_POST['contact_no']);
 		$_SESSION['ack']['msg']="User updated Successfuly!";
 		$_SESSION['ack']['type']=2; // 2 for update
 		header("Location: ".$_SERVER['PHP_SELF']);
@@ -96,6 +96,6 @@ if(isset($_GET['action']))
 
 $pathLinks=array("Home","Registration Form","Manage Locations");
 $selectedLink="settings";
-$jsArray=array("jquery.validate.js","validators/adminuser.js","dropDown.js");
+$jsArray=array("jquery.validate.js","validators/adminuser.js","dropDown.js","generateContactNoAdmin.js");
 require_once "../../../../inc/template.php";
  ?>

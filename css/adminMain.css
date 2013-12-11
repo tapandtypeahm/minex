@@ -488,7 +488,7 @@ padding-right:20px;
 {
 	box-shadow: 3px 3px 5px #888888;
 }
-.addContactbtn,.deleteContactbtn,.addContactbtnCustomer,.addContactbtnGuarantor,.addEMIDurationBtn,.deleteEMIDurationBtn,.addEMIDurationBtnAgency,.deleteEMIDurationBtnAgency{
+.addContactbtn,.deleteContactbtn,.addContactbtnAdmin,.addContactbtnGuarantor,.addEMIDurationBtn,.deleteEMIDurationBtn,.addEMIDurationBtnAgency,.deleteEMIDurationBtnAgency{
 	position:relative;
 	top:-5px;
 	margin-left:5px;
@@ -544,17 +544,17 @@ body .insertTableStyling input.ErrorField { border: none }
 body .insertTableStyling input.ErrorField { border: 1px solid red; }	
 body .insertTableStyling select.ErrorField { border: 1px solid red; }	
 body .insertTableStyling textarea.ErrorField { border: 1px solid red; }	
-body .insertTableStyling span.ValidationErrors,.customError,.availError { display:inline; margin-left:10px; color:red;}	
-body .insertTableStyling span.contactNoError,.customError{display:none;}
+body .insertTableStyling span.ValidationErrors,.Adminror,.availError { display:inline; margin-left:10px; color:red;}	
+body .insertTableStyling span.contactNoError,.Adminror{display:none;}
 .requiredField{color:red;}
 .btnCol{width:20px;}
 body .to_print{display:none;
 	width:100%;}
-#addcontactTrGeneratedCustomer,#addcontactTrGeneratedGuarantor,#customerProofImgTr
+#addcontactTrGeneratedAdmin,#addcontactTrGeneratedGuarantor,#AdminProofImgTr
 {
 	display:none;
 	}	
-.addscanbtn,.removescanbtn,.addscanbtnCustomer,.addscanbtnGuarantor,.addscanbtnVehicle
+.addscanbtn,.removescanbtn,.addscanbtnAdmin,.addscanbtnGuarantor,.addscanbtnVehicle
 {
 	position:relative;
 	left:250px;
@@ -563,7 +563,7 @@ body .to_print{display:none;
 .scanBtn{
 	margin-top:10px;
 	}	
-#customerProofNoTr,#customerProofTypeTr,#customerProofImgTr,#guarantorProofNoTr,#guarantorProofTypeTr,#guarantorProofImgTr{
+#AdminProofNoTr,#AdminProofTypeTr,#AdminProofImgTr,#guarantorProofNoTr,#guarantorProofTypeTr,#guarantorProofImgTr{
 	display:none;
 	}
 #vehicleProofNoTr,#vehicleProofTypeTr,#vehicleProofImgTr{

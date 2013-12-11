@@ -143,6 +143,53 @@ function insertAdminUser($name, $username, $pass, $email, $access, $department_i
 	
 }
 
+function updateAdminUser($admin_id,$name, $username, $email, $access, $department_id, $designation_id, $contact_nos)
+{
+	
+			
+			$algo = '2a';  
+			// cost parameter  
+			 $cost = '10';  
+			// mainly for internal use 
+				
+			 function unique_salt() {  
+				return substr(sha1(mt_rand()),0,22);  
+				}  
+			$name=clean_data($name);
+			//$pass=clean_data($pass);
+			$username=clean_data($username);
+			$email=clean_data($email);
+			if(validateForNull($name,$email,$username,$contact_nos[0]) && checkForNumeric($department_id,$designation_id,$contact_nos[0]) && !checkDuplicateAdminUser($username,$email,$admin_id))
+			{
+				
+			if($access==null || empty($access))
+			$access=array(1);	
+			else
+			$access[]=1;
+			$email=trim($email);
+			$name=trim($name);
+			//$uniqueHash=$algo.$cost.unique_salt();	
+			$ip_address=$_SERVER['REMOTE_ADDR'];
+			//$safePassword=crypt($pass , $uniqueHash); 
+			
+			
+			$sql = "UPDATE
+					min_admin 
+					SET admin_email = '$email', admin_name = '$name', department_id = $department_id, designation_id = $designation_id, date_modified = NOW() 
+					WHERE admin_id=$admin_id";
+			$result = dbQuery($sql); 
+			updateAccessRightsForUser($admin_id,$access);
+			deleteAllContactNoAdmin($admin_id);
+			addAdminContactNo($admin_id,$contact_nos);
+			return "success";
+			
+		}
+		else
+		{
+			return "error";	
+		}
+	}
+
 function insertAccessRightsForAdmin($admin_id,$access)
 {
 	if(checkForNumeric($admin_id))
@@ -160,6 +207,36 @@ function insertAccessRightsForAdmin($admin_id,$access)
 		}	
 	}
 	else if($access!=null && $access!="")
+	{
+		$sql="INSERT INTO
+						  min_rel_admin_right(admin_id,admin_right_id)
+						  VALUES
+						  ($admin_id,$access)";
+					$result=dbQuery($sql);
+		
+		}
+	}
+}
+
+function insertAccessRightsForAdminWithoutRead($admin_id,$access)
+{
+	if(checkForNumeric($admin_id))
+	{
+	if(is_array($access) && !empty($access))
+	{
+		foreach($access as $right)
+		{
+					if($right!=1)
+					{
+					$sql="INSERT INTO
+						  min_rel_admin_right(admin_id,admin_right_id)
+						  VALUES
+						  ($admin_id,$right)";
+					$result=dbQuery($sql);	 
+					}
+		}	
+	}
+	else if($access!=null && $access!="" && $access!=1)
 	{
 		$sql="INSERT INTO
 						  min_rel_admin_right(admin_id,admin_right_id)
@@ -381,7 +458,7 @@ function getAllAdminReportRights()
 	{}
 }
 
-function checkDuplicateAdminUser($username,$email)
+function checkDuplicateAdminUser($username,$email,$id=false)
 {
 	$sql="SELECT 
 		  admin_id
@@ -390,8 +467,9 @@ function checkDuplicateAdminUser($username,$email)
 		  WHERE 
 		  (admin_username='$username'
 		  OR admin_email='email')
-		  AND is_active=1
-		  LIMIT 0, 1";
+		  AND is_active=1";
+	if($id!=flase && checkForNumeric($id))
+	$sql=$sql." AND admin_id!=$id";	  
 	$result=dbQuery($sql);
 	$resultArray=dbResultToArray($result);	  
 	if(dbNumRows($result)>0)
@@ -404,13 +482,14 @@ function getAdminUserByID($id)
 {
 	if(checkForNumeric($id))
 	{
-	$sql="SELECT min_admin.admin_id,admin_name,admin_username,admin_email,last_login,date_added
+	$sql="SELECT min_admin.admin_id,admin_name,admin_username,admin_email,last_login,date_added,last_login_ip,department_id,designation_id
 	      FROM min_admin,min_rel_admin_right
 		  WHERE min_admin.admin_id=min_rel_admin_right.admin_id
 		  AND min_admin.admin_id=$id
 		  AND is_active=1";
 	$result=dbQuery($sql);	
 	$resultArray=dbResultToArray($result);
+	$resultArray[0]['contact_no']=getAdminContactNo($id);
 	return $resultArray[0];
 	}
 }
@@ -432,7 +511,7 @@ function getAdminUserNameByID($id)
 function updateAccessRightsForUser($id,$access)
 {
 	deleteAccessRightsForAdminWithoutRead($id);
-	insertAccessRightsForAdmin($id,$access);
+	insertAccessRightsForAdminWithoutRead($id,$access);
 	}
 	
 function checkPasswordForDeletion($id,$password)

@@ -27,14 +27,14 @@ if(isset($_SESSION['ack']['msg']) && isset($_SESSION['ack']['type']))
 
 ?>
 <form id="addLocForm" action="<?php echo $_SERVER['PHP_SELF'].'?action=add'; ?>" method="post">
-<table class="insertTableStyling no_print">
+<table id="insertAdminTable" class="insertTableStyling no_print">
 
 <tr >
 <td width="200px">
 Department<span class="requiredField">* </span> : 
 </td>
 <td>
-<select type="text" name="deparment_id" id="deparment_id" onchange="createDropDownDesignationDepartment(this.value)" onblur="createDropDownDesignationDepartment(this.value)">
+<select type="text" name="department_id" id="deparment_id" onchange="createDropDownDesignationDepartment(this.value)" onblur="createDropDownDesignationDepartment(this.value)">
 	<option value="-1">-- Please Select --</option>
     <?php $departments=listDepartment();
 	foreach($departments as $department)
@@ -93,8 +93,34 @@ Email<span class="requiredField">* </span> :
 <td> <input type="password" id="txtConfirmPassword"/> </td>
 </tr>
 
-<tr>
+<tr id="addcontactTrAdmin">
+                <td>
+                Contact No<span class="requiredField">* </span> : 
+                </td>
+                
+                <td id="addcontactTd">
+                <input type="text" class="contact" id="AdminContact" name="contact_no[]" placeholder="more than 6 Digits!" onblur="checkContactNo(this.value,this)"/> <span class="addContactSpan"><input type="button" title="add more contact no" value="+" class="btn btn-success addContactbtnAdmin"/></span><span class="ValidationErrors contactNoError">Please enter a valid Phone No (only numbers)</span>
+                </td>
+            </tr>
 
+<!-- for regenreation purpose Please donot delete -->
+            
+            <tr id="addcontactTrGeneratedAdmin">
+            <td>
+            Contact No : 
+            </td>
+            
+            <td id="addcontactTd">
+            <input type="text" class="contact" name="contact_no[]" onblur="checkContactNo(this.value,this)" placeholder="more than 6 Digits!" />  <span class="deleteContactSpan"><input type="button" value="-" title="delete this entry"  class="btn btn-danger deleteContactbtn" onclick="deleteContactTr(this)"/></span><span class="ValidationErrors contactNoError">Please enter a valid Phone No (only numbers)</span>
+                </td>
+            </td>
+            </tr>
+       
+       
+<!-- end for regenreation purpose -->
+
+<!-- for regenreation purpose Please donot delete -->
+<tr>
 <td>Access Rights : </td>
 <td><?php $admin_rights=getAllAdminRights();
 foreach($admin_rights as $right)
