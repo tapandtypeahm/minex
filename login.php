@@ -6,7 +6,7 @@ $jsArray=array("js/formSubmit.js");
 ?>
 <?php
 $departments=listDepartment();
-if(isset($_SESSION['adminSession']['admin_id']))
+if(isset($_SESSION['minexAdminSession']['admin_id']))
 {
 	header("Location: ".WEB_ROOT."admin/index.php");
 }

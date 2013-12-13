@@ -2,7 +2,7 @@
 if (!defined('WEB_ROOT')) {
 	exit;
 }
-if(isset($_SESSION['adminSession']['admin_id']))
+if(isset($_SESSION['minexAdminSession']['admin_id']))
 {
 	
 }
@@ -40,12 +40,34 @@ if(isset($cssArray)){
 </head>
 
 <body>
+<div id="myModal" class="modal fade no_print"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" >
+    <div class="modal-content" >
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Authentication Required</h4>
+      </div>
+      <div class="modal-body">
+        <p>Please enter your Password, <?php echo  ucwords($_SESSION['minexAdminSession']['admin_name']); ?>!</p>
+        	<form action="<?php echo WEB_ROOT ?>lib/checkForDeletion.php" id="confirmDeletionForm" method="post">
+        	<input type="password" id="confirmationPassword" name="p" />
+            <input type="hidden" id="delLink" name="delLink" value="" />
+           
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <input type="submit" value="confirm" id="confirmDeletionSubmit"  class="btn btn-danger" />
+         </form>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 	<div id="mainDiv">
 		<div id="header" class="no_print">
 			<a href="<?php echo WEB_ROOT; ?>"><div id="logo">Minex</div></a>
 				<div id="navigation">
             		<div id="nav">
-                     <a id="userNameNav" href="#"><?php echo $_SESSION['adminSession']['admin_name']; ?> &#8711; </a> 
+                     <a id="userNameNav" href="#"><?php echo $_SESSION['minexAdminSession']['admin_name']; ?> &#8711; </a> 
                         <div id="userDetailDropDown">
                         	<ul>
                         		<a href="<?php echo WEB_ROOT."lib/adminuser-functions.php?action=logout" ?>"><li>Log Out</li></a>
@@ -68,10 +90,10 @@ if(isset($cssArray)){
 
 
 <div class="coreContent <?php
-if(isset($_SESSION['adminSession']['admin_rights']))
+if(isset($_SESSION['minexAdminSession']['admin_rights']))
 {
-	$admin_rights=$_SESSION['adminSession']['admin_rights'];
+	$admin_rights=$_SESSION['minexAdminSession']['admin_rights'];
 	}
- if(! (isset($_SESSION['adminSession']['admin_rights']) && (in_array(5,$admin_rights) || in_array(7,$admin_rights))) )
+ if(! (isset($_SESSION['minexAdminSession']['admin_rights']) && (in_array(5,$admin_rights) || in_array(7,$admin_rights))) )
 			{ ?> no_print <?php } ?>">
-<div id="companyTitle"><?php if(isset($showTitle) && $showTitle==false){} else  echo getDepartmentNameById($_SESSION['adminSession']['department_id']);  ?></div>
+<div id="companyTitle"><?php if(isset($showTitle) && $showTitle==false){} else  echo getDepartmentNameById($_SESSION['minexAdminSession']['department_id']);  ?></div>

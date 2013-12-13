@@ -2,8 +2,8 @@
 require_once "../../lib/cg.php";
 require_once "../../lib/bd.php";
 
-if(isset($_SESSION['adminSession']['admin_rights']))
-$admin_rights=$_SESSION['adminSession']['admin_rights'];
+if(isset($_SESSION['minexAdminSession']['admin_rights']))
+$admin_rights=$_SESSION['minexAdminSession']['admin_rights'];
 
 	$content="list.php";
 	

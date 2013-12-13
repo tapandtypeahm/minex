@@ -5,8 +5,8 @@ require_once "../../../../lib/adminuser-functions.php";
 require_once "../../../../lib/designation-functions.php";
 require_once "../../../../lib/department-functions.php";
 
-if(isset($_SESSION['adminSession']['admin_rights']))
-$admin_rights=$_SESSION['adminSession']['admin_rights'];
+if(isset($_SESSION['minexAdminSession']['admin_rights']))
+$admin_rights=$_SESSION['minexAdminSession']['admin_rights'];
 
 if((in_array(4,$admin_rights) || in_array(7,$admin_rights)))
 {}

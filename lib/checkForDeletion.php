@@ -2,7 +2,7 @@
 require_once('bd.php');
 require_once('adminuser-functions.php');
 
-$admin_id=$_SESSION['adminSession']['admin_id'];
+$admin_id=$_SESSION['minexAdminSession']['admin_id'];
 $password=$_POST['p'];
 $delLink=$_POST['delLink'];
 $result=checkPasswordForDeletion($admin_id,$password);

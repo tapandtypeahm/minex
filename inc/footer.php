@@ -21,7 +21,7 @@
        <script type="text/javascript" src="<?php echo WEB_ROOT; ?>js/accountsCommon.js"></script>
        <?php if(isset($accounts) && $accounts==1)
 { 
-$period=getPeriodForUser($_SESSION['adminSession']['admin_id']);
+$period=getPeriodForUser($_SESSION['minexAdminSession']['admin_id']);
 if($period=="error" || strtotime($period[0])==strtotime("1970-01-01") || strtotime($period[1])==strtotime("1970-01-01"))
 {
 ?>
@@ -31,7 +31,7 @@ $('#periodModal').modal('show');
 <?php }}?>
  <?php if(isset($accounts) && $accounts==1)
 { 
-$current_date=getCurrentDateForUser($_SESSION['adminSession']['admin_id']);
+$current_date=getCurrentDateForUser($_SESSION['minexAdminSession']['admin_id']);
 if($current_date=="error" || strtotime($current_date)==strtotime("1970-01-01"))
 {
 	

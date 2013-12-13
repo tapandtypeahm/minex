@@ -45,7 +45,7 @@ function insertCity($name){
 		$duplicate=checkForDuplicateCity($name);
 		if(validateForNull($name) && !$duplicate)
 		{
-			$admin_id=$_SESSION['adminSession']['admin_id'];
+			$admin_id=$_SESSION['minexAdminSession']['admin_id'];
 		$sql="INSERT INTO
 		      fin_city (city_name, created_by, last_updated_by, date_added, date_modified)
 			  VALUES
@@ -73,7 +73,7 @@ function insertCityIfNotDuplicate($name)
 		$duplicate=checkForDuplicateCity($name);
 		if(validateForNull($name) && !$duplicate)
 		{
-			$admin_id=$_SESSION['adminSession']['admin_id'];
+			$admin_id=$_SESSION['minexAdminSession']['admin_id'];
 		$sql="INSERT INTO
 		      fin_city (city_name, created_by, last_updated_by, date_added, date_modified)
 			  VALUES
@@ -99,7 +99,7 @@ function deleteCity($id){
 	{
 		if(checkForNumeric($id) && !checkIfCityInUse($id))
 		{
-		$admin_id=$_SESSION['adminSession']['admin_id'];
+		$admin_id=$_SESSION['minexAdminSession']['admin_id'];
 		$sql="DELETE FROM
 			  fin_city
 			  WHERE city_id=$id";
@@ -127,7 +127,7 @@ function updateCity($id,$name){
 		if(validateForNull($name) && checkForNumeric($id) && !$duplicate)
 		{
 			
-		$admin_id=$_SESSION['adminSession']['admin_id'];
+		$admin_id=$_SESSION['minexAdminSession']['admin_id'];
 		$sql="UPDATE fin_city
 			  SET city_name='$name', last_updated_by=$admin_id, date_modified=NOW()
 			  WHERE city_id=$id";	  

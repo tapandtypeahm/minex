@@ -45,7 +45,7 @@ function insertdesignation($name,$parent_id,$department_id){
 		$duplicate=checkForDuplicatedesignation($name,$department_id);
 		if(validateForNull($name) && !$duplicate && checkForNumeric($parent_id))
 		{
-		$admin_id=$_SESSION['adminSession']['admin_id'];
+		$admin_id=$_SESSION['minexAdminSession']['admin_id'];
 		$ip_address=$_SERVER['REMOTE_ADDR'];
 		$sql="INSERT INTO
 		      min_designation (designation_name, parent_id, department_id,created_by, last_updated_by, date_added, date_modified, ip_created, ip_modified)
@@ -72,7 +72,7 @@ function deletedesignation($id){
 	{
 		if(checkForNumeric($id) && !checkIfdesignationInUse($id))
 		{
-		$admin_id=$_SESSION['adminSession']['admin_id'];
+		$admin_id=$_SESSION['minexAdminSession']['admin_id'];
 		$sql="DELETE FROM
 			  min_designation
 			  WHERE designation_id=$id";
@@ -100,7 +100,7 @@ function updatedesignation($id,$name,$parent_id,$department_id){
 		if(validateForNull($name) && checkForNumeric($id) && !$duplicate && checkForNumeric($parent_id))
 		{
 		$ip_address=$_SERVER['REMOTE_ADDR'];	
-		$admin_id=$_SESSION['adminSession']['admin_id'];
+		$admin_id=$_SESSION['minexAdminSession']['admin_id'];
 		$sql="UPDATE min_designation
 			  SET designation_name='$name', parent_id=$parent_id, department_id=$department_id, last_updated_by=$admin_id, date_modified=NOW(), ip_modified=$ip_address
 			  WHERE designation_id=$id";	  

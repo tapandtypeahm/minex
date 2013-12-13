@@ -1,11 +1,10 @@
 <?php
 require_once "../../../../lib/cg.php";
 require_once "../../../../lib/bd.php";
-require_once "../../../../lib/our-company-function.php";
-require_once "../../../../lib/city-functions.php";
+require_once "../../../../lib/department-functions.php";
 
-if(isset($_SESSION['adminSession']['admin_rights']))
-$admin_rights=$_SESSION['adminSession']['admin_rights'];
+if(isset($_SESSION['minexAdminSession']['admin_rights']))
+$admin_rights=$_SESSION['minexAdminSession']['admin_rights'];
 
 
 if(isset($_GET['view']))
@@ -35,14 +34,14 @@ if(isset($_GET['action']))
 {
 		if($_GET['action']=='add')
 		{
-			if(isset($_SESSION['adminSession']['admin_rights']) && (in_array(2,$admin_rights) || in_array(7,					$admin_rights)))
+			if(isset($_SESSION['minexAdminSession']['admin_rights']) && (in_array(2,$admin_rights) || in_array(7,					$admin_rights)))
 			{	
 			
-			$result=insertOurCompany($_POST["name"], $_POST["address"], $_POST["pincode"], $_POST["city"], $_POST["prefix"],$_POST['sub_heading'],$_POST["contact"]);
+			$result=insertDepartment($_POST["name"], $_POST["parent_id"], $_POST["description"]);
 			
 			if($result=="success")
 			{
-			$_SESSION['ack']['msg']="Company successfully added!";
+			$_SESSION['ack']['msg']="Department successfully added!";
 			$_SESSION['ack']['type']=1; // 1 for insert
 			}
 			else{
@@ -65,24 +64,24 @@ if(isset($_GET['action']))
 		}
 	if($_GET['action']=='delete')
 	{
-		if(isset($_SESSION['adminSession']['admin_rights']) && (in_array(4,$admin_rights) || in_array(7,$admin_rights)))
+		if(isset($_SESSION['minexAdminSession']['admin_rights']) && (in_array(4,$admin_rights) || in_array(7,$admin_rights)))
 			{	
 			
-				$result=deleteOurCompany($_GET["lid"]);
+				$result=deleteDepartment($_GET["lid"]);
 				
 					if($result=="success")
 				{
-				$_SESSION['ack']['msg']="Company deleted Successfuly!";
+				$_SESSION['ack']['msg']="Department deleted Successfuly!";
 				$_SESSION['ack']['type']=3; // 3 for delete
 				}
 				else if($result=="error1")
 				{
-				$_SESSION['ack']['msg']="Cannot delete Company! Minimum One Company is Required!";
+				$_SESSION['ack']['msg']="Cannot delete Department! Minimum One Department is Required!";
 				$_SESSION['ack']['type']=6; // 6 for inUse
 				}
 				else
 				{
-					$_SESSION['ack']['msg']="Cannot delete Company! Company already in use!";
+					$_SESSION['ack']['msg']="Cannot delete Department! Department already in use!";
 				$_SESSION['ack']['type']=6; // 6 for inUse
 				}
 				header("Location: ".$_SERVER['PHP_SELF']);
@@ -99,14 +98,15 @@ if(isset($_GET['action']))
 		}
 	if($_GET['action']=='edit')
 	{
-		if(isset($_SESSION['adminSession']['admin_rights']) && (in_array(3,$admin_rights) || in_array(7,					$admin_rights)))
+		if(isset($_SESSION['minexAdminSession']['admin_rights']) && (in_array(3,$admin_rights) || in_array(7,					$admin_rights)))
 			{	
-				$result=updateOurCompany($_POST["id"],$_POST["name"], $_POST["address"], $_POST["pincode"], $_POST["city"], $_POST["prefix"], $_POST['sub_heading'],$_POST["contact"]);
+		
+				$result=updateDepartment($_POST["lid"],$_POST["name"], $_POST["parent_id"], $_POST["description"]);
 				
 				
 				if($result=="success")
 				{
-				$_SESSION['ack']['msg']="Company updated Successfuly!";
+				$_SESSION['ack']['msg']="Department updated Successfuly!";
 				$_SESSION['ack']['type']=2; // 2 for update
 				header("Location: ".$_SERVER['PHP_SELF']);
 				exit;
@@ -127,36 +127,6 @@ if(isset($_GET['action']))
 					exit;
 			}
 		}	
-		if($_GET['action']=='resetCounters')
-	{
-		if(isset($_SESSION['adminSession']['admin_rights']) && (in_array(3,$admin_rights) || in_array(7,					$admin_rights)))
-			{	
-				$result=resetAllRasidCountersOC();
-				
-				
-				if($result=="success")
-				{
-				$_SESSION['ack']['msg']="Rasid Counters updated Successfuly!";
-				$_SESSION['ack']['type']=2; // 2 for update
-				header("Location: ".$_SERVER['PHP_SELF']);
-				exit;
-				}
-				else
-				{
-					$_SESSION['ack']['msg']="Invalid Input OR Duplicate Entry!";
-					$_SESSION['ack']['type']=4; // 4 for error
-					header("Location: ".$_SERVER['PHP_SELF']."?view=edit&lid=".$_POST["id"]);
-					exit;
-					}
-			}
-			else
-			{	
-					$_SESSION['ack']['msg']="Authentication Failed! Not enough access rights!";
-					$_SESSION['ack']['type']=5; // 5 for access
-					header("Location: ".$_SERVER['PHP_SELF']);
-					exit;
-			}
-		}			
 	}
 ?>
 

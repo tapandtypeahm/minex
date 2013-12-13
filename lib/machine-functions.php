@@ -18,7 +18,7 @@ function insertMachine($name,$code, $description, $department_id)
 	$description=clean_data($description);
 	$department_id=clean_data($department_id);
 	$code=clean_data($code);	
-	$admin_id=$_SESSION['adminSession']['admin_id'];
+	$admin_id=$_SESSION['minexAdminSession']['admin_id'];
 	$admin_id=12; //testing
 	$ip_address=$_SERVER['REMOTE_ADDR'];	
 	$sql = "insert into min_machines (machine_name, machine_code, description, department_id, created_by, last_updated_by, date_added, date_modified, ip_created, ip_modified) VALUES ('$name', '$code' , '$description', $department_id, $admin_id, NOW(), NOW() , '$ip_address' , '$ip_address') ";

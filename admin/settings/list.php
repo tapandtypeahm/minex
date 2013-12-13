@@ -7,7 +7,7 @@
 
      <div class="package">
      
-     <a href="general_settings/ourcompany_settings/">
+     <a href="general_settings/department_settings/">
      <div class="squareBox">
      
          <div class="imageHolder">
@@ -18,13 +18,12 @@
      
      
      <div class="explanation">
-     Manage Our Companies
+     Manage Departments
      </div>
      
      </div>
-     
     
-     <?php if(isset($_SESSION['adminSession']['admin_rights']) && (in_array(6,$admin_rights) || in_array(7,					$admin_rights)))
+     <?php if(isset($_SESSION['minexAdminSession']['admin_rights']) && (in_array(6,$admin_rights) || in_array(7,					$admin_rights)))
 			{ ?>
      <div class="package">
      
