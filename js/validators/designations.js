@@ -9,5 +9,9 @@
                 });
                 jQuery("#parent_id").validate({
                     expression: "if (VAL && !isNaN(VAL) && VAL>-1) return true; else return false;",
-                    message: "Please Select a Parent!"
+                    message: "Please select a parent"
+                });
+				 jQuery("#department_id").validate({
+                    expression: "if (VAL && !isNaN(VAL) && VAL>-1) return true; else return false;",
+                    message: "Please select a Department"
                 });

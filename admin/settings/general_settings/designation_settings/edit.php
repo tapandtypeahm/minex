@@ -4,12 +4,12 @@ if(!isset($_GET['lid']))
 	header("Location: index.php");
 	}
 $department_id=$_GET['lid'];
-$department=getDepartmentById($department_id);
+$designation=getdesignationByID($department_id);
 
 $disjoint_departments=listDisjointDepartment($department_id);
  ?>
 <div class="insideCoreContent adminContentWrapper wrapper">
-<h4 class="headingAlignment no_print">Edit Department Details</h4>
+<h4 class="headingAlignment no_print">Edit Designation Details</h4>
 <?php 
 if(isset($_SESSION['ack']['msg']) && isset($_SESSION['ack']['type']))
 {
@@ -39,53 +39,61 @@ if(isset($_SESSION['ack']['msg']) && isset($_SESSION['ack']['type']))
 <form id="addOurCompanyForm" action="<?php echo $_SERVER['PHP_SELF'].'?action=edit'; ?>" method="post" onsubmit="return submitOurCompany()">
 <table id="insertTable" class="insertTableStyling no_print">
 
-<tr>
-
-<td class="firstColumnStyling">
-Department Name<span class="requiredField">* </span> : 
-</td>
-
-<td>
-<input type="hidden" name="lid" value="<?php echo $department_id; ?>" />
-<input type="text" name="name" id="txtname" value="<?php echo $department['department_name']; ?>"/>
-</td>
-</tr>
-
-<tr>
+<table id="insertTable" class="insertTableStyling no_print">
+    
+        	<tr>
 
 				<td class="firstColumnStyling">
-                Parent Department <span class="requiredField">* </span> : 
+                Designation Name<span class="requiredField">* </span> : 
+                </td>
+                
+                <td>
+                <input type="text" name="name" id="txtname"/>
+                </td>
+			</tr>
+
+			<tr>
+
+				<td class="firstColumnStyling">
+                Successor Designation <span class="requiredField">* </span> : 
                 </td>
                 
                 <td>
                 <Select name="parent_id" id="parent_id" >
                	 	<option value="-1">-- Please Select --</option>
-                	<option value="0" <?php if($department['parent_id']==0) { ?> selected="selected" <?php } ?>>No Parent</option>
-                    <?php 
-						foreach($disjoint_departments as $depart)
+                	<option value="0">No Parent</option>
+                    <?php $departments=listDesignations();
+						foreach($departments as $department)
 						{
-							if($depart['department_id']!=$department_id)
-
-{							
+							
 					?>
-                    <option value="<?php echo $depart['department_id']; ?>" <?php if($department['parent_id']==$depart['department_id']) { ?> selected="selected" <?php } ?>><?php echo $depart['department_name']; ?></option>
+                    <option value="<?php echo $department['designation_id']; ?>"><?php echo $department['designation_name']; ?></option>
                     <?php		
-}
-}
+							}
 					 ?>
                 </Select>
                 </td>
 			</tr>
 
-		 <tr>
-                <td>
-                Description<span class="requiredField">* </span> : 
-                </td>
-                
-                <td>
-                <textarea name="description" id="txtaddress" cols="5" rows="6"><?php echo $department['description']; ?></textarea>
-                </td>
-            </tr>
+           <tr >
+<td>
+Department<span class="requiredField">* </span> : 
+</td>
+<td>
+<select type="text" name="department_id" id="department_id" onchange="createDropDownDesignationDepartment(this.value)" onblur="createDropDownDesignationDepartment(this.value)">
+	<option value="-1">-- Please Select --</option>
+    <?php $departments=listDepartment();
+	foreach($departments as $department)
+	{
+	?>
+    <option value="<?php echo $department['department_id'] ?>"><?php echo $department['department_name']; ?></option>
+    <?php 	
+		
+		}
+	 ?>
+</select> 
+</td>
+</tr>
 
 <tr>
 <td></td>

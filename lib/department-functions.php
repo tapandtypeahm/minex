@@ -72,11 +72,15 @@ function updateDepartment($department_id,$name,$parent_id, $description)
 }
 function listDisjointDepartment($department_id)
 {
+	
 	if(checkForNumeric($department_id))
 	{
 		$children_array=getAllChildrenIdsForDepartment($department_id);
 		$children_string=implode(",",$children_array);
+		if(!empty($children_array))
 		$children_string=$department_id.",".$children_string;
+		else
+		$children_string=$department_id;
 		$sql="SELECT department_id, department_name , description, parent_id
 	      FROM min_departments
 		  WHERE department_id NOT IN ($children_string)";

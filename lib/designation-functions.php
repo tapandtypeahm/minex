@@ -7,7 +7,7 @@ function listDesignations(){
 	
 	try
 	{
-		$sql="SELECT designation_id,designation_name, parent_id
+		$sql="SELECT designation_id,designation_name, parent_id,department_id
 		      FROM min_designation ORDER BY designation_name";
 		$result=dbQuery($sql);	 
 		$resultArray=dbResultToArray($result);
@@ -169,6 +169,8 @@ function getdesignationByID($id)
 
 function getdesignationNameByID($id)
 {
+	if($id==0)
+	return "Super Parent";
 	$sql="SELECT  designation_name
 			  FROM 
 			  min_designation 
