@@ -134,6 +134,6 @@ if(isset($_GET['action']))
 <?php
 $pathLinks=array("Home","Registration Form","Manage Locations");
 $selectedLink="settings";
-$jsArray=array("generateContactNo.js","jquery.validate.js","validators/designations.js");
+$jsArray=array("generateContactNo.js","jquery.validate.js","validators/designations.js","dropDown.js");
 require_once "../../../../inc/template.php";
  ?>

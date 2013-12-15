@@ -28,46 +28,12 @@ if(isset($_SESSION['ack']['msg']) && isset($_SESSION['ack']['type']))
     <form id="addOurCompanyForm" action="<?php echo $_SERVER['PHP_SELF'].'?action=add'; ?>" method="post" onsubmit="return submitOurCompany()">
     	<table id="insertTable" class="insertTableStyling no_print">
     
-        	<tr>
-
-				<td class="firstColumnStyling">
-                Designation Name<span class="requiredField">* </span> : 
-                </td>
-                
-                <td>
-                <input type="text" name="name" id="txtname"/>
-                </td>
-			</tr>
-
-			<tr>
-
-				<td class="firstColumnStyling">
-                Successor Designation <span class="requiredField">* </span> : 
-                </td>
-                
-                <td>
-                <Select name="parent_id" id="parent_id" >
-               	 	<option value="-1">-- Please Select --</option>
-                	<option value="0">No Parent</option>
-                    <?php $departments=listDesignations();
-						foreach($departments as $department)
-						{
-							
-					?>
-                    <option value="<?php echo $department['designation_id']; ?>"><?php echo $department['designation_name']; ?></option>
-                    <?php		
-							}
-					 ?>
-                </Select>
-                </td>
-			</tr>
-
-           <tr >
+     <tr >
 <td>
 Department<span class="requiredField">* </span> : 
 </td>
 <td>
-<select type="text" name="department_id" id="department_id" onchange="createDropDownDesignationDepartment(this.value)" onblur="createDropDownDesignationDepartment(this.value)">
+<select type="text" name="department_id" id="department_id" onchange="createDropDownSmallestDesignationDepartment(this.value)" onblur="createDropDownSmallestDesignationDepartment(this.value)">
 	<option value="-1">-- Please Select --</option>
     <?php $departments=listDepartment();
 	foreach($departments as $department)
@@ -82,6 +48,32 @@ Department<span class="requiredField">* </span> :
 </td>
 </tr>
 
+<tr>
+
+				<td class="firstColumnStyling">
+                Successor Designation <span class="requiredField">* </span> : 
+                </td>
+                
+                <td>
+                <Select name="parent_id" id="parent_id" >
+               	 	<option value="-1">-- Please Select --</option>
+                </td>
+			</tr>
+
+
+        	<tr>
+
+				<td class="firstColumnStyling">
+                Designation Name<span class="requiredField">* </span> : 
+                </td>
+                
+                <td>
+                <input type="text" name="name" id="txtname"/>
+                </td>
+			</tr>
+
+			
+          
 
            
             <tr>

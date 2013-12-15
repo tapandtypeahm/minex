@@ -5,8 +5,6 @@ if(!isset($_GET['lid']))
 	}
 $department_id=$_GET['lid'];
 $designation=getdesignationByID($department_id);
-
-$disjoint_departments=listDisjointDepartment($department_id);
  ?>
 <div class="insideCoreContent adminContentWrapper wrapper">
 <h4 class="headingAlignment no_print">Edit Designation Details</h4>
@@ -41,17 +39,28 @@ if(isset($_SESSION['ack']['msg']) && isset($_SESSION['ack']['type']))
 
 <table id="insertTable" class="insertTableStyling no_print">
     
-        	<tr>
-
-				<td class="firstColumnStyling">
-                Designation Name<span class="requiredField">* </span> : 
-                </td>
-                
-                <td>
-                <input type="text" name="name" id="txtname"/>
-                </td>
-			</tr>
-
+      <tr >
+<td>
+Department<span class="requiredField">* </span> : 
+</td>
+<td>
+<select type="text" disabled="disabled" id="department_id" onchange="createDropDownDesignationDepartment(this.value)" onblur="createDropDownDesignationDepartment(this.value)">
+	<option value="-1">-- Please Select --</option>
+    <?php $departments=listDepartment();
+	foreach($departments as $department)
+	{
+	?>
+    <option value="<?php echo $department['department_id'] ?>" <?php if($department['department_id']==$designation['department_id']) { ?> selected="selected" <?php } ?>><?php echo $department['department_name']; ?></option>
+    <?php 	
+		
+		}
+	 ?>
+</select> 
+<input type="hidden" name="department_id" value="<?php echo $designation['department_id']; ?>" />
+<input type="hidden" name="lid" value="<?php echo $designation['designation_id']; ?>"/>
+</td>
+</tr>
+        
 			<tr>
 
 				<td class="firstColumnStyling">
@@ -59,7 +68,7 @@ if(isset($_SESSION['ack']['msg']) && isset($_SESSION['ack']['type']))
                 </td>
                 
                 <td>
-                <Select name="parent_id" id="parent_id" >
+                <Select disabled="disabled" id="parent_id" >
                	 	<option value="-1">-- Please Select --</option>
                 	<option value="0">No Parent</option>
                     <?php $departments=listDesignations();
@@ -67,33 +76,28 @@ if(isset($_SESSION['ack']['msg']) && isset($_SESSION['ack']['type']))
 						{
 							
 					?>
-                    <option value="<?php echo $department['designation_id']; ?>"><?php echo $department['designation_name']; ?></option>
+                    <option value="<?php echo $department['designation_id']; ?>" <?php if($department['designation_id']==$designation['parent_id']) { ?> selected="selected" <?php } ?>><?php echo $department['designation_name']; ?></option>
                     <?php		
 							}
 					 ?>
                 </Select>
+                <input type="hidden" name="parent_id" value="<?php echo $designation['parent_id']; ?>"/>
+                </td>
+			</tr>
+            
+            	<tr>
+
+				<td class="firstColumnStyling">
+                Designation Name<span class="requiredField">* </span> : 
+                </td>
+                
+                <td>
+                <input type="text" name="name" id="txtname" value="<?php echo $designation['designation_name']; ?>"/>
                 </td>
 			</tr>
 
-           <tr >
-<td>
-Department<span class="requiredField">* </span> : 
-</td>
-<td>
-<select type="text" name="department_id" id="department_id" onchange="createDropDownDesignationDepartment(this.value)" onblur="createDropDownDesignationDepartment(this.value)">
-	<option value="-1">-- Please Select --</option>
-    <?php $departments=listDepartment();
-	foreach($departments as $department)
-	{
-	?>
-    <option value="<?php echo $department['department_id'] ?>"><?php echo $department['department_name']; ?></option>
-    <?php 	
-		
-		}
-	 ?>
-</select> 
-</td>
-</tr>
+
+         
 
 <tr>
 <td></td>

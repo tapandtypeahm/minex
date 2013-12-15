@@ -127,8 +127,7 @@ function getAllChildDepartmentsFromItsParent($parent_id)
 			$count=0;
 			$returnArray[$count]=$department;
 			$directChildren=getBFSChildrenForDepartment($parent_id);
-			$returnArray[$count]['children']=$directChildren;
-			
+			$returnArray[$count]['children']=$directChildren;	
 		}
 }
 
@@ -139,7 +138,6 @@ function getAllChildrenIdsForDepartment($department_id)
 		
 		$returnarray=array();
 		$directChildren=getDepartmentIdsFromItsParent($department_id);
-		
 		if($directChildren!=false)
 		{
 			
