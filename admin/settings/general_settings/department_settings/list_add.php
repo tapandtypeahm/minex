@@ -68,7 +68,7 @@ if(isset($_SESSION['ack']['msg']) && isset($_SESSION['ack']['type']))
                 </td>
                 
                 <td>
-                <textarea name="description" id="txtaddress" cols="5" rows="6"></textarea>
+                <textarea name="description" id="transliterateTextarea" cols="5" rows="6"></textarea>
                 </td>
             </tr>
 

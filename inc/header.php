@@ -34,6 +34,7 @@ if(isset($cssArray)){
 
 
 <script type="text/javascript" src="<?php echo WEB_ROOT; ?>js/jquery.js"></script>
+<script type="text/javascript" src="<?php echo WEB_ROOT; ?>js/jsapi"></script>
 <script type="text/javascript" src="<?php echo WEB_ROOT; ?>js/jquery-ui/js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="<?php echo WEB_ROOT; ?>js/tableToCSV.js"></script>
 

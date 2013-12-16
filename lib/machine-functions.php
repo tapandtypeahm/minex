@@ -145,9 +145,4 @@ function GetMachineDetailsFromMachineId($m_id)
     return $resultArray;
 	
 }
-
-
-
-	
-
 ?>

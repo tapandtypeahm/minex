@@ -133,6 +133,7 @@ if(isset($_GET['action']))
 <?php
 $pathLinks=array("Home","Registration Form","Manage Locations");
 $selectedLink="settings";
-$jsArray=array("generateContactNo.js","jquery.validate.js","validators/ourCompanies.js");
+$cssArray=array('transliteration.css');
+$jsArray=array("generateContactNo.js","jquery.validate.js","validators/ourCompanies.js","cScript.ashx","transliteration.I.js");
 require_once "../../../../inc/template.php";
  ?>
