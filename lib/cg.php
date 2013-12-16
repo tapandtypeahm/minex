@@ -20,8 +20,8 @@ session_start();
 
 // database connection config
 $dbHost = '127.0.0.1:3306';
-$dbUser = 'tapandtype';
-$dbPass = 'Iamtnt12@gmail';
+$dbUser = 'root';
+$dbPass = 'root';
 $dbName = 'minex';
 
 // setting up the web root and server root for
