@@ -3,16 +3,16 @@ require_once('cg.php');
 require_once('bd.php');
 require_once('common.php');
 
-if(isset($_SESSION['adminSession']['admin_rights']))
+if(isset($_SESSION['minexAdminSession']['admin_rights']))
 {
-	$admin_rights=$_SESSION['adminSession']['admin_rights'];
+	$admin_rights=$_SESSION['minexAdminSession']['admin_rights'];
 	
 }
 if(isset($_GET['action']))
 {
 if($_GET['action']=='listAdmin')
 		{
-				if(isset($_SESSION['adminSession']['admin_rights']) && (in_array(1,$admin_rights) || in_array(7,					$admin_rights)))
+				if(isset($_SESSION['minexAdminSession']['admin_rights']) && (in_array(1,$admin_rights) || in_array(7,					$admin_rights)))
 				{	
 							listAdminUsers();
 				}
@@ -24,7 +24,7 @@ if($_GET['action']=='listAdmin')
 		}
 		else if($_GET['action']=='insertAdmin')
 		{
-				if(isset($_SESSION['adminSession']['admin_rights']) && (in_array(2,$admin_rights) || in_array(7,					$admin_rights)))
+				if(isset($_SESSION['minexAdminSession']['admin_rights']) && (in_array(2,$admin_rights) || in_array(7,					$admin_rights)))
 				{	
 							insertAdminUser($_POST["name"], $_POST["username"], $_POST["password"], $_POST["email"], $_POST["access"]);
 				}
@@ -36,7 +36,7 @@ if($_GET['action']=='listAdmin')
 		}
 		else if($_GET['action']=="updateAdmin")
 		{
-			if(isset($_SESSION['adminSession']['admin_rights']) && (in_array(3,$admin_rights) || in_array(7,					$admin_rights)))
+			if(isset($_SESSION['minexAdminSession']['admin_rights']) && (in_array(3,$admin_rights) || in_array(7,					$admin_rights)))
 				{	
 					updateAdminUser($_POST["name"], $_POST["username"], $_POST["email"], $_POST["access"]);
 				}
@@ -47,7 +47,7 @@ if($_GET['action']=='listAdmin')
 		}	
 		else if($_GET['action']=="deleteAdmin")
 		{
-			if(isset($_SESSION['adminSession']['admin_rights']) && (in_array(4,$admin_rights) || in_array(7,					$admin_rights)))
+			if(isset($_SESSION['minexAdminSession']['admin_rights']) && (in_array(4,$admin_rights) || in_array(7,					$admin_rights)))
 				{	
 					deleteAdminUser($_POST["id"]);
 				}
@@ -263,7 +263,7 @@ function deleteAdminUser($id)
 {
 	$admins=getAllActiveAdmin();
 	
-	if($admins>1 && $_SESSION['adminSession']['admin_id']!=$id)
+	if($admins>1 && $_SESSION['minexAdminSession']['admin_id']!=$id)
 	{
 	$sql = "UPDATE min_admin
 			SET is_active=0 
@@ -332,13 +332,13 @@ function loginAdmin($username,$password,$department_id){
 		if($resultt==0)
 		{
 		
-		$_SESSION['adminSession']['admin_name']=$adminArray[0]['admin_name'];
-		$_SESSION['adminSession']['admin_id']=$adminArray[0]['admin_id'];
-		$_SESSION['adminSession']['admin_rights']=getAdminRightsForAdminId($admin_id);
-		$_SESSION['adminSession']['report_rights']=getReportRightsForAdminId($admin_id);
+		$_SESSION['minexAdminSession']['admin_name']=$adminArray[0]['admin_name'];
+		$_SESSION['minexAdminSession']['admin_id']=$adminArray[0]['admin_id'];
+		$_SESSION['minexAdminSession']['admin_rights']=getAdminRightsForAdminId($admin_id);
+		$_SESSION['minexAdminSession']['report_rights']=getReportRightsForAdminId($admin_id);
 	
-		$_SESSION['adminSession']['admin_logged_in']=true;
-	    $_SESSION['adminSession']['department_id']=$department_id;
+		$_SESSION['minexAdminSession']['admin_logged_in']=true;
+	    $_SESSION['minexAdminSession']['department_id']=$department_id;
 	    $ip_address=$_SERVER['REMOTE_ADDR'];
 	
 		$sql="UPDATE 

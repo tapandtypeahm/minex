@@ -178,7 +178,7 @@ function InsertPaymentForEMI($id,$amount,$payment_mode,$payment_date,$rasid_no,$
 	try{
 		if($remainder_date=="")
 		$remainder_date="1970-01-01";
-		$admin_id=$_SESSION['adminSession']['admin_id'];
+		$admin_id=$_SESSION['minexAdminSession']['admin_id'];
 		$balance= getBalanceForEmi($id);
 		$ag_id_array=getAgnecyIdFromEmiId($id);
 		if(is_numeric($ag_id_array[0]))
