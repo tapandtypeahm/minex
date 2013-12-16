@@ -83,7 +83,7 @@ Department Name<span class="requiredField">* </span> :
                 </td>
                 
                 <td>
-                <textarea name="description" id="txtaddress" cols="5" rows="6"><?php echo $department['description']; ?></textarea>
+                <textarea name="description" id="transliterateTextarea" cols="5" rows="6"><?php echo $department['description']; ?></textarea>
                 </td>
             </tr>
 
