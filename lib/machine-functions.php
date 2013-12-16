@@ -82,7 +82,6 @@ function listMachines()
 function deleteMachine($id)
 {
 	try{
-		
 		$machines=listMachines();
 		if(checkForNumeric($id) && !checkIfMachineInUse($id) && count($machines)>1)
 		{
@@ -160,7 +159,7 @@ function updateMachine($m_id, $department_id, $name, $code, $description)
 			$code=clean_data($code);
 			$description=clean_data($description);
 			
-			if(validateForNull($name,$code,$description) && checkForNumeric($department_id) && $department_id>0 && !checkForDuplicateMachine($code,$m_id))
+			if(validateForNull($name,$code) && checkForNumeric($department_id) && $department_id>0 && !checkForDuplicateMachine($code,$m_id))
 			{
 				
 				

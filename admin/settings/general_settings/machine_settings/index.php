@@ -5,8 +5,8 @@ require_once "../../../../lib/bd.php";
 require_once "../../../../lib/department-functions.php";
 require_once "../../../../lib/machine-functions.php";
 
-if(isset($_SESSION['adminSession']['admin_rights']))
-$admin_rights=$_SESSION['adminSession']['admin_rights'];
+if(isset($_SESSION['minexAdminSession']['admin_rights']))
+$admin_rights=$_SESSION['minexAdminSession']['admin_rights'];
 
 if((in_array(4,$admin_rights) || in_array(7,$admin_rights)))
 {}
@@ -69,7 +69,12 @@ if(isset($_GET['action']))
 			}
 			else if($result=="error"){
 				
-			$_SESSION['ack']['msg']="Cannot Delete Machine! Minimum One User is Required!";
+			$_SESSION['ack']['msg']="Invalid Inpur Or Duplicate Entry!";
+			$_SESSION['ack']['type']=4; // 4 for error
+			}
+			else if($result=="error1"){
+				
+			$_SESSION['ack']['msg']="Cannot Delete Machine! Minimum One Machine is Required!";
 			$_SESSION['ack']['type']=4; // 4 for error
 			}
 			
