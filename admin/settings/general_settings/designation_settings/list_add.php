@@ -1,5 +1,5 @@
 <div class="insideCoreContent adminContentWrapper wrapper">
-<h4 class="headingAlignment no_print  addBtn">Add a Department</h4>
+<h4 class="headingAlignment no_print  addBtn"> Manage Designations</h4>
 <?php 
 if(isset($_SESSION['ack']['msg']) && isset($_SESSION['ack']['type']))
 {

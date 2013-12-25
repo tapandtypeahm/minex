@@ -64,7 +64,7 @@ if(isset($_SESSION['ack']['msg']) && isset($_SESSION['ack']['type']))
 
             <tr>
                 <td>
-                Description<span class="requiredField">* </span> : 
+                Description : 
                 </td>
                 
                 <td>

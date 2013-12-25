@@ -2,7 +2,7 @@
 
 jQuery("#txtName").validate({
                     expression: "if (VAL) return true; else return false;",
-                    message: "Please enter the bank name"
+                    message: "Please enter the name."
                 });
 jQuery("#txtName").validate({
                     expression: "if (VAL.match(/^[a-zA-Z ]+$/)) return true; else return false;",
@@ -22,12 +22,12 @@ jQuery("#AdminContact").validate({
                 });													
  jQuery("#txtEmail").validate({
                     expression: "if (VAL.match(/^[^\\W][a-zA-Z0-9\\_\\-\\.]+([a-zA-Z0-9\\_\\-\\.]+)*\\@[a-zA-Z0-9_]+(\\.[a-zA-Z0-9_]+)*\\.[a-zA-Z]{2,4}$/)) return true; else return false;",
-                    message: "Please enter a valid Email id"
+                    message: "Please enter a valid Email id."
                 });
 												
 jQuery("#txtUsername").validate({
                     expression: "if (VAL) return true; else return false;",
-                    message: "Please enter the Username"
+                    message: "Please enter the Username."
                 });	
 							
 	jQuery("#txtUsername").validate({

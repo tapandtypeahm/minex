@@ -3,6 +3,10 @@
             Home
            </div></a>
            
+           <a  href="<?php echo WEB_ROOT ?>admin/MDI"><div class="link <?php if($selectedLink=="mdi") { ?> selected <?php } ?>">
+            MDI Form
+           </div></a>
+           
            
            
             <a  href="<?php echo WEB_ROOT ?>admin/reports/"><div class="link <?php if($selectedLink=="reports") { ?> selected <?php } ?>">
