@@ -107,8 +107,16 @@ function deleteMachine($id)
 function checkIfMachineInUse($machine_id)
 {
 
-	// Will Depend on MDI Form, so if any MDI form has been filled up of that particular Machine ID, you can't DELETE that MAchine.
-	 return false;	  	
+	// Will Depend on MDI Form, so if any MDI form has been filled up of that particular Machine ID, you can't DELETE that Machine.
+	$sql="SELECT mdi_id
+	      FROM min_MDI_form
+		  WHERE min_MDI_form.machine_id=$machine_id";
+
+   $result=dbQuery($sql);
+   if(dbNumRows($result)>0)
+   return true;
+   else
+   return false;	  	
 }
 
 function getMachinesFromDepartmentId($dep_id)
@@ -121,6 +129,20 @@ function getMachinesFromDepartmentId($dep_id)
     $resultArray=dbResultToArray($result);
     return $resultArray;	
 	
+}
+
+function getMachineDepartmentFromMachineId($machine_id)
+{
+	$sql="SELECT department_name
+	      FROM min_machines, min_departments
+		  WHERE min_departments.department_id=min_machines.department_id AND min_machines.machine_id=$machine_id";
+
+   $result=dbQuery($sql);
+    $resultArray=dbResultToArray($result);
+	if(dbNumRows($result)>0)
+    return $resultArray[0][0];	
+	else
+	return false;
 }
 
 function getMachineNameFromMachineCode($code)

@@ -2,8 +2,7 @@
 require_once "../../../../lib/cg.php";
 require_once "../../../../lib/common.php";
 require_once "../../../../lib/bd.php";
-require_once "../../../../lib/department-functions.php";
-require_once "../../../../lib/machine-functions.php";
+require_once "../../../../lib/fault-functions.php";
 
 if(isset($_SESSION['minexAdminSession']['admin_rights']))
 $admin_rights=$_SESSION['minexAdminSession']['admin_rights'];
@@ -43,11 +42,11 @@ if(isset($_GET['action']))
 {
 	if($_GET['action']=='add')
 	{
-		$result=insertMachine($_POST['mName'], $_POST["mCode"], $_POST["macDescription"], $_POST["department_id"]);
+		$result=insertFault(($_POST['fName']));
 		
 		if($result=="success")
 			{
-			$_SESSION['ack']['msg']="Machine successfully added!";
+			$_SESSION['ack']['msg']="Fault successfully added!";
 			$_SESSION['ack']['type']=1; // 1 for insert
 			}
 			else{
@@ -61,10 +60,10 @@ if(isset($_GET['action']))
 		}
 	if($_GET['action']=='delete')
 	{
-		$result=deleteMachine($_GET["lid"]);
+		$result=deleteFault(($_GET["lid"]));
 		if($result=="success")
 			{
-			$_SESSION['ack']['msg']="Machine deleted Successfuly!";
+			$_SESSION['ack']['msg']="Fault deleted Successfuly!";
 		$_SESSION['ack']['type']=3; // 3 for delete
 			}
 			else if($result=="error"){
@@ -74,7 +73,7 @@ if(isset($_GET['action']))
 			}
 			else if($result=="error1"){
 				
-			$_SESSION['ack']['msg']="Cannot Delete Machine! Minimum One Machine is Required!";
+			$_SESSION['ack']['msg']="Cannot Delete Fault! Minimum One Fault is Required!";
 			$_SESSION['ack']['type']=4; // 4 for error
 			}
 			
@@ -84,10 +83,10 @@ if(isset($_GET['action']))
 		}
 	if($_GET['action']=='edit')
 	{
-		$result=updateMachine($_POST['lid'], $_POST["department_id"], $_POST["name"], $_POST["code"], $_POST["description"]);
+		$result=updateFault($_POST['lid'], $_POST["f_name"]);
 		if($result=="success")
 			{
-			$_SESSION['ack']['msg']="Machine Updated Successfuly!";
+			$_SESSION['ack']['msg']="Fault Updated Successfuly!";
 		$_SESSION['ack']['type']=3; // 3 for delete
 			}
 			else if($result=="error"){
@@ -104,6 +103,6 @@ if(isset($_GET['action']))
 
 $pathLinks=array("Home","Registration Form","Manage Locations");
 $selectedLink="settings";
-$jsArray=array("jquery.validate.js","validators/machines.js","dropDown.js","generateContactNoAdmin.js");
+$jsArray=array("jquery.validate.js","validators/faults.js","dropDown.js","generateContactNoAdmin.js");
 require_once "../../../../inc/template.php";
  ?>

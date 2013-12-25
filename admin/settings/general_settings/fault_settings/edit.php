@@ -1,13 +1,15 @@
 <div class="insideCoreContent adminContentWrapper wrapper">
-<h4 class="headingAlignment no_print">Edit Machine Details</h4>
+<h4 class="headingAlignment no_print">Edit Fault Details</h4>
 <?php 
 if(!isset($_GET['lid']))
 {
 	header("Location: index.php");
 	exit;
 	}
-$m_id=$_GET['lid'];
-$machine=GetMachineDetailsFromMachineId($m_id);
+$f_id=$_GET['lid'];
+
+
+$fault=getFaultNameFromFaultId($f_id);
 if(isset($_SESSION['ack']['msg']) && isset($_SESSION['ack']['type']))
 {
 	
@@ -36,53 +38,13 @@ if(isset($_SESSION['ack']['msg']) && isset($_SESSION['ack']['type']))
 <form id="addLocForm" action="<?php echo $_SERVER['PHP_SELF'].'?action=edit'; ?>" method="post">
 <table id="insertAdminTable" class="insertTableStyling no_print">
 
-<tr >
-<td width="200px">
-Department<span class="requiredField">* </span> : 
-</td>
-<td>
-<input type="hidden" name="lid" value="<?php echo $m_id; ?>" />
-<select type="text" name="department_id" id="deparment_id">
-	<option value="-1">-- Please Select --</option>
-    <?php $departments=listDepartment();
-	foreach($departments as $department)
-	{
-	?>
-    <option value="<?php echo $department['department_id'] ?>" <?php if($department['department_id']==$machine['department_id']) { ?> selected="selected" <?php } ?>> <?php echo $department['department_name']; ?></option>
-    <?php 	
-		
-		}
-	 ?>
-</select> 
-</td>
-</tr>
-
-
 
 <tr>
-<td> Machine Name : </td> 
-<td><input type="text" name="name" id="txtName" value="<?php echo $machine['machine_name']; ?>"/> </td>
-</tr>
-
-<tr>
-<td> Machine Code: </td> 
-<td><input type="text" name="code" id="txtName" value="<?php echo $machine['machine_code']; ?>"/> </td>
-</tr>
-
-
-<tr>
-<td> Description : </td> 
-<td>
-<textarea name="description" id="txtName" rows="10" cols="5"><?php echo $machine['description']; ?></textarea>
+<td> Fault Name : </td> 
+<td><input type="text" name="f_name" id="txtName" value="<?php echo $fault['fault_name']; ?>"/> 
+<input type="hidden" name="lid" value="<?php echo $f_id; ?>"  />
 </td>
 </tr>
-
-
-
-
-
-
-
 
 
 <tr>
