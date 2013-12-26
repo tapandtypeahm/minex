@@ -1,10 +1,5 @@
 <div class="insideCoreContent adminContentWrapper wrapper">
 
-
-
-
-<hr class="firstTableFinishing" />
-
 <h4 class="headingAlignment">Generated MDI Queries</h4>
 <div class="printBtnDiv no_print"><button class="printBtn btn"><i class="icon-print"></i> Print</button></div>
 	<div class="no_print">
@@ -12,6 +7,7 @@
     <thead>
     	<tr>
         	<th class="heading">No</th>
+            <th class="heading">Date/Time</th>
             <th class="heading">Machine Name</th>
             <th class="heading">Machine Code</th>
             <th class="heading">Machine Condition</th>
@@ -35,6 +31,8 @@
 		 ?>
          <tr class="resultRow">
         	<td><?php echo ++$no; ?>
+            </td>
+            <td><?php echo  date('d/m/Y H:i:s', strtotime($form['date_added'])); ?>
             </td>
             <td><?php echo $form['machine_name']; ?>
             </td>

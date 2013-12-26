@@ -65,7 +65,7 @@ if(isset($_GET['action']))
 		$result=deleteMDIForm($_GET["lid"]);
 		if($result=="success")
 			{
-			$_SESSION['ack']['msg']="Machine deleted Successfuly!";
+			$_SESSION['ack']['msg']="MDI Form deleted Successfuly!";
 		$_SESSION['ack']['type']=3; // 3 for delete
 			}
 			else if($result=="error"){
@@ -73,11 +73,7 @@ if(isset($_GET['action']))
 			$_SESSION['ack']['msg']="Invalid Inpur Or Duplicate Entry!";
 			$_SESSION['ack']['type']=4; // 4 for error
 			}
-			else if($result=="error1"){
-				
-			$_SESSION['ack']['msg']="Cannot Delete Machine! Minimum One Machine is Required!";
-			$_SESSION['ack']['type']=4; // 4 for error
-			}
+			
 			
 		
 		header("Location: ".$_SERVER['PHP_SELF']);
@@ -88,14 +84,15 @@ if(isset($_GET['action']))
 		$result=updateMDIForm($_POST['lid'], $_POST["condition"], $_POST["faultExplanation"], $_POST["fault_id"], $_POST["machine_id"]);
 		if($result=="success")
 			{
-			$_SESSION['ack']['msg']="Machine Updated Successfuly!";
+			$_SESSION['ack']['msg']="MDI Form Updated Successfuly!";
 		$_SESSION['ack']['type']=3; // 3 for delete
 			}
 			else if($result=="error"){
-			$_SESSION['ack']['msg']="Cannot Update Machine!";
+			$_SESSION['ack']['msg']="Cannot Update MDI Form!";
 			$_SESSION['ack']['type']=4; // 4 for error
 			}
-		header("Location: ".$_SERVER['PHP_SELF']);
+			
+		header("Location: ".'index.php?view=details&lid='.$_POST['lid']);
 		exit;
 		}			
 	}

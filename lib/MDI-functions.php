@@ -3,6 +3,7 @@ require_once("cg.php");
 require_once("common.php");
 require_once("department-functions.php");
 require_once("bd.php");
+require_once("smsAndEmail-functions.php");
 
 
 function insertMDI($condition, $fault_explanation, $fault_id, $machine_id)
@@ -20,7 +21,10 @@ function insertMDI($condition, $fault_explanation, $fault_id, $machine_id)
 	$ip_address=$_SERVER['REMOTE_ADDR'];	
 	$sql = "insert into min_MDI_form (mdi_condition, fault_explanation, fault_id, machine_id, created_by, last_updated_by, date_added, date_modified, ip_created, ip_modified, is_deleted) VALUES ('$condition', '$fault_explanation' , '$fault_id', $machine_id, $admin_id, $admin_id, NOW(), NOW() , '$ip_address' , '$ip_address', 0) ";
 	
-	$result=dbQuery($sql);	  
+	$result=dbQuery($sql);	
+	
+	sendAnEmail();
+	sendanSMS();  
 	
 	return "success";
 	}
@@ -41,9 +45,9 @@ function listMDIForm()
 {
 		
 	
-	$sql="SELECT mdi_id, mdi_condition, fault_explanation, fault_name, min_MDI_form.machine_id,  machine_name, machine_code, min_MDI_form.created_by
+	$sql="SELECT mdi_id, mdi_condition, fault_explanation, fault_name, min_MDI_form.machine_id,  machine_name, machine_code, min_MDI_form.created_by, min_MDI_form.date_added
 	      FROM min_MDI_form, min_type_of_fault, min_machines
-		  WHERE min_MDI_form.fault_id = min_type_of_fault.fault_id AND min_MDI_form.machine_id = min_machines.machine_id AND   is_deleted=0";
+		  WHERE min_MDI_form.fault_id = min_type_of_fault.fault_id AND min_MDI_form.machine_id = min_machines.machine_id AND   is_deleted=0 ORDER BY min_MDI_form.date_added DESC";
 		$result=dbQuery($sql);	 
 		$resultArray=dbResultToArray($result);
 		if(dbNumRows($result)>0)
@@ -138,6 +142,9 @@ function updateMDIForm($mdi_id, $mdi_condition, $fault_explanation, $fault_id, $
 			$result = dbQuery($sql); 
 			
 			return "success";
+			
+			sendAnEmail();
+	        sendanSMS();  
 			
 		}
 		else

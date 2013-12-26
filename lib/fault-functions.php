@@ -100,8 +100,14 @@ function deleteFault($id)
 
 function checkIfFaultInUse($fault_id)
 {
-
-	// Will Depend on MDI Form, so if any MDI form has been filled up of that particular Fault ID, you can't DELETE that Fault.
+    $sql="SELECT fault_id
+	      FROM min_MDI_form
+		  WHERE fault_id = $fault_id";
+   $result=dbQuery($sql);
+    $check = dbNumRows($result);
+	if($check>0)
+	return true;
+	
 	 return false;	  	
 }
 

@@ -65,7 +65,18 @@ Department :
 
 <tr>
 <td> Description : </td>
-<td> <?php echo $machine['description']; ?></td> 
+<td> 
+<?php 
+
+
+if(validateForNull($machine['description']))
+{
+	echo $machine['description'];
+}
+else
+echo "No Description Available!";
+?>
+</td> 
 </tr>
 
 <tr>

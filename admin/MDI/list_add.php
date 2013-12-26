@@ -108,6 +108,7 @@ Problematic Machine <span class="requiredField">* </span> :
     <thead>
     	<tr>
         	<th class="heading">No</th>
+            <th class="heading">Date/Time</th>
             <th class="heading">Machine Name</th>
             <th class="heading">Machine Code</th>
             <th class="heading">Machine Condition</th>
@@ -129,6 +130,9 @@ Problematic Machine <span class="requiredField">* </span> :
          <tr class="resultRow">
         	<td><?php echo ++$no; ?>
             </td>
+            <td><?php echo  date('d/m/Y H:i:s', strtotime($form['date_added'])); ?>
+            </td>
+            
             <td><?php echo $form['machine_name']; ?>
             </td>
              <td><?php echo $form['machine_code']; ?>
