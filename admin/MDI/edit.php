@@ -33,7 +33,7 @@ if(isset($_SESSION['ack']['msg']) && isset($_SESSION['ack']['type']))
 }
 
 ?>
-<form id="addLocForm" action="<?php echo WEB_ROOT.'MDI/index.php?action=edit'; ?>" method="post">
+<form id="addLocForm" action="<?php echo 'index.php?action=edit'; ?>" method="post">
 <table id="insertAdminTable" class="insertTableStyling no_print">
 
 <tr >
@@ -64,11 +64,16 @@ Problematic Machine<span class="requiredField">* </span> :
 
 
 
+
+
 <tr>
 <td> Machine Condition<span class="requiredField">* </span> : </td> 
-<td><input type="radio" name="condition" <?php if($mdi['mdi_condition']==1) { ?> checked="checked" <?php } ?> value="1">Running</td>
-<td><input type="radio" name="condition" <?php if($mdi['mdi_condition']==0) { ?> checked="checked" <?php } ?>  value="0">Idle</td>
+<td>
+<table><tr><td><input type="radio" name="condition"  <?php if($mdi['mdi_condition']==1) { ?> checked="checked" <?php } ?> value="1"  id="running"></td><td><label for="running">Running</label></td></tr>
+<tr><td>
+<input type="radio" name="condition" <?php if($mdi['mdi_condition']==0) { ?> checked="checked" <?php } ?> value="0" id="idle"></td><td><label for="idle">Idle</label></td></tr></table></td>
 </tr>
+
 
 <tr>
 <td> Type of Fault <span class="requiredField">* </span> : </td>

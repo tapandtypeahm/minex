@@ -69,7 +69,7 @@ if(isset($_GET['action']))
 			}
 			else if($result=="error"){
 				
-			$_SESSION['ack']['msg']="Invalid Inpur Or Duplicate Entry!";
+			$_SESSION['ack']['msg']="Cannot delete Machine! Machine already in use!";
 			$_SESSION['ack']['type']=4; // 4 for error
 			}
 			else if($result=="error1"){
@@ -91,10 +91,10 @@ if(isset($_GET['action']))
 		$_SESSION['ack']['type']=3; // 3 for delete
 			}
 			else if($result=="error"){
-			$_SESSION['ack']['msg']="Cannot Update Machine!";
+			$_SESSION['ack']['msg']="Cannot Update Machine! Duplicate or Invalid Entry!";
 			$_SESSION['ack']['type']=4; // 4 for error
 			}
-		header("Location: ".$_SERVER['PHP_SELF']);
+		header("Location: ".'index.php?view=details&lid='.$_POST['lid']);
 		exit;
 		}			
 	}
