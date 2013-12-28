@@ -213,7 +213,7 @@ function getDesignationsForDepartment($department_id)
 		}
 }
 
-function getChildDepartmentsFromItsParent($designation_id)
+function getChildDesignationsFromItsParent($designation_id)
 {
 	if(checkForNumeric($designation_id) && $designation_id>=0)
 	{
@@ -310,8 +310,10 @@ function getDesignationIdsForDepartmentDescendingOrder($designation_id)
 		}
 		return $returnarray;		
 	}
-	}	
+}	
 
-
+function getAllDesignationsForDepartmentDescendingOrder($department_id)
+{
 	
+	}	
 ?>

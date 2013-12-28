@@ -8,21 +8,21 @@ require_once("bd.php");
 
 
 
-function insertDepartment($name,$parent_id, $description)
+function insertDepartment($name,$parent_id, $description, $crude=0)
 {
 	try
 	{
-	if(checkForNumeric($parent_id) && $parent_id>=0 && validateForNull($name) && !checkForDuplicateDepartment($name,$parent_id))
+	if(checkForNumeric($parent_id,$crude) && $parent_id>=0 && validateForNull($name) && !checkForDuplicateDepartment($name,$parent_id))
 	{
 	
 	$name=clean_data($name);
 	$name=ucwords($name);
 	$description=clean_data($description);
-	$parent_id=clean_data($parent_id);	
+	$parent_id=clean_data($parent_id);
+	$crude=clean_data($crude);	
 	$admin_id=$_SESSION['minexAdminSession']['admin_id'];
 	$ip_address=$_SERVER['REMOTE_ADDR'];	
-	$sql = "insert into min_departments (department_name, parent_id, description, created_by, last_updated_by, date_added, date_modified, ip_created, ip_modified) VALUES ('$name', '$parent_id', '$description', $admin_id, $admin_id, NOW(), NOW() , '$ip_address' , '$ip_address') ";
-	echo $sql;
+	$sql = "insert into min_departments (department_name, parent_id, crude, description, created_by, last_updated_by, date_added, date_modified, ip_created, ip_modified) VALUES ('$name', '$parent_id', $crude, '$description', $admin_id, $admin_id, NOW(), NOW() , '$ip_address' , '$ip_address') ";
 	$result=dbQuery($sql);	  
 	$ourCompanyId=dbInsertId();
 	return "success";
@@ -39,22 +39,23 @@ function insertDepartment($name,$parent_id, $description)
 	
 }
 
-function updateDepartment($department_id,$name,$parent_id, $description)
+function updateDepartment($department_id,$name,$parent_id, $description, $crude=0)
 {
 	try
 	{
 	
-	if(checkForNumeric($parent_id) && $parent_id>=0 && validateForNull($name) && !checkForDuplicateDepartment($name,$parent_id,$department_id))
+	if(checkForNumeric($parent_id,$crude) && $parent_id>=0 && validateForNull($name) && !checkForDuplicateDepartment($name,$parent_id,$department_id))
 	{
 	$name=clean_data($name);
 	$name=ucwords($name);
 	$description=clean_data($description);
 	$parent_id=clean_data($parent_id);	
+	$crude=clean_data($crude);
 	$department_id=clean_data($department_id);
 	$admin_id=$_SESSION['minexAdminSession']['admin_id'];
 	$ip_address=$_SERVER['REMOTE_ADDR'];	
 	$sql = "UPDATE min_departments
-	       SET department_name = '$name', parent_id = $parent_id, description = '$description', last_updated_by = $admin_id, date_modified = NOW(), ip_modified = '$ip_address' 
+	       SET department_name = '$name', parent_id = $parent_id, crude=$crude, description = '$description', last_updated_by = $admin_id, date_modified = NOW(), ip_modified = '$ip_address' 
 		   WHERE department_id=$department_id";	
 	$result=dbQuery($sql);	  
 	return "success";

@@ -1,6 +1,6 @@
 <?php
 $company_id=$_GET['lid'];
-$company=getOurCompanyByID($company_id);
+$department=getDepartmentById($company_id);
  ?>
 <div class="insideCoreContent adminContentWrapper wrapper">
 
@@ -37,78 +37,40 @@ if(isset($_SESSION['ack']['msg']) && isset($_SESSION['ack']['type']))
 <tr>
 
 <td class="firstColumnStyling">
-Company Name : 
+Department Name : 
 </td>
 
 <td>
-<?php echo $company['our_company_name']; ?>
+<?php echo $department['department_name']; ?>
 </td>
 </tr>
 
 <tr>
 <td>
-Address : 
+Parent Department : 
 </td>
 
 <td>
-<?php echo $company['our_company_address']; ?>
+<?php echo getDepartmentNameById($department['parent_id']); ?>
 </td>
 </tr>
 
-<?php $contacts=getContactNoForOurCompany($company['our_company_id']);
-if(!empty($contacts))
-{
-?>
+
  <tr id="addcontactTr">
 				<td>
-                Contact No : 
+                Description : 
                 </td>
                  <td id="addcontactTd">
-<?php	
-	for($i=0;$i<count($contacts);$i++)
-	{
-		$contact=$contacts[$i];
-		
-		?>
-         
-                
-               
-               <?php if($i==(count($contacts)-1)) echo $contact[1]; else echo $contact[1]." | "; ?>
-               
-<?php 	
-	}
-?>
+				<?php if(validateForNull($department['description'])) echo $department['description']; else echo "No Description."; ?>
  </td>
 			</tr>
-<?php 	
-}?>
-
-
-
 
 <tr>
-<td>Pincode : </td>
-<td><?php echo $company['our_company_pincode']; ?></td>
+<td>Crude Department : </td>
+<td><?php if($department['crude']==1) echo "Yes"; else echo "No"; ?></td>
 </tr>
 
-<tr>
-<td>City : </td>
-				<td>
-					
-                             
-                             <?php echo $company['city_name'] ?>
-                            </td>
-</tr>
 
-<tr>
-<td> Prefix : </td>
-<td> <?php echo $company['our_company_prefix']; ?> </tr>
-</tr>
-
-<tr>
-<td> Sub Heading : </td>
-<td> <?php echo $company['sub_heading']; ?> </tr>
-</tr>
 
 <tr class="no_print">
 <td></td>

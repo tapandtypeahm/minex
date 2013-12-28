@@ -37,7 +37,7 @@ if(isset($_GET['action']))
 			if(isset($_SESSION['minexAdminSession']['admin_rights']) && (in_array(2,$admin_rights) || in_array(7,					$admin_rights)))
 			{	
 			
-			$result=insertDepartment($_POST["name"], $_POST["parent_id"], $_POST["description"]);
+			$result=insertDepartment($_POST["name"], $_POST["parent_id"], $_POST["description"], $_POST['crude']);
 			
 			if($result=="success")
 			{
@@ -101,7 +101,7 @@ if(isset($_GET['action']))
 		if(isset($_SESSION['minexAdminSession']['admin_rights']) && (in_array(3,$admin_rights) || in_array(7,					$admin_rights)))
 			{	
 		
-				$result=updateDepartment($_POST["lid"],$_POST["name"], $_POST["parent_id"], $_POST["description"]);
+				$result=updateDepartment($_POST["lid"],$_POST["name"], $_POST["parent_id"], $_POST["description"], $_POST['crude']);
 				
 				
 				if($result=="success")

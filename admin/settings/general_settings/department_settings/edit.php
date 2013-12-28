@@ -76,6 +76,15 @@ Department Name<span class="requiredField">* </span> :
                 </Select>
                 </td>
 			</tr>
+            
+              <tr>
+<td> Crude Department<span class="requiredField">* </span> : </td> 
+<td>
+<table><tr><td><input type="radio" name="crude" value="0" checked="checked" id="running"></td><td><label for="running">No</label></td></tr>
+<tr><td>
+<input type="radio" name="crude" value="1" id="idle"></td><td><label for="idle">Yes</label></td></tr></table></td>
+</tr>
+
 
 		 <tr>
                 <td>
