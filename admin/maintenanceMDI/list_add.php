@@ -56,8 +56,21 @@
             <td><?php echo $form['fault_name']; ?>
             </td>
             
-            <td><?php echo $form['fault_explanation']; ?>
+            <td>
+			<?php
+
+
+			 $explanation =$form['fault_explanation']; 
+			 if(!validateForNull($explanation))
+			 {
+				echo "No Explanation Available!"; 
+			 }
+			 else
+			 echo $explanation;
+			
+			?>
             </td>
+            
             <td><?php echo getMachineDepartmentFromMachineId($form['machine_id']) ?> </td>
             
             <?php  

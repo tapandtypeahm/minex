@@ -1,12 +1,9 @@
 <?php
-require_once "../../lib/cg.php";
-require_once "../../lib/common.php";
-require_once "../../lib/bd.php";
-require_once "../../lib/MDI-functions.php";
-require_once "../../lib/machine-functions.php";
-require_once "../../lib/fault-functions.php";
-require_once "../../lib/adminuser-functions.php";
-require_once "../../lib/takeAction-functions.php";
+require_once "../../../lib/cg.php";
+require_once "../../../lib/common.php";
+require_once "../../../lib/bd.php";
+require_once "../../../lib/department-functions.php";
+require_once "../../../lib/takeAction-functions.php";
 
 if(isset($_SESSION['minexAdminSession']['admin_rights']))
 $admin_rights=$_SESSION['minexAdminSession']['admin_rights'];
@@ -15,7 +12,7 @@ if((in_array(4,$admin_rights) || in_array(7,$admin_rights)))
 {}
 else
 {
-	header("Location: ".WEB_ROOT."admin/settings");
+	header("Location: ".WEB_ROOT."admin/MDI");
 	exit;
 	}
 
@@ -23,6 +20,7 @@ if(isset($_GET['view']))
 {
 	if($_GET['view']=='add')
 	{
+		
 		$content="list_add.php";
 	}
 	else if($_GET['view']=='details')
@@ -46,11 +44,14 @@ if(isset($_GET['action']))
 {
 	if($_GET['action']=='add')
 	{
-		$result=insertMDI($_POST["condition"], $_POST["faultExplanation"], $_POST["fault_id"],  $_POST['machine_id']);
+		
+		$result=insertAction($_POST['assignName'], $_POST['jobDescription'], $_POST['department_id'], $_POST['mdi_id']);
+		
+		
 		
 		if($result=="success")
 			{
-			$_SESSION['ack']['msg']="MDI Form successfully added!";
+			$_SESSION['ack']['msg']="Action successfully added!";
 			$_SESSION['ack']['type']=1; // 1 for insert
 			}
 			else{
@@ -59,12 +60,13 @@ if(isset($_GET['action']))
 			$_SESSION['ack']['type']=4; // 4 for error
 			}
 		
-		header("Location: ".$_SERVER['PHP_SELF']);
+		header("Location: ".WEB_ROOT."admin/maintenanceMDI/index.php?view=details&lid=".$_POST['mdi_id']);
 		exit;
 		}
+		
 	if($_GET['action']=='delete')
 	{
-		$result=deleteMDIForm($_GET["lid"]);
+		$result=deleteMachine($_GET["lid"]);
 		if($result=="success")
 			{
 			$_SESSION['ack']['msg']="Machine deleted Successfuly!";
@@ -72,7 +74,7 @@ if(isset($_GET['action']))
 			}
 			else if($result=="error"){
 				
-			$_SESSION['ack']['msg']="Invalid Inpur Or Duplicate Entry!";
+			$_SESSION['ack']['msg']="Cannot delete Machine! Machine already in use!";
 			$_SESSION['ack']['type']=4; // 4 for error
 			}
 			else if($result=="error1"){
@@ -87,17 +89,17 @@ if(isset($_GET['action']))
 		}
 	if($_GET['action']=='edit')
 	{
-		$result=updateMDIForm($_POST['lid'], $_POST["condition"], $_POST["faultExplanation"], $_POST["fault_id"], $_POST["machine_id"]);
+		$result=updateMachine($_POST['lid'], $_POST["department_id"], $_POST["name"], $_POST["code"], $_POST["description"]);
 		if($result=="success")
 			{
 			$_SESSION['ack']['msg']="Machine Updated Successfuly!";
 		$_SESSION['ack']['type']=3; // 3 for delete
 			}
 			else if($result=="error"){
-			$_SESSION['ack']['msg']="Cannot Update Machine!";
+			$_SESSION['ack']['msg']="Cannot Update Machine! Duplicate or Invalid Entry!";
 			$_SESSION['ack']['type']=4; // 4 for error
 			}
-		header("Location: ".$_SERVER['PHP_SELF']);
+		header("Location: ".'index.php?view=details&lid='.$_POST['lid']);
 		exit;
 		}			
 	}
@@ -107,6 +109,6 @@ if(isset($_GET['action']))
 
 $pathLinks=array("Home","Registration Form","Manage Locations");
 $selectedLink="mdi";
-$jsArray=array("jquery.validate.js","validators/adminuser.js","dropDown.js","generateContactNoAdmin.js");
-require_once "../../inc/template.php";
+$jsArray=array("jquery.validate.js","validators/action.js","dropDown.js","generateContactNoAdmin.js");
+require_once "../../../inc/template.php";
  ?>
