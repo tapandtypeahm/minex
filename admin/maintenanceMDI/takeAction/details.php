@@ -1,5 +1,5 @@
 <div class="insideCoreContent adminContentWrapper wrapper">
-<h4 class="headingAlignment no_print">MDI Form Details</h4>
+<h4 class="headingAlignment no_print">Machine Details</h4>
 <?php 
 if(!isset($_GET['lid']))
 {
@@ -7,7 +7,7 @@ if(!isset($_GET['lid']))
 	exit;
 	}
 $m_id=$_GET['lid'];
-$mdi=getMDIFormDetailsFromMDIId($m_id);
+$machine=GetMachineDetailsFromMachineId($m_id);
 
 
 if(isset($_SESSION['ack']['msg']) && isset($_SESSION['ack']['type']))
@@ -45,88 +45,68 @@ if(isset($_SESSION['ack']['msg']) && isset($_SESSION['ack']['type']))
 Machine Name : 
 </td>
 <td>
-<?php echo $mdi['machine_name']; ?>
+<?php echo $machine['machine_name']; ?>
 </td>
 </tr>
 
 <tr>
 <td> Machine Code : </td> 
-<td><?php echo $mdi['machine_code']; ?> </td>
+<td><?php echo $machine['machine_code']; ?> </td>
 </tr>
 
 <tr >
 <td width="200px">
-Machine Condition : 
+Department : 
 </td>
 <td>
- <?php
-			     if($form['mdi_condition'] == 0)
-				 {
-					 echo "Idle";
-				 }
-				 else
-				 {
-					echo "Running"; 
-					 
-				}
-			 
-			 
- ?>
+ <?php echo $machine['department_name']; ?>
 </td>
 </tr>
 
 <tr>
-<td> Type of Fault : </td>
-<td> <?php echo $mdi['fault_name']; ?></td> 
-</tr>
-
-<tr>
-<td> Fault Explanation : </td>
+<td> Description : </td>
 <td> 
-<?php
+<?php 
 
 
- $explanation =$mdi['fault_explanation']; 
- if(!validateForNull($explanation))
- {
-	echo "No Explanation Available!"; 
- }
- else
- echo $explanation;
- 
- ?>
- 
- </td> 
+if(validateForNull($machine['description']))
+{
+	echo $machine['description'];
+}
+else
+echo "No Description Available!";
+?>
+</td> 
 </tr>
 
 <tr>
 <td> Created By : </td>
-<td> <?php echo $mdi['admin_name']; ?></td> 
+<td> <?php echo $machine['admin_name']; ?></td> 
 </tr>
 
 <tr>
 <td> Last Modified By : </td>
-<td> <?php echo $mdi['admin_name']; ?></td> 
+<td> <?php echo $machine['admin_name']; ?></td> 
 </tr>
 
 <tr>
 <td> Date Added: </td>
-<td> <?php echo $mdi['date_added']; ?></td> 
+<td> <?php echo $machine['date_added']; ?></td> 
 </tr>
 
 <tr>
 <td> Date Modified : </td>
-<td> <?php echo $mdi['date_modified']; ?></td> 
+<td> <?php echo $machine['date_modified']; ?></td> 
 </tr>
 
 <tr>
 <td> Created From IP : </td>
-<td> <?php echo $mdi['ip_created']; ?></td> 
+<td> <?php echo $machine['ip_created']; ?></td> 
 </tr>
 
 <tr>
 <td> Last Modified From IP : </td>
-<td> <?php echo $mdi['ip_modified']; ?></td> 
+<td> <?php echo $machine['ip_modified']; ?></td> 
 </tr>
      
      
@@ -135,8 +115,8 @@ Machine Condition :
 <tr class="no_print">
 <td></td>
 <td>
-<a href="<?php echo $_SERVER['PHP_SELF'].'?view=edit&lid='.$m_id ?>"><button title="Edit this entry" class="btn editBtn"><span class="delete">E</span></button></a>
-<a href="<?php echo 'index.php?action=delete&lid='.$m_id ?>"><button title="Delete this entry" class="btn delBtn"><span class="delete">X</span></button></a>
+<a href="<?php echo $_SERVER['PHP_SELF'].'?view=edit&lid='.$machine['machine_id'] ?>"><button title="Edit this entry" class="btn editBtn"><span class="delete">E</span></button></a>
+<a href="<?php echo $_SERVER['PHP_SELF'].'?action=delete&lid='.$machine['machine_id'] ?>"><button title="Delete this entry" class="btn delBtn"><span class="delete">X</span></button></a>
 <a href="index.php"><input type="button" value="back" class="btn btn-success" /></a>
 </td>
 </tr>

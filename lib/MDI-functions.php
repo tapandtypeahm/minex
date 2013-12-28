@@ -107,7 +107,7 @@ function getMDIFormDetailsFromFaultId($fault_id)
 
 function getMDIFormDetailsFromMDIId($mdi_id)
 {
-	$sql="SELECT mdi_condition, fault_explanation,min_type_of_fault.fault_id, fault_name, min_MDI_form.machine_id, machine_name, machine_code, min_MDI_form.created_by, min_MDI_form.last_updated_by, min_MDI_form.date_added, min_MDI_form.date_modified, min_MDI_form.ip_created, min_MDI_form.ip_modified, admin_name, admin_id
+	$sql="SELECT mdi_condition, fault_explanation, min_type_of_fault.fault_id, fault_name, min_MDI_form.machine_id, machine_name, machine_code, min_MDI_form.created_by, min_MDI_form.last_updated_by, min_MDI_form.date_added, min_MDI_form.date_modified, min_MDI_form.ip_created, min_MDI_form.ip_modified, admin_name, admin_id
 	      FROM min_MDI_form, min_type_of_fault, min_machines, min_admin
 		  WHERE min_MDI_form.fault_id=min_type_of_fault.fault_id AND min_MDI_form.machine_id = min_machines.machine_id AND min_MDI_form.mdi_id = $mdi_id AND min_admin.admin_id = min_MDI_form.created_by AND is_deleted=0";
 
