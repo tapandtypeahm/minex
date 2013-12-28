@@ -1,7 +1,3 @@
-<div class="insideCoreContent adminContentWrapper wrapper">
-<a href="index.php"><input type="button" value="Acknowledge" class="btn btn-success" /></a>
-<a href="index.php"><input type="button" value="Take Action" class="btn btn-success" /></a>
-<h4 class="headingAlignment no_print">MDI Form Details</h4>
 <?php 
 if(!isset($_GET['lid']))
 {
@@ -10,7 +6,16 @@ if(!isset($_GET['lid']))
 	}
 $m_id=$_GET['lid'];
 $mdi=getMDIFormDetailsFromMDIId($m_id);
+$actions = getAllActionForMDIID($m_id);
+?>
 
+
+<div class="insideCoreContent adminContentWrapper wrapper">
+<div class="addDetailsBtnStyling no_print"><a href="index.php"><input type="button" value="Acknowledge" class="btn btn-success" /></a>
+<a href="takeAction/index.php?id=<?php echo $m_id ?>"><input type="button" value="Take Action" class="btn btn-success" /></a>
+<a href="index.php"><input type="button" value="back" class="btn btn-success" /></a></div>
+
+<?php 
 
 if(isset($_SESSION['ack']['msg']) && isset($_SESSION['ack']['type']))
 {
@@ -38,11 +43,10 @@ if(isset($_SESSION['ack']['msg']) && isset($_SESSION['ack']['type']))
 
 ?>
 
+<div class="detailStyling">
 
-<table id="DetailsTable" class="insertTableStyling">
-
-
-
+<h4 class="headingAlignment">MDI Form Details</h4>
+<table class="insertTableStyling detailStylingTable">
 
 <tr>
 <td>
@@ -118,10 +122,76 @@ Machine Condition :
 <td></td>
 <td>
 
-<a href="index.php"><input type="button" value="back" class="btn btn-success" /></a>
 
 </td>
 </tr>
 </table>
+
+</div>
+
+<?php
+if(!validateForNull($actions))
+{
+}
+else
+{ 
+$i=1;
+foreach($actions as $action) { ?>
+<div class="detailStyling">
+<h4 class="headingAlignment no_print">
+
+Action <?php echo $i++;  ?> [<?php echo date("d/m/Y H:i:s",strtotime($action['date_added'])); ?>]
+
+
+</h4>
+<table  class="insertTableStyling detailStylingTable">
+
+
+
+
+<tr>
+<td> Department : </td> 
+<td><?php echo $action['department_name']; ?> </td>
+</tr>
+
+
+<tr>
+<td> Assigned To (Names): </td>
+<td> <?php echo $action['assign_name']; ?></td> 
+</tr>
+
+<tr>
+<td> Job Description: </td>
+<td> <?php echo $action['description']; ?></td> 
+</tr>
+
+<tr>
+<td> Action Taken By : </td>
+<td> 
+<?php  
+$adminId = $action['created_by'];
+
+$adminNameArray = getAdminUserByID($adminId);
+$adminName = $adminNameArray['admin_name'];
+echo $adminName; 
+?>
+</td> 
+</tr>
+
+<tr class="no_print">
+<td></td>
+<td>
+
+
+</td>
+</tr>
+</table>
+
+</div>
+<?php } } ?>
+
+
+
+
 </div>
 <div class="clearfix"></div>

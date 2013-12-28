@@ -81,8 +81,22 @@ Machine Condition :
 </tr>
 
 <tr>
-<td> Fault Description: </td>
-<td> <?php echo $mdi['fault_explanation']; ?></td> 
+<td> Fault Explanation : </td>
+<td> 
+<?php
+
+
+ $explanation =$mdi['fault_explanation']; 
+ if(!validateForNull($explanation))
+ {
+	echo "No Explanation Available!"; 
+ }
+ else
+ echo $explanation;
+ 
+ ?>
+ 
+ </td> 
 </tr>
 
 <tr>
@@ -121,8 +135,8 @@ Machine Condition :
 <tr class="no_print">
 <td></td>
 <td>
-<a href="<?php echo $_SERVER['PHP_SELF'].'?view=edit&lid='.$machine['machine_id'] ?>"><button title="Edit this entry" class="btn editBtn"><span class="delete">E</span></button></a>
-<a href="<?php echo $_SERVER['PHP_SELF'].'?action=delete&lid='.$machine['machine_id'] ?>"><button title="Delete this entry" class="btn delBtn"><span class="delete">X</span></button></a>
+<a href="<?php echo $_SERVER['PHP_SELF'].'?view=edit&lid='.$m_id ?>"><button title="Edit this entry" class="btn editBtn"><span class="delete">E</span></button></a>
+<a href="<?php echo 'index.php?action=delete&lid='.$m_id ?>"><button title="Delete this entry" class="btn delBtn"><span class="delete">X</span></button></a>
 <a href="index.php"><input type="button" value="back" class="btn btn-success" /></a>
 </td>
 </tr>

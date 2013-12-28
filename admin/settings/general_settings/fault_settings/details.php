@@ -55,8 +55,8 @@ Fault Name :
 <tr class="no_print">
 <td></td>
 <td>
-<a href="<?php echo $_SERVER['PHP_SELF'].'?view=edit&lid='.$fault['fault_id'] ?>"><button title="Edit this entry" class="btn editBtn"><span class="delete">E</span></button></a>
-<a href="<?php echo $_SERVER['PHP_SELF'].'?action=delete&lid='.$machine['fault_id'] ?>"><button title="Delete this entry" class="btn delBtn"><span class="delete">X</span></button></a>
+<a href="<?php echo WEB_ROOT.'admin/settings/general_settings/fault_settings?view=edit&lid='.$f_id ?>"><button title="Edit this entry" class="btn editBtn"><span class="delete">E</span></button></a>
+<a href="<?php echo 'index.php?action=delete&lid='.$f_id ?>"><button title="Delete this entry" class="btn delBtn"><span class="delete">X</span></button></a>
 <a href="index.php"><input type="button" value="back" class="btn btn-success" /></a>
 </td>
 </tr>
