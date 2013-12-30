@@ -47,7 +47,7 @@ Department <span class="requiredField">* </span> :
 <td>
 <select type="text" name="department_id" id="department_id">
 	<option value="-1">-- Please Select --</option>
-    <?php $departments=listDepartment();
+    <?php $departments=listCrudeDepartments();
 	foreach($departments as $department)
 	{
 	?>
@@ -71,7 +71,7 @@ Department <span class="requiredField">* </span> :
 
 <tr>
 <td> Job Description<span class="requiredField"> * </span> : </td>
-<td> <textarea rows="10" cols="6" name="jobDescription" id="jobDescription" > </textarea></td> 
+<td> <textarea rows="10" cols="6" name="jobDescription" id="transliterateTextarea" > </textarea></td> 
 </tr>
 
 

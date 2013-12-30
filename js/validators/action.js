@@ -6,7 +6,7 @@
 				
 				
 				
-				jQuery("#jobDescription").validate({
+				jQuery("#transliterateTextarea").validate({
                     expression: "if (VAL) return true; else return false;",
                     message: "Please enter the Job Description."
                 });

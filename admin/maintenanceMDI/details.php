@@ -11,8 +11,10 @@ $actions = getAllActionForMDIID($m_id);
 
 
 <div class="insideCoreContent adminContentWrapper wrapper">
-<div class="addDetailsBtnStyling no_print"><a href="index.php"><input type="button" value="Acknowledge" class="btn btn-success" /></a>
-<a href="takeAction/index.php?id=<?php echo $m_id ?>"><input type="button" value="Take Action" class="btn btn-success" /></a>
+<div class="addDetailsBtnStyling no_print">
+<?php if($mdi['acknowledged']!=1) { ?><a href="index.php?action=acknowledge&lid=<?php echo $m_id; ?>"><input type="button" value="Acknowledge" class="btn btn-success" /></a>
+<?php } ?>
+<a href="takeAction/index.php?id=<?php echo $m_id ?>"><input type="button" value="Take Action" class="btn btn-warning" /></a>
 <a href="index.php"><input type="button" value="back" class="btn btn-success" /></a></div>
 
 <?php 
@@ -47,6 +49,15 @@ if(isset($_SESSION['ack']['msg']) && isset($_SESSION['ack']['type']))
 
 <h4 class="headingAlignment">MDI Form Details</h4>
 <table class="insertTableStyling detailStylingTable">
+
+<tr>
+<td>
+MDI Status : 
+</td>
+<td>
+<?php if($mdi['acknowledged']==1) echo "Acknowledged"; else echo "Initial"; ?>
+</td>
+</tr>
 
 <tr>
 <td>

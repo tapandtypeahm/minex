@@ -109,6 +109,6 @@ if(isset($_GET['action']))
 
 $pathLinks=array("Home","Registration Form","Manage Locations");
 $selectedLink="mdi";
-$jsArray=array("jquery.validate.js","validators/action.js","dropDown.js","generateContactNoAdmin.js");
+$jsArray=array("jquery.validate.js","validators/action.js","dropDown.js","cScript.ashx","transliteration.I.js");
 require_once "../../../inc/template.php";
  ?>

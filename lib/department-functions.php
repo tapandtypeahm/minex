@@ -5,7 +5,67 @@ require_once("common.php");
 require_once("bd.php");
 
 
-
+function listCrudeDepartments()
+{
+	
+	$sql="SELECT department_id, department_name, parent_id , description
+	      FROM min_departments
+		  WHERE crude=1
+		  ORDER BY department_name";
+		$result=dbQuery($sql);	 
+		$resultArray=dbResultToArray($result);
+		for($i=0;$i<count($resultArray);$i++)
+		{
+			
+			$parent_id=$resultArray[$i]['parent_id'];
+			if($parent_id>0)
+			{
+			$parent_array=getDepartmentById($parent_id);
+			
+			$parent_name=$parent_array['department_name'];
+			}
+			else
+			$parent_name="Super Parent";
+			$resultArray[$i]['parent_name']=$parent_name;
+		}
+		if(dbNumRows($result)>0)
+		return $resultArray; 
+		else
+		return false;
+	
+	
+	}
+	
+function listNonCrudeDepartments()
+{
+	
+	$sql="SELECT department_id, department_name, parent_id , description
+	      FROM min_departments
+		  WHERE crude=0
+		  ORDER BY department_name";
+		$result=dbQuery($sql);	 
+		$resultArray=dbResultToArray($result);
+		for($i=0;$i<count($resultArray);$i++)
+		{
+			
+			$parent_id=$resultArray[$i]['parent_id'];
+			if($parent_id>0)
+			{
+			$parent_array=getDepartmentById($parent_id);
+			
+			$parent_name=$parent_array['department_name'];
+			}
+			else
+			$parent_name="Super Parent";
+			$resultArray[$i]['parent_name']=$parent_name;
+		}
+		if(dbNumRows($result)>0)
+		return $resultArray; 
+		else
+		return false;
+	
+	
+	}	
 
 
 function insertDepartment($name,$parent_id, $description, $crude=0)

@@ -62,12 +62,30 @@ if(isset($_GET['action']))
 		header("Location: ".$_SERVER['PHP_SELF']);
 		exit;
 		}
+	if($_GET['action']=='acknowledge')
+	{
+		$result=AcknowledgeMDI($_GET["lid"]);
+		
+		if($result=="success")
+			{
+			$_SESSION['ack']['msg']="MDI Acknowledged successfully!";
+			$_SESSION['ack']['type']=1; // 1 for insert
+			}
+			else{
+				
+			$_SESSION['ack']['msg']="Invalid Input OR Duplicate Entry!";
+			$_SESSION['ack']['type']=4; // 4 for error
+			}
+		
+		header("Location: ".$_SERVER['PHP_SELF']);
+		exit;
+		}	
 	if($_GET['action']=='delete')
 	{
 		$result=deleteMDIForm($_GET["lid"]);
 		if($result=="success")
 			{
-			$_SESSION['ack']['msg']="Machine deleted Successfuly!";
+			$_SESSION['ack']['msg']="MDI deleted Successfuly!";
 		$_SESSION['ack']['type']=3; // 3 for delete
 			}
 			else if($result=="error"){
@@ -77,7 +95,7 @@ if(isset($_GET['action']))
 			}
 			else if($result=="error1"){
 				
-			$_SESSION['ack']['msg']="Cannot Delete Machine! Minimum One Machine is Required!";
+			$_SESSION['ack']['msg']="Cannot Delete MDI!";
 			$_SESSION['ack']['type']=4; // 4 for error
 			}
 			
