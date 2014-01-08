@@ -198,7 +198,7 @@ function updateMDIForm($mdi_id, $mdi_condition, $fault_explanation, $fault_id, $
 		}
 	}
 
-<<<<<<< HEAD
+
 function getMDIStatus($mdi_id)
 {
 	if(checkForNumeric($mdi_id))
@@ -219,7 +219,3 @@ function getMDIStatus($mdi_id)
 	
 
 ?>
-
-=======
-?>
->>>>>>> 2540719dd52e497ea79d4c693587664ccd80c775
