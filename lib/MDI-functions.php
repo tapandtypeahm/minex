@@ -31,7 +31,6 @@ function insertMDI($condition, $fault_explanation, $fault_id, $machine_id)
 	else
 	return "error";
 	}
-	
 	catch(Exception $e)
 	{
 		return "Error";
@@ -58,7 +57,7 @@ function AcknowledgeMDI($mdi_id)
 		}
 	return "error";	
 	
-	}
+}
 
 function listMDIForm()
 {
@@ -172,8 +171,4 @@ function updateMDIForm($mdi_id, $mdi_condition, $fault_explanation, $fault_id, $
 		}
 	}
 
-
-	
-
 ?>
-

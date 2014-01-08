@@ -7,6 +7,12 @@ if(!isset($_GET['lid']))
 $m_id=$_GET['lid'];
 $mdi=getMDIFormDetailsFromMDIId($m_id);
 $actions = getAllActionForMDIID($m_id);
+$statusUpdate=listNotifyGeneratorFromMDIId($m_id);
+
+
+
+
+
 ?>
 
 
@@ -15,6 +21,7 @@ $actions = getAllActionForMDIID($m_id);
 <?php if($mdi['acknowledged']!=1) { ?><a href="index.php?action=acknowledge&lid=<?php echo $m_id; ?>"><input type="button" value="Acknowledge" class="btn btn-success" /></a>
 <?php } ?>
 <a href="takeAction/index.php?id=<?php echo $m_id ?>"><input type="button" value="Take Action" class="btn btn-warning" /></a>
+<a href="notifyGenerator/index.php?id=<?php echo $m_id ?>"><input type="button" value="Update MDI Status" class="btn btn-warning" /></a>
 <a href="index.php"><input type="button" value="back" class="btn btn-success" /></a></div>
 
 <?php 
@@ -47,7 +54,7 @@ if(isset($_SESSION['ack']['msg']) && isset($_SESSION['ack']['type']))
 
 <div class="detailStyling">
 
-<h4 class="headingAlignment">MDI Form Details</h4>
+<h4 class="headingAlignment">MDI Form Details [ Reporting Dept.]</h4>
 <table class="insertTableStyling detailStylingTable">
 
 <tr>
@@ -101,7 +108,21 @@ Machine Condition :
 
 <tr>
 <td> Fault Description: </td>
-<td> <?php echo $mdi['fault_explanation']; ?></td> 
+<td> 
+<?php
+
+
+ $explanation =$mdi['fault_explanation']; 
+ if(!validateForNull($explanation))
+ {
+	echo "No Explanation Available!"; 
+ }
+ else
+ echo $explanation;
+ 
+ ?>
+ 
+ </td>  
 </tr>
 
 <tr>
@@ -109,19 +130,89 @@ Machine Condition :
 <td> <?php echo $mdi['admin_name']; ?></td> 
 </tr>
 
-<tr>
-<td> Last Modified By : </td>
-<td> <?php echo $mdi['admin_name']; ?></td> 
-</tr>
+
 
 <tr>
 <td> Date Added: </td>
 <td> <?php echo date("d/m/Y H:i:s",strtotime($mdi['date_added'])); ?></td> 
 </tr>
 
-<tr>
+<!--<tr>
 <td> Date Modified : </td>
 <td> <?php echo date("d/m/Y H:i:s", strtotime($mdi['date_modified'])); ?></td> 
+</tr>-->
+
+</table>
+
+<?php
+
+if(validateForNull($statusUpdate))
+{
+
+?>
+<h4 class="headingAlignment"> MDI Status Update [ Maintenance Dept.]</h4>
+<table class="insertTableStyling detailStylingTable">
+
+<tr>
+<td> Machine Down Mode : </td>
+<td> 
+      <?php 
+       if($statusUpdate['machine_down_mode'] == 0)
+	   {
+		 echo "breakdown";  
+	   }
+	   else
+	   {
+		  echo "preventive"; 
+	   }
+	   ?>
+</td> 
+</tr>
+
+<tr>
+<td> Job starting Time : </td>
+<td> <?php echo date("d/m/Y H:i:s", strtotime($statusUpdate['job_started'])); ?></td> 
+</tr>
+
+<tr>
+<td> Job Assigned To : </td>
+<td> <?php echo $statusUpdate['assigned_to']; ?></td> 
+</tr>
+
+<tr>
+<td> Job Ending Time: </td>
+<td> 
+<?php 
+if (strtotime($statusUpdate['job_ended']) <= 0)
+{
+	echo "Yet to be added!";
+ 
+}
+else
+{
+	
+	echo date("d/m/Y H:i:s", strtotime($statusUpdate['job_ended']));
+}
+?>
+
+</td> 
+</tr>
+
+<tr>
+<td> Actual Work Done : </td>
+<td> 
+<?php 
+if(validateForNull($statusUpdate['work_done']) && $statusUpdate['work_done']!="")
+{
+echo $statusUpdate['work_done']; 
+}
+else
+{
+	echo "Yet to be added!";
+}
+
+?>
+</td> 
 </tr>
 
 
@@ -137,6 +228,10 @@ Machine Condition :
 </td>
 </tr>
 </table>
+
+<?php
+}
+?>
 
 </div>
 

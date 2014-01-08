@@ -2,11 +2,12 @@
 require_once "../../lib/cg.php";
 require_once "../../lib/common.php";
 require_once "../../lib/bd.php";
-require_once "../../lib/MDI-functions.php";
+require_once "../../lib/mdi-functions.php";
 require_once "../../lib/machine-functions.php";
 require_once "../../lib/fault-functions.php";
 require_once "../../lib/adminuser-functions.php";
 require_once "../../lib/takeAction-functions.php";
+require_once "../../lib/notifyGenerator-functions.php";
 
 if(isset($_SESSION['minexAdminSession']['admin_rights']))
 $admin_rights=$_SESSION['minexAdminSession']['admin_rights'];
