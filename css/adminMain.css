@@ -613,6 +613,14 @@ body .insertTableStyling span.fileError{
 {
 	background:#F2DEDE;
 	}
+.warningRow
+{
+	background:#FCF8E3;
+	}	
+.blueRow
+{
+	background-color: #D9EDF7;
+	}		
 .shantiRow{
 	background:#DFF0D8;
 	}	

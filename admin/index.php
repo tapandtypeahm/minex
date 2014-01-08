@@ -11,8 +11,12 @@ require_once("../inc/header.php");
    <div class="notificationCenter">
        Notification Center
    </div>
+   <?php    $departments_without_maintenance=listCrudeDepartmentsIDs();
    
+     if(in_array($_SESSION['minexAdminSession']['department_id'],$departments_without_maintenance)) { 
 
+    require_once("indexes/worker.php");
+	 } ?>      
  </div>
  </div>
  <div class="clearfix"></div>

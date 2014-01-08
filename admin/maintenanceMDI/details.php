@@ -55,7 +55,7 @@ if(isset($_SESSION['ack']['msg']) && isset($_SESSION['ack']['type']))
 MDI Status : 
 </td>
 <td>
-<?php if($mdi['acknowledged']==1) echo "Acknowledged"; else echo "Initial"; ?>
+<?php echo getMDIStatus($m_id); ?>
 </td>
 </tr>
 

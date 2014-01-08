@@ -34,7 +34,6 @@ if(isset($_SESSION['ack']['msg']) && isset($_SESSION['ack']['type']))
 Problematic Machine <span class="requiredField">* </span> : 
 </td>
 <td>
-
 <select type="text" name="machine_id" id="machine_id">
 	<option value="-1">-- Please Select --</option>
     <?php 

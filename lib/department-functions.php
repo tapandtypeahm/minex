@@ -36,6 +36,31 @@ function listCrudeDepartments()
 	
 	}
 	
+function listCrudeDepartmentsIDs()
+{
+	
+	$sql="SELECT department_id
+	      FROM min_departments
+		  WHERE crude=1
+		  ORDER BY department_name";
+		$result=dbQuery($sql);	 
+		$resultArray=dbResultToArray($result);
+		$return_array=array();
+		if(dbNumRows($result)>0)
+		{
+		foreach($resultArray as $re)
+		{
+			$return_array[]=$re[0];
+			}	
+		return $return_array; 
+		}
+		else
+		return false;
+	
+	
+	return false;
+}		
+	
 function listNonCrudeDepartments()
 {
 	
@@ -66,6 +91,82 @@ function listNonCrudeDepartments()
 	
 	
 	}	
+
+function listNonCrudeWithoutMaintenanceDepartments()
+{
+	$maintenance_id=getMaintenanceDepartmentId();
+	if($maintenance_id!=false && is_numeric($maintenance_id))
+	{
+	$sql="SELECT department_id, department_name, parent_id , description
+	      FROM min_departments
+		  WHERE crude=0 AND department_id!=$maintenance_id
+		  ORDER BY department_name";
+		$result=dbQuery($sql);	 
+		$resultArray=dbResultToArray($result);
+		
+		for($i=0;$i<count($resultArray);$i++)
+		{
+			
+			$parent_id=$resultArray[$i]['parent_id'];
+			if($parent_id>0)
+			{
+			$parent_array=getDepartmentById($parent_id);
+			
+			$parent_name=$parent_array['department_name'];
+			}
+			else
+			$parent_name="Super Parent";
+			$resultArray[$i]['parent_name']=$parent_name;
+		}
+		if(dbNumRows($result)>0)
+		return $resultArray; 
+		else
+		return false;
+	
+	}
+	return false;
+}		
+
+function listNonCrudeWithoutMaintenanceDepartmentsIDs()
+{
+	$maintenance_id=getMaintenanceDepartmentId();
+	if($maintenance_id!=false && is_numeric($maintenance_id))
+	{
+	$sql="SELECT department_id
+	      FROM min_departments
+		  WHERE crude=0 AND department_id!=$maintenance_id
+		  ORDER BY department_name";
+		$result=dbQuery($sql);	 
+		$resultArray=dbResultToArray($result);
+		$return_array=array();
+		if(dbNumRows($result)>0)
+		{
+		foreach($resultArray as $re)
+		{
+			$return_array[]=$re[0];
+			}	
+		return $return_array; 
+		}
+		else
+		return false;
+	
+	}
+	return false;
+}		
+
+
+function getMaintenanceDepartmentId()
+{
+	$sql="SELECT department_id, department_name, parent_id , description
+	      FROM min_departments
+		  WHERE department_name= 'Maintenance'";
+		$result=dbQuery($sql);	 
+		$resultArray=dbResultToArray($result);
+	if(dbNumRows($result)>0)
+	return $resultArray[0][0];
+	else
+	return false;
+	}
 
 
 function insertDepartment($name,$parent_id, $description, $crude=0)

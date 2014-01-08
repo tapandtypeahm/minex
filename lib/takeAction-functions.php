@@ -4,9 +4,6 @@ require_once("common.php");
 require_once("department-functions.php");
 require_once("bd.php");
 
-
-
-
 function insertAction($name, $description, $department_id, $mdi_id)
 {
 	
@@ -44,9 +41,6 @@ function insertAction($name, $description, $department_id, $mdi_id)
 	
 	
 }
-
-
-
 
 function deleteAction($id)
 {
@@ -162,6 +156,29 @@ function getAllActionForMDIID($mdi_id)
 	
 }
 
+function getTotalActionsForMDIID($mdi_id)
+{
+	if(checkForNumeric($mdi_id))
+	{
+		$sql="SELECT action_id FROM min_take_action
+		      WHERE mdi_id=$mdi_id";
+		$result=dbQuery($sql);
+		$resultArray=dbResultToArray($result);
+		if(dbNumRows($result)>0)
+		return dbNumRows($result);
+		else
+		return 0;
+		
+		}
+	
+	}
+function getUnAcknowledgedActionForCrudeDepartment($id)
+{
+	if(checkForNumeric($id))
+	{
+		
+		}
+	}
 	
 
 ?>

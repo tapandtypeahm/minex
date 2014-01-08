@@ -29,7 +29,7 @@
 		foreach($forms as $form)
 		{
 		 ?>
-         <tr class="resultRow">
+         <tr class="resultRow <?php  if(getMDIStatus($form['mdi_id'])=="NEW") echo "dangerRow"; else if(getMDIStatus($form['mdi_id'])=="IN PROGRESS") echo "blueRow"; else if(getMDIStatus($form['mdi_id'])=="ACKNOWLEDGED") echo "warningRow"; else if(getMDIStatus($form['mdi_id'])=="COMPLETED") echo "shantiRow"  ?>">
         	<td><?php echo ++$no; ?>
             </td>
             <td><?php echo  date('d/m/Y H:i:s', strtotime($form['date_added'])); ?>

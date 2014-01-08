@@ -10,16 +10,16 @@
 	
     <script type="text/javascript" src="<?php echo WEB_ROOT; ?>js/jquery.js"></script>
     <script type="text/javascript" src="<?php echo WEB_ROOT; ?>js/jquery.tables.min.js"></script>
-   
-      <script type="text/javascript" src="<?php echo WEB_ROOT; ?>js/ZeroClipboard.js"></script>
-        <script type="text/javascript" src="<?php echo WEB_ROOT; ?>js/TableTools.js"></script>
+    <script type="text/javascript" src="<?php echo WEB_ROOT; ?>js/ZeroClipboard.js"></script>
+    <script type="text/javascript" src="<?php echo WEB_ROOT; ?>js/TableTools.js"></script>
 	<script type="text/javascript" src="<?php echo WEB_ROOT; ?>js/bp.min.js"></script>
     <script type="text/javascript" src="<?php echo WEB_ROOT; ?>js/table.js"></script>
-     <script type="text/javascript" src="<?php echo WEB_ROOT; ?>js/common.js"></script>
-      <script type="text/javascript" src="<?php echo WEB_ROOT; ?>js/confirmDeletion.js"></script>
-       
-       <script type="text/javascript" src="<?php echo WEB_ROOT; ?>js/accountsCommon.js"></script>
-       <?php if(isset($accounts) && $accounts==1)
+    <script type="text/javascript" src="<?php echo WEB_ROOT; ?>js/common.js"></script>
+    <script type="text/javascript" src="<?php echo WEB_ROOT; ?>js/confirmDeletion.js"></script>
+    <script type="text/javascript" src="<?php echo WEB_ROOT; ?>js/accountsCommon.js"></script>
+
+    
+    <?php if(isset($accounts) && $accounts==1)
 { 
 $period=getPeriodForUser($_SESSION['minexAdminSession']['admin_id']);
 if($period=="error" || strtotime($period[0])==strtotime("1970-01-01") || strtotime($period[1])==strtotime("1970-01-01"))

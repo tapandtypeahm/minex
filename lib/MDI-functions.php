@@ -4,7 +4,34 @@ require_once("common.php");
 require_once("department-functions.php");
 require_once("bd.php");
 require_once("smsAndEmail-functions.php");
+require_once("takeAction-functions.php");
 
+function getMDIIdentifier()
+{
+	$sql="SELECT identifier_id FROM min_settings";
+	$result=dbQuery($sql);
+	$resultArray=dbResultToArray($result);
+	if(dbNumRows($result)>0)
+	{
+	$today=date('dmY');	
+	return $today.$resultArray[0][0];
+	}
+	}
+	
+function incrementMDIIdentifier()
+{
+	$sql="SELECT settings_id,identifier_id FROM min_settings";
+	$result=dbQuery($sql);
+	$resultArray=dbResultToArray($result);
+	if(dbNumRows($result)>0)
+	{
+		$setting_id=$resultArray[0][0];
+		$identifier=++$resultArray[0][1];
+		
+		$sql="UPDATE min_settings SET identifier_id=$identifier WHERE settings_id=$setting_id";
+		dbQuery($sql);
+	}
+}	
 
 function insertMDI($condition, $fault_explanation, $fault_id, $machine_id)
 {
@@ -16,13 +43,13 @@ function insertMDI($condition, $fault_explanation, $fault_id, $machine_id)
 	{
 	$fault_explanation=clean_data($fault_explanation);
 		
-
+	$mdi_identifier=getMDIIdentifier();
 	$admin_id=$_SESSION['minexAdminSession']['admin_id'];
 	$ip_address=$_SERVER['REMOTE_ADDR'];	
-	$sql = "insert into min_MDI_form (mdi_condition, fault_explanation, fault_id, machine_id, created_by, last_updated_by, date_added, date_modified, ip_created, ip_modified, is_deleted) VALUES ('$condition', '$fault_explanation' , '$fault_id', $machine_id, $admin_id, $admin_id, NOW(), NOW() , '$ip_address' , '$ip_address', 0) ";
+	$sql = "insert into min_MDI_form (mdi_condition, fault_explanation, fault_id, machine_id, created_by, last_updated_by, date_added, date_modified, ip_created, ip_modified, is_deleted, mdi_identifier) VALUES ('$condition', '$fault_explanation' , '$fault_id', $machine_id, $admin_id, $admin_id, NOW(), NOW() , '$ip_address' , '$ip_address', 0, '$mdi_identifier') ";
 	
 	$result=dbQuery($sql);	
-	
+	incrementMDIIdentifier();
 	sendAnEmail();
 	sendanSMS();  
 	
@@ -172,7 +199,23 @@ function updateMDIForm($mdi_id, $mdi_condition, $fault_explanation, $fault_id, $
 		}
 	}
 
-
+function getMDIStatus($mdi_id)
+{
+	if(checkForNumeric($mdi_id))
+	{
+			$mdi=getMDIFormDetailsFromMDIId($mdi_id);
+			$mdi_acknowledged=$mdi['acknowledged'];
+			if($mdi_acknowledged==0)
+			return "NEW";
+			else
+			{
+				if(getTotalActionsForMDIID($mdi_id)>0)
+				return "IN PROGRESS";
+				else
+				return "ACKNOWLEDGED";
+				}
+		}
+}
 	
 
 ?>
