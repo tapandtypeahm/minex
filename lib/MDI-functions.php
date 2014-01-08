@@ -58,7 +58,6 @@ function insertMDI($condition, $fault_explanation, $fault_id, $machine_id)
 	else
 	return "error";
 	}
-	
 	catch(Exception $e)
 	{
 		return "Error";
@@ -85,7 +84,7 @@ function AcknowledgeMDI($mdi_id)
 		}
 	return "error";	
 	
-	}
+}
 
 function listMDIForm()
 {
@@ -199,6 +198,7 @@ function updateMDIForm($mdi_id, $mdi_condition, $fault_explanation, $fault_id, $
 		}
 	}
 
+<<<<<<< HEAD
 function getMDIStatus($mdi_id)
 {
 	if(checkForNumeric($mdi_id))
@@ -220,3 +220,6 @@ function getMDIStatus($mdi_id)
 
 ?>
 
+=======
+?>
+>>>>>>> 2540719dd52e497ea79d4c693587664ccd80c775

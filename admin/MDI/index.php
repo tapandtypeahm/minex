@@ -2,7 +2,7 @@
 require_once "../../lib/cg.php";
 require_once "../../lib/common.php";
 require_once "../../lib/bd.php";
-require_once "../../lib/MDI-functions.php";
+require_once "../../lib/mdi-functions.php";
 require_once "../../lib/machine-functions.php";
 require_once "../../lib/fault-functions.php";
 
