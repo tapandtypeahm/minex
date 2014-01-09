@@ -18,7 +18,7 @@ function insertNotifyGenerator($down_mode, $assigned_to, $job_started, $mdi_comp
 	if(!validateForNull($job_ended))	
 	{
 		$job_ended="1970-01-01 00:00:00";
-		}
+	}
 	if(checkForNumeric($mdi_id, $down_mode) && validateForNull($assigned_to, $job_started,$job_ended))
 	{
 	

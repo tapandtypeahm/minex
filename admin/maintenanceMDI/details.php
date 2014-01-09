@@ -8,7 +8,7 @@ $m_id=$_GET['lid'];
 $mdi=getMDIFormDetailsFromMDIId($m_id);
 $actions = getAllActionForMDIID($m_id);
 $statusUpdate=listNotifyGeneratorFromMDIId($m_id);
-
+$lockDetails = listLockFromMDIId($m_id);
 
 
 
@@ -22,6 +22,8 @@ $statusUpdate=listNotifyGeneratorFromMDIId($m_id);
 <?php } ?>
 <a href="takeAction/index.php?id=<?php echo $m_id ?>"><input type="button" value="Take Action" class="btn btn-warning" /></a>
 <a href="notifyGenerator/index.php?id=<?php echo $m_id ?>"><input type="button" value="Update MDI Status" class="btn btn-warning" /></a>
+<a href="lock/index.php?id=<?php echo $m_id ?>"><input type="button" value="Apply Lock on Machine" class="btn btn-warning" /></a>
+
 <a href="index.php"><input type="button" value="back" class="btn btn-success" /></a></div>
 
 <?php 
@@ -232,6 +234,63 @@ else
 <?php
 }
 ?>
+
+<!-- Lock Display details -->
+
+<?php
+
+if(validateForNull($lockDetails))
+{
+
+?>
+<h4 class="headingAlignment"> Machine Lock Details </h4>
+<table class="insertTableStyling detailStylingTable">
+
+
+
+<tr>
+<td>   Lock Applied Date/Time : </td>
+<td> <?php echo date("d/m/Y H:i:s", strtotime($lockDetails['lock_applied'])); ?></td> 
+</tr>
+
+<tr>
+<td> Lock Applied By : </td>
+<td> <?php echo $lockDetails['lock_by']; ?></td> 
+</tr>
+
+<tr>
+<td> Lock Removing Date/Time: </td>
+<td> 
+<?php 
+if (strtotime($lockDetails['lock_removed']) <= 0)
+{
+	echo "Yet to be added!";
+ 
+}
+else
+{
+	
+	echo date("d/m/Y H:i:s", strtotime($lockDetails['lock_removed']));
+}
+?>
+
+</td> 
+</tr>
+
+<tr class="no_print">
+<td></td>
+<td>
+
+
+</td>
+</tr>
+</table>
+
+<?php
+}
+?>
+
+<!-- LOCK END -->
 
 </div>
 
