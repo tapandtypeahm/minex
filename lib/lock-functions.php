@@ -10,18 +10,25 @@ function insertLock($name, $applied, $removed, $mdi_id)
 	
 	try
 	{
+		if(!validateForNull($removed))	
+	{
+		$removed="1970-01-01 00:00:00";
+	}
 		
 	if(checkForNumeric($mdi_id) && validateForNull($name, $applied, $removed))
 	{
+		
+	$applied=str_replace("/","-",$applied);
+	$applied=date('Y-m-d H:i:s',strtotime($applied));
+	
+	$lock_removed=str_replace("/","-",$removed);
+	$removed=date('Y-m-d H:i:s',strtotime($removed));
+	
 	$name=clean_data($name);
 	$applied=clean_data($applied);
 	$removed=clean_data($removed);
 		
-
-	$admin_id=$_SESSION['minexAdminSession']['admin_id'];
-	$ip_address=$_SERVER['REMOTE_ADDR'];
-		
-	$sql = "insert into min_lock (lock_by, lock_applied, lock_removed, mdi_id, created_by, last_updated_by, date_added, date_modified, ip_created, ip_modified) VALUES ('$name', '$applied' , '$removed', $mdi_id, $admin_id, $admin_id, NOW(), NOW() , '$ip_address' , '$ip_address') ";
+	$sql = "insert into min_lock (lock_by, lock_applied, lock_removed, mdi_id) VALUES ('$name', '$applied' , '$removed', $mdi_id) ";
 	
 	$result=dbQuery($sql);	
 	
@@ -57,6 +64,24 @@ function listLocks()
 	
 }
 
+function listLockFromMDIId($m_id)
+{
+		
+	
+	$sql="SELECT lock_id, lock_by, lock_applied, lock_removed
+	      FROM min_lock
+		  WHERE mdi_id=$m_id";
+		$result=dbQuery($sql);	 
+		$resultArray=dbResultToArray($result);
+		if(dbNumRows($result)>0)
+		return $resultArray[0]; 
+		else
+		return false;
+	
+}
+
+
+
 function deleteLock($id)
 {
 	try{
@@ -77,6 +102,39 @@ function deleteLock($id)
 	{}
 	
 }
+
+
+function updateLock($lock_id, $lock_by, $lock_applied, $lock_removed, $mdi_id)
+{
+	
+			$lock_applied=str_replace("/","-",$lock_applied);
+			$lock_applied=date('Y-m-d H:i:s',strtotime($lock_applied));
+	
+			$lock_removed=str_replace("/","-", $lock_removed);
+			$lock_removed=date('Y-m-d H:i:s',strtotime($lock_removed));
+			 
+			
+			
+	
+			
+			if(validateForNull($lock_by) && checkForNumeric($lock_id, $mdi_id) && $mdi_id>0)
+			{
+			
+				
+		$sql = "UPDATE min_lock
+					SET lock_by = $lock_by, lock_applied = '$lock_applied', lock_removed = '$lock_removed', mdi_id='$mdi_id'
+					WHERE lock_id=$lock_id";
+			$result = dbQuery($sql); 
+			
+			return "success";
+			
+		}
+		else
+		{
+			return "error";	
+		}
+	}
+
 
 
 ?>

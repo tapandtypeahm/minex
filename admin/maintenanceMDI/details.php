@@ -9,6 +9,7 @@ $mdi=getMDIFormDetailsFromMDIId($m_id);
 $actions = getAllActionForMDIID($m_id);
 $statusUpdate=listNotifyGeneratorFromMDIId($m_id);
 $mdi_status=getMDIStatus($m_id);
+$lockDetails = listLockFromMDIId($m_id);
 ?>
 <div class="insideCoreContent adminContentWrapper wrapper">
 <div class="addDetailsBtnStyling no_print">
@@ -18,7 +19,12 @@ $mdi_status=getMDIStatus($m_id);
 <?php } ?>
 <?php if($mdi_status!='COMPLETED') { ?>
 <a href="notifyGenerator/index.php?id=<?php echo $m_id ?>"><input type="button" value="Update MDI Status" class="btn btn-warning" /></a>
+<<<<<<< HEAD
 <?php } ?>
+=======
+<a href="lock/index.php?id=<?php echo $m_id ?>"><input type="button" value="Apply Lock on Machine" class="btn btn-warning" /></a>
+
+>>>>>>> 974fbd601bb4f130707962e253721b7b89b218d1
 <a href="index.php"><input type="button" value="back" class="btn btn-success" /></a></div>
 <?php 
 if(isset($_SESSION['ack']['msg']) && isset($_SESSION['ack']['type']))
@@ -227,6 +233,63 @@ else
 <?php
 }
 ?>
+
+<!-- Lock Display details -->
+
+<?php
+
+if(validateForNull($lockDetails))
+{
+
+?>
+<h4 class="headingAlignment"> Machine Lock Details </h4>
+<table class="insertTableStyling detailStylingTable">
+
+
+
+<tr>
+<td>   Lock Applied Date/Time : </td>
+<td> <?php echo date("d/m/Y H:i:s", strtotime($lockDetails['lock_applied'])); ?></td> 
+</tr>
+
+<tr>
+<td> Lock Applied By : </td>
+<td> <?php echo $lockDetails['lock_by']; ?></td> 
+</tr>
+
+<tr>
+<td> Lock Removing Date/Time: </td>
+<td> 
+<?php 
+if (strtotime($lockDetails['lock_removed']) <= 0)
+{
+	echo "Yet to be added!";
+ 
+}
+else
+{
+	
+	echo date("d/m/Y H:i:s", strtotime($lockDetails['lock_removed']));
+}
+?>
+
+</td> 
+</tr>
+
+<tr class="no_print">
+<td></td>
+<td>
+
+
+</td>
+</tr>
+</table>
+
+<?php
+}
+?>
+
+<!-- LOCK END -->
 
 </div>
 
