@@ -8,24 +8,19 @@ $m_id=$_GET['lid'];
 $mdi=getMDIFormDetailsFromMDIId($m_id);
 $actions = getAllActionForMDIID($m_id);
 $statusUpdate=listNotifyGeneratorFromMDIId($m_id);
-
-
-
-
-
+$mdi_status=getMDIStatus($m_id);
 ?>
-
-
 <div class="insideCoreContent adminContentWrapper wrapper">
 <div class="addDetailsBtnStyling no_print">
 <?php if($mdi['acknowledged']!=1) { ?><a href="index.php?action=acknowledge&lid=<?php echo $m_id; ?>"><input type="button" value="Acknowledge" class="btn btn-success" /></a>
 <?php } ?>
-<a href="takeAction/index.php?id=<?php echo $m_id ?>"><input type="button" value="Take Action" class="btn btn-warning" /></a>
+<?php if($mdi_status!='COMPLETED' && $mdi_status!='FINAL APPROVAL REJECTED' && $mdi_status!='WAITING FOR APPROVAL') { ?><a href="takeAction/index.php?id=<?php echo $m_id ?>"><input type="button" value="Take Action" class="btn btn-warning" /></a>
+<?php } ?>
+<?php if($mdi_status!='COMPLETED') { ?>
 <a href="notifyGenerator/index.php?id=<?php echo $m_id ?>"><input type="button" value="Update MDI Status" class="btn btn-warning" /></a>
+<?php } ?>
 <a href="index.php"><input type="button" value="back" class="btn btn-success" /></a></div>
-
 <?php 
-
 if(isset($_SESSION['ack']['msg']) && isset($_SESSION['ack']['type']))
 {
 	

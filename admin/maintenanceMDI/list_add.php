@@ -7,12 +7,13 @@
     <thead>
     	<tr>
         	<th class="heading">No</th>
-            <th class="heading">Date/Time</th>
+            <th class="heading">ID</th>
+            <th class="heading">Status</th>
+            <th class="heading datetime">Date/Time</th>
             <th class="heading">Machine Name</th>
             <th class="heading">Machine Code</th>
             <th class="heading">Machine Condition</th>
-            <th class="heading">Type of Fault</th>
-            <th class="heading">Fault Explanation</th>
+            <th class="heading">Fault Type</th>
             <th class="heading">From Department</th>
             <th class="heading">Created By</th>
             <th class="heading no_print btnCol"></th>
@@ -29,8 +30,12 @@
 		foreach($forms as $form)
 		{
 		 ?>
-         <tr class="resultRow <?php  if(getMDIStatus($form['mdi_id'])=="NEW") echo "dangerRow"; else if(getMDIStatus($form['mdi_id'])=="IN PROGRESS") echo "blueRow"; else if(getMDIStatus($form['mdi_id'])=="ACKNOWLEDGED") echo "warningRow"; else if(getMDIStatus($form['mdi_id'])=="COMPLETED") echo "shantiRow"  ?>">
+         <tr class="resultRow <?php  if(getMDIStatus($form['mdi_id'])=="NEW") echo "dangerRow"; else if(getMDIStatus($form['mdi_id'])=="IN PROGRESS") echo "blueRow"; else if(getMDIStatus($form['mdi_id'])=="ACKNOWLEDGED" || getMDIStatus($form['mdi_id'])=="WAITING FOR APPROVAL" || getMDIStatus($form['mdi_id'])=="FINAL APPROVAL REJECTED") echo "warningRow"; else if(getMDIStatus($form['mdi_id'])=="COMPLETED") echo "shantiRow"  ?>">
         	<td><?php echo ++$no; ?>
+            </td>
+            <td><?php echo $form['mdi_identifier']; ?>
+            </td>
+            <td><?php echo getMDIStatus($form['mdi_id']); ?>
             </td>
             <td><?php echo  date('d/m/Y H:i:s', strtotime($form['date_added'])); ?>
             </td>
@@ -54,21 +59,6 @@
 			 ?>
             </td>
             <td><?php echo $form['fault_name']; ?>
-            </td>
-            
-            <td>
-			<?php
-
-
-			 $explanation =$form['fault_explanation']; 
-			 if(!validateForNull($explanation))
-			 {
-				echo "No Explanation Available!"; 
-			 }
-			 else
-			 echo $explanation;
-			
-			?>
             </td>
             
             <td><?php echo getMachineDepartmentFromMachineId($form['machine_id']) ?> </td>

@@ -76,7 +76,7 @@ function AcknowledgeMDI($mdi_id)
 			
 			$sql = "UPDATE min_MDI_form 
 					SET acknowledged = 1, date_modified = NOW(), last_updated_by = $admin_id, ip_modified = '$ip_address' 
-					WHERE mdi_id=$mdi_id";
+					WHERE mdi_id=$mdi_id AND acknowledged!=1";
 			$result = dbQuery($sql); 
 			
 			return "success";
@@ -90,7 +90,7 @@ function listMDIForm()
 {
 		
 	
-	$sql="SELECT mdi_id, mdi_condition, fault_explanation, fault_name, min_MDI_form.machine_id, acknowledged,  machine_name, machine_code, min_MDI_form.created_by, min_MDI_form.date_added
+	$sql="SELECT mdi_id, mdi_condition, fault_explanation, fault_name, min_MDI_form.machine_id, acknowledged,  machine_name, machine_code, min_MDI_form.created_by, min_MDI_form.date_added, mdi_identifier
 	      FROM min_MDI_form, min_type_of_fault, min_machines
 		  WHERE min_MDI_form.fault_id = min_type_of_fault.fault_id AND min_MDI_form.machine_id = min_machines.machine_id AND   is_deleted=0 ORDER BY min_MDI_form.date_added DESC";
 		$result=dbQuery($sql);	 
@@ -199,23 +199,120 @@ function updateMDIForm($mdi_id, $mdi_condition, $fault_explanation, $fault_id, $
 	}
 
 
+
 function getMDIStatus($mdi_id)
 {
 	if(checkForNumeric($mdi_id))
 	{
+		if(isMDICompletedWithApproval($mdi_id))
+		return "COMPLETED";
+			
+		if(isMDIWaitingForApprovalRejected($mdi_id))
+		return "FINAL APPROVAL REJECTED";	
+		
+		if(isMDIWaitingForApproval($mdi_id))
+		return "WAITING FOR APPROVAL";
+		
+		if(getTotalActionsForMDIID($mdi_id)>0)
+		return "IN PROGRESS";
+					
 			$mdi=getMDIFormDetailsFromMDIId($mdi_id);
 			$mdi_acknowledged=$mdi['acknowledged'];
 			if($mdi_acknowledged==0)
 			return "NEW";
 			else
 			{
-				if(getTotalActionsForMDIID($mdi_id)>0)
-				return "IN PROGRESS";
-				else
 				return "ACKNOWLEDGED";
-				}
+			}
 		}
 }
 	
+function isMDIWaitingForApproval($mdi_id)
+{
+	if(checkForNumeric($mdi_id))
+	{
+		if(isMDICompleted($mdi_id))
+		{
+		$sql="SELECT mdi_completed_approval FROM min_notify_generator WHERE mdi_id=$mdi_id";
+		$result=dbQuery($sql);
+		$resultArray=dbResultToArray($result);
+		if(dbNumRows($result)>0)
+		{
+			$mdi_completed=$resultArray[0][0];
+			if($mdi_completed==0)
+			{
+				return true;
+				}	
+		}
+		}
+		return false;
+	}
+	return false;
+}	
 
+function isMDIWaitingForApprovalRejected($mdi_id)
+{
+	if(checkForNumeric($mdi_id))
+	{
+		if(isMDICompleted($mdi_id))
+		{
+		$sql="SELECT mdi_completed_approval FROM min_notify_generator WHERE mdi_id=$mdi_id";
+		$result=dbQuery($sql);
+		$resultArray=dbResultToArray($result);
+		if(dbNumRows($result)>0)
+		{
+			$mdi_completed=$resultArray[0][0];
+			if($mdi_completed==2)
+			{
+				return true;
+				}	
+		}
+		}
+		return false;
+	}
+	return false;
+}	
+
+function isMDICompletedWithApproval($mdi_id)
+{
+	if(checkForNumeric($mdi_id))
+	{
+		if(isMDICompleted($mdi_id))
+		{
+		$sql="SELECT mdi_completed_approval FROM min_notify_generator WHERE mdi_id=$mdi_id";
+		$result=dbQuery($sql);
+		$resultArray=dbResultToArray($result);
+		if(dbNumRows($result)>0)
+		{
+			$mdi_completed=$resultArray[0][0];
+			if($mdi_completed==1)
+			{
+				return true;
+				}	
+		}
+		}
+		return false;
+		
+	}
+	return false;
+}	
+function isMDICompleted($mdi_id)
+{
+	if(checkForNumeric($mdi_id))
+	{
+		$sql="SELECT mdi_completed FROM min_notify_generator WHERE mdi_id=$mdi_id";
+		$result=dbQuery($sql);
+		$resultArray=dbResultToArray($result);
+		if(dbNumRows($result)>0)
+		{
+			$mdi_completed=$resultArray[0][0];
+			if($mdi_completed==1)
+			{
+				return true;
+				}	
+		}
+		return false;
+}
+	return false;
+}	
 ?>

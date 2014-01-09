@@ -3,11 +3,7 @@ require_once("cg.php");
 require_once("common.php");
 require_once("bd.php");
 require_once("lock-functions.php");
-
-
-
-
-
+require_once("mdi-functions.php");
 
 function insertNotifyGenerator($down_mode, $assigned_to, $job_started, $mdi_completed, $job_ended, $job_done, $mdi_id)
 {
@@ -42,7 +38,7 @@ function insertNotifyGenerator($down_mode, $assigned_to, $job_started, $mdi_comp
 
 	$result=dbQuery($sql);	
 	
-	 
+	 AcknowledgeMDI($mdi_id);
 	
 	return "success";
 	}
@@ -153,6 +149,5 @@ function updateNotifyGenerator($notify_id, $down_mode, $assigned_to, $job_starte
 			return "error";	
 		}
 	}
-
-
+	
 ?>

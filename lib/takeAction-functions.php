@@ -2,6 +2,7 @@
 require_once("cg.php");
 require_once("common.php");
 require_once("department-functions.php");
+require_once("mdi-functions.php");
 require_once("bd.php");
 
 function insertAction($name, $description, $department_id, $mdi_id)
@@ -27,7 +28,10 @@ function insertAction($name, $description, $department_id, $mdi_id)
 	$ip_address=$_SERVER['REMOTE_ADDR'];	
 	$sql = "insert into min_take_action (assign_name, description, department_id, mdi_id, created_by, last_updated_by, date_added, date_modified, ip_created, ip_modified) VALUES ('$name', '$description', $department_id, $mdi_id, $admin_id, $admin_id, NOW(), NOW() , '$ip_address', '$ip_address') ";
 	
-	$result=dbQuery($sql);	  
+	$result=dbQuery($sql);	 
+	
+	AcknowledgeMDI($mdi_id);
+	 
 	return "success";
 	}
 	else
