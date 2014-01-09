@@ -19,12 +19,9 @@ $lockDetails = listLockFromMDIId($m_id);
 <?php } ?>
 <?php if($mdi_status!='COMPLETED') { ?>
 <a href="notifyGenerator/index.php?id=<?php echo $m_id ?>"><input type="button" value="Update MDI Status" class="btn btn-warning" /></a>
-<<<<<<< HEAD
 <?php } ?>
-=======
 <a href="lock/index.php?id=<?php echo $m_id ?>"><input type="button" value="Apply Lock on Machine" class="btn btn-warning" /></a>
 
->>>>>>> 974fbd601bb4f130707962e253721b7b89b218d1
 <a href="index.php"><input type="button" value="back" class="btn btn-success" /></a></div>
 <?php 
 if(isset($_SESSION['ack']['msg']) && isset($_SESSION['ack']['type']))
