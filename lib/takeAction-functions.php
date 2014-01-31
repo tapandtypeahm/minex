@@ -4,6 +4,9 @@ require_once("common.php");
 require_once("department-functions.php");
 require_once("bd.php");
 
+
+
+
 function insertAction($name, $description, $department_id, $mdi_id)
 {
 	
@@ -47,7 +50,9 @@ function deleteAction($id)
 	try{
 		
 		if(checkForNumeric($id))
+		
 		{
+		
 		$sql="DELETE FROM min_take_action 
 			  WHERE action_id=$id";
 		dbQuery($sql);	  
@@ -106,6 +111,20 @@ function getActionDetailsFromActionId($a_id)
     return $resultArray[0];
 	
 }
+
+function getMdiIdFromActionId($a_id)
+{
+	$sql="SELECT  mdi_id
+	      FROM min_take_action
+		  WHERE action_id=$a_id";
+
+   $result=dbQuery($sql);
+   $resultArray=dbResultToArray($result);
+    return $resultArray[0][0];
+    
+	
+}
+
 
 
 
