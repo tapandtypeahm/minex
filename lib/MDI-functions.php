@@ -5,6 +5,7 @@ require_once("department-functions.php");
 require_once("bd.php");
 require_once("smsAndEmail-functions.php");
 require_once("takeAction-functions.php");
+require_once("adminuser-functions.php");
 
 function getMDIIdentifier()
 {
@@ -47,12 +48,11 @@ function insertMDI($condition, $fault_explanation, $fault_id, $machine_id)
 	$admin_id=$_SESSION['minexAdminSession']['admin_id'];
 	$ip_address=$_SERVER['REMOTE_ADDR'];	
 	$sql = "insert into min_MDI_form (mdi_condition, fault_explanation, fault_id, machine_id, created_by, last_updated_by, date_added, date_modified, ip_created, ip_modified, is_deleted, mdi_identifier) VALUES ('$condition', '$fault_explanation' , '$fault_id', $machine_id, $admin_id, $admin_id, NOW(), NOW() , '$ip_address' , '$ip_address', 0, '$mdi_identifier') ";
-	
 	$result=dbQuery($sql);	
+	$mdi_id=dbInsertId();
 	incrementMDIIdentifier();
-	sendAnEmail();
-	sendanSMS();  
-	
+	sendAnEmail($mdi_id);
+	sendanSMS($mdi_id);  	
 	return "success";
 	}
 	else
@@ -93,6 +93,21 @@ function listMDIForm()
 	$sql="SELECT mdi_id, mdi_condition, fault_explanation, fault_name, min_MDI_form.machine_id, acknowledged,  machine_name, machine_code, min_MDI_form.created_by, min_MDI_form.date_added, mdi_identifier
 	      FROM min_MDI_form, min_type_of_fault, min_machines
 		  WHERE min_MDI_form.fault_id = min_type_of_fault.fault_id AND min_MDI_form.machine_id = min_machines.machine_id AND   is_deleted=0 ORDER BY min_MDI_form.date_added DESC";
+		$result=dbQuery($sql);	 
+		$resultArray=dbResultToArray($result);
+		if(dbNumRows($result)>0)
+		return $resultArray; 
+		else
+		return false;
+	
+}
+
+function listMDIFormForDepartment($department_id)
+{
+		
+	$sql="SELECT mdi_id, mdi_condition, fault_explanation, fault_name, min_MDI_form.machine_id, acknowledged,  machine_name, machine_code, min_MDI_form.created_by, min_MDI_form.date_added, mdi_identifier
+	      FROM min_MDI_form, min_type_of_fault, min_machines
+		  WHERE min_MDI_form.fault_id = min_type_of_fault.fault_id AND min_MDI_form.machine_id = min_machines.machine_id AND is_deleted=0 AND department_id=$department_id ORDER BY min_MDI_form.date_added DESC";
 		$result=dbQuery($sql);	 
 		$resultArray=dbResultToArray($result);
 		if(dbNumRows($result)>0)

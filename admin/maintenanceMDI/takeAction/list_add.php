@@ -83,13 +83,6 @@ Department <span class="requiredField">* </span> :
 </tr>
 
 </table>
-</form>
-
-
-
-
-
-	
-     
+</form>     
 </div>
 <div class="clearfix"></div>

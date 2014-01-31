@@ -12,7 +12,6 @@ function insertMachine($name,$code, $description, $department_id)
 {
 	try
 	{
-		
 	if(checkForNumeric($department_id) && $department_id>0  && checkForAlphaNumeric($code) && validateForNull($name,$code) && !checkForDuplicateMachine($code))
 	{
 	$name=clean_data($name);
@@ -36,9 +35,43 @@ function insertMachine($name,$code, $description, $department_id)
 	{
 		return "Error";
 	}
-	
-	
 }
+
+function insertGeneralUtilityForDepartment($department_id)
+{
+	$gu_id=getGeneralUtilityMachineForDepartment($department_id);
+	if(checkForNumeric($department_id) && !$gu_id)
+	{
+		
+	$admin_id=$_SESSION['minexAdminSession']['admin_id'];
+	$ip_address=$_SERVER['REMOTE_ADDR'];	
+	$sql = "insert into min_machines (machine_name, machine_code, description, department_id, created_by, last_updated_by, date_added, date_modified, ip_created, ip_modified) VALUES ('General Utility', 'GU' , '', $department_id, $admin_id, $admin_id, NOW(), NOW() , '$ip_address' , '$ip_address') ";
+	$result=dbQuery($sql);	  
+	return dbInsertId();
+	}
+	else if($gu_id)
+	return $gu_id;
+	return "error";
+}
+
+function getGeneralUtilityMachineForDepartment($department_id)
+{
+	if(checkForNumeric($department_id))
+	{
+		
+		$sql="SELECT machine_id FROM min_machines WHERE department_id=$department_id AND machine_code='GU'";
+		$result=dbQuery($sql);
+		$resultArray=dbResultToArray($result);
+		if(dbNumRows($result)>0)
+		{
+			return $resultArray[0][0];
+			}
+		else
+		return false;	
+	}
+	
+	
+	}
 
 function checkForDuplicateMachine($code,$id=false)
 {
@@ -123,7 +156,7 @@ function getMachinesFromDepartmentId($dep_id)
 {
 	$sql="SELECT machine_id, machine_name, machine_code, description
 	      FROM min_machines
-		  WHERE machine_id=$dep_id";
+		  WHERE department_id=$dep_id";
 
    $result=dbQuery($sql);
     $resultArray=dbResultToArray($result);
@@ -207,4 +240,3 @@ function updateMachine($m_id, $department_id, $name, $code, $description)
 	
 
 ?>
-

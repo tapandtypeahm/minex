@@ -336,7 +336,6 @@ function loginAdmin($username,$password,$department_id){
 		$_SESSION['minexAdminSession']['admin_id']=$adminArray[0]['admin_id'];
 		$_SESSION['minexAdminSession']['admin_rights']=getAdminRightsForAdminId($admin_id);
 		$_SESSION['minexAdminSession']['report_rights']=getReportRightsForAdminId($admin_id);
-	
 		$_SESSION['minexAdminSession']['admin_logged_in']=true;
 	    $_SESSION['minexAdminSession']['department_id']=$department_id;
 	    $ip_address=$_SERVER['REMOTE_ADDR'];

@@ -148,9 +148,4 @@ function updateFault($f_id, $name)
 			return "error";	
 		}
 	}
-
-
-	
-
 ?>
-

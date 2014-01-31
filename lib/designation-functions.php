@@ -276,10 +276,15 @@ function getSmallestDesignationForDepartment($department_id)
 	{
 	$biggest_designation_id=$biggest_designation[0];
 	$smallerDesgnations=getDesignationIdsForDepartmentDescendingOrder($biggest_designation_id);
+	if(!empty($smallerDesgnations))
+	{
 	$count=count($smallerDesgnations);
 	$smallest_designation_id=$smallerDesgnations[$count-1];
 	$smallest_designation=getdesignationByID($smallest_designation_id);
 	return $smallest_designation;
+	}
+	else
+	return $biggest_designation;
 	}
 	else
 	return false;

@@ -307,7 +307,10 @@ Action <?php echo $i++;  ?> [<?php echo date("d/m/Y H:i:s",strtotime($action['da
 </h4>
 <table  class="insertTableStyling detailStylingTable">
 
-
+<tr>
+<td> Status : </td> 
+<td><?php echo getStatusForAction($action['action_id']); ?> </td>
+</tr>
 
 
 <tr>

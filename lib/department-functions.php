@@ -3,7 +3,7 @@
 require_once("cg.php");
 require_once("common.php");
 require_once("bd.php");
-
+require_once("machine-functions.php");
 
 function listCrudeDepartments()
 {
@@ -185,7 +185,9 @@ function insertDepartment($name,$parent_id, $description, $crude=0)
 	$ip_address=$_SERVER['REMOTE_ADDR'];	
 	$sql = "insert into min_departments (department_name, parent_id, crude, description, created_by, last_updated_by, date_added, date_modified, ip_created, ip_modified) VALUES ('$name', '$parent_id', $crude, '$description', $admin_id, $admin_id, NOW(), NOW() , '$ip_address' , '$ip_address') ";
 	$result=dbQuery($sql);	  
-	$ourCompanyId=dbInsertId();
+	$department_id=dbInsertId();
+	insertGeneralUtilityForDepartment($department_id);
+	
 	return "success";
 	}
 	else
@@ -196,8 +198,6 @@ function insertDepartment($name,$parent_id, $description, $crude=0)
 	{
 		return "Error";
 	}
-	
-	
 }
 
 function updateDepartment($department_id,$name,$parent_id, $description, $crude=0)
@@ -501,6 +501,15 @@ function checkIfDepartmentInUse($department_id)
 	 	  	 
 	return false;	  	
 }
-	
 
+function insertGeneralUtilityMachinesForAllDepartment()
+{
+	$departments=listNonCrudeDepartments();
+	foreach($departments as $department)
+	{
+		$department_id=0;
+		$department_id=$department['department_id'];
+		insertGeneralUtilityForDepartment($department_id);
+		}
+}
 ?>

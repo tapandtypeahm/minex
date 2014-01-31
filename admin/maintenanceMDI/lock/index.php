@@ -45,11 +45,9 @@ if(isset($_GET['action']))
 {
 	if($_GET['action']=='add')
 	{
-		
+			if(isset($_SESSION['minexAdminSession']['admin_rights']) && (in_array(2,$admin_rights) || in_array(7,$admin_rights)))
+		{	
 		$result=insertLock($_POST['name'], $_POST['applying'], $_POST['removing'], $_POST['mdi_id']);
-		
-		
-		
 		if($result=="success")
 			{
 			$_SESSION['ack']['msg']="Action successfully added!";
@@ -64,9 +62,19 @@ if(isset($_GET['action']))
 		header("Location: ".WEB_ROOT."admin/maintenanceMDI/index.php?view=details&lid=".$_POST['mdi_id']);
 		exit;
 		}
+		else
+			{	
+			$_SESSION['ack']['msg']="Authentication Failed! Not enough access rights!";
+			$_SESSION['ack']['type']=5; // 5 for access
+			header("Location: ".WEB_ROOT."admin/maintenanceMDI/index.php?view=details&lid=".$_POST['mdi_id']);
+			exit;
+			}
+	}
 		
 	if($_GET['action']=='delete')
 	{
+		if(isset($_SESSION['minexAdminSession']['admin_rights']) && (in_array(4,$admin_rights) || in_array(7,$admin_rights)))
+		{
 		$result=deleteMachine($_GET["lid"]);
 		if($result=="success")
 			{
@@ -83,13 +91,21 @@ if(isset($_GET['action']))
 			$_SESSION['ack']['msg']="Cannot Delete Machine! Minimum One Machine is Required!";
 			$_SESSION['ack']['type']=4; // 4 for error
 			}
-			
-		
 		header("Location: ".$_SERVER['PHP_SELF']);
 		exit;
 		}
+		else
+			{	
+			$_SESSION['ack']['msg']="Authentication Failed! Not enough access rights!";
+			$_SESSION['ack']['type']=5; // 5 for access
+			header("Location: ".WEB_ROOT."admin/maintenanceMDI/index.php?view=details&lid=".$_POST['mdi_id']);
+			exit;
+			}
+		}
 	if($_GET['action']=='edit')
 	{
+		if(isset($_SESSION['minexAdminSession']['admin_rights']) && (in_array(3,$admin_rights) || in_array(7,$admin_rights)))
+		{
 		$result=updateMachine($_POST['lid'], $_POST["department_id"], $_POST["name"], $_POST["code"], $_POST["description"]);
 		if($result=="success")
 			{
@@ -102,6 +118,14 @@ if(isset($_GET['action']))
 			}
 		header("Location: ".'index.php?view=details&lid='.$_POST['lid']);
 		exit;
+		}	
+		else
+			{	
+			$_SESSION['ack']['msg']="Authentication Failed! Not enough access rights!";
+			$_SESSION['ack']['type']=5; // 5 for access
+			header("Location: ".WEB_ROOT.'admin/maintenanceMDI/index.php?view=details&lid='.$_POST['mdi_id']);
+			exit;
+			}
 		}			
 	}
 ?>

@@ -9,14 +9,6 @@ require_once "../../lib/fault-functions.php";
 if(isset($_SESSION['minexAdminSession']['admin_rights']))
 $admin_rights=$_SESSION['minexAdminSession']['admin_rights'];
 
-if((in_array(4,$admin_rights) || in_array(7,$admin_rights)))
-{}
-else
-{
-	header("Location: ".WEB_ROOT."admin/settings");
-	exit;
-	}
-
 if(isset($_GET['view']))
 {
 	if($_GET['view']=='add')
@@ -44,6 +36,8 @@ if(isset($_GET['action']))
 {
 	if($_GET['action']=='add')
 	{
+		if(isset($_SESSION['minexAdminSession']['admin_rights']) && (in_array(2,$admin_rights) || in_array(7,$admin_rights)))
+		{
 		$result=insertMDI($_POST["condition"], $_POST["faultExplanation"], $_POST["fault_id"],  $_POST['machine_id']);
 		
 		if($result=="success")
@@ -56,45 +50,71 @@ if(isset($_GET['action']))
 			$_SESSION['ack']['msg']="Invalid Input OR Duplicate Entry!";
 			$_SESSION['ack']['type']=4; // 4 for error
 			}
-		
 		header("Location: ".$_SERVER['PHP_SELF']);
-		exit;
+		exit;	
+		}
+		else
+			{	
+			$_SESSION['ack']['msg']="Authentication Failed! Not enough access rights!";
+			$_SESSION['ack']['type']=5; // 5 for access
+			header("Location: ".$_SERVER['PHP_SELF']);
+			exit;
+			}
+		
 		}
 	if($_GET['action']=='delete')
 	{
+		if(isset($_SESSION['minexAdminSession']['admin_rights']) && (in_array(4,$admin_rights) || in_array(7,$admin_rights)))
+			{	
 		$result=deleteMDIForm($_GET["lid"]);
 		if($result=="success")
-			{
+		{
 			$_SESSION['ack']['msg']="MDI Form deleted Successfuly!";
-		$_SESSION['ack']['type']=3; // 3 for delete
-			}
-			else if($result=="error"){
-				
+			$_SESSION['ack']['type']=3; // 3 for delete
+		}
+		else if($result=="error")
+		{	
 			$_SESSION['ack']['msg']="Invalid Inpur Or Duplicate Entry!";
 			$_SESSION['ack']['type']=4; // 4 for error
-			}
-			
-			
-		
+		}
 		header("Location: ".$_SERVER['PHP_SELF']);
 		exit;
+			}
+			else
+			{	
+			$_SESSION['ack']['msg']="Authentication Failed! Not enough access rights!";
+			$_SESSION['ack']['type']=5; // 5 for access
+			header("Location: ".$_SERVER['PHP_SELF']);
+			exit;
+			}
+			
 		}
 	if($_GET['action']=='edit')
 	{
-		$result=updateMDIForm($_POST['lid'], $_POST["condition"], $_POST["faultExplanation"], $_POST["fault_id"], $_POST["machine_id"]);
-		if($result=="success")
-			{
-			$_SESSION['ack']['msg']="MDI Form Updated Successfuly!";
-		$_SESSION['ack']['type']=3; // 3 for delete
+		if(isset($_SESSION['minexAdminSession']['admin_rights']) && (in_array(3,$admin_rights) || in_array(7,					$admin_rights)))
+		{	
+			$result=updateMDIForm($_POST['lid'], $_POST["condition"], $_POST["faultExplanation"], $_POST["fault_id"], $_POST["machine_id"]);
+			if($result=="success")
+				{
+				$_SESSION['ack']['msg']="MDI Form Updated Successfuly!";
+			$_SESSION['ack']['type']=3; // 3 for delete
+				}
+				else if($result=="error"){
+				$_SESSION['ack']['msg']="Cannot Update MDI Form!";
+				$_SESSION['ack']['type']=4; // 4 for error
+				}
+			header("Location: ".'index.php?view=details&lid='.$_POST['lid']);
+			exit;
+			}	
+			else
+			{	
+			$_SESSION['ack']['msg']="Authentication Failed! Not enough access rights!";
+			$_SESSION['ack']['type']=5; // 5 for access
+			header("Location: ".'index.php?view=details&lid='.$_POST['lid']);
+			exit;
 			}
-			else if($result=="error"){
-			$_SESSION['ack']['msg']="Cannot Update MDI Form!";
-			$_SESSION['ack']['type']=4; // 4 for error
-			}
-			
-		header("Location: ".'index.php?view=details&lid='.$_POST['lid']);
-		exit;
-		}			
+	}
+		
 	}
 ?>
 

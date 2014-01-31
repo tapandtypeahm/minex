@@ -8,14 +8,6 @@ require_once "../../../lib/takeAction-functions.php";
 if(isset($_SESSION['minexAdminSession']['admin_rights']))
 $admin_rights=$_SESSION['minexAdminSession']['admin_rights'];
 
-if((in_array(4,$admin_rights) || in_array(7,$admin_rights)))
-{}
-else
-{
-	header("Location: ".WEB_ROOT."admin/MDI");
-	exit;
-	}
-
 if(isset($_GET['view']))
 {
 	if($_GET['view']=='add')
@@ -44,7 +36,8 @@ if(isset($_GET['action']))
 {
 	if($_GET['action']=='add')
 	{
-		
+		if(isset($_SESSION['minexAdminSession']['admin_rights']) && (in_array(2,$admin_rights) || in_array(7,$admin_rights)))
+		{
 		$result=insertAction($_POST['assignName'], $_POST['jobDescription'], $_POST['department_id'], $_POST['mdi_id']);
 		
 		
@@ -63,9 +56,20 @@ if(isset($_GET['action']))
 		header("Location: ".WEB_ROOT."admin/maintenanceMDI/index.php?view=details&lid=".$_POST['mdi_id']);
 		exit;
 		}
+		else
+			{	
+			$_SESSION['ack']['msg']="Authentication Failed! Not enough access rights!";
+			$_SESSION['ack']['type']=5; // 5 for access
+			header("Location: ".WEB_ROOT."admin/maintenanceMDI/index.php?view=details&lid=".$_POST['mdi_id']);
+			exit;
+			}
+		}
+		
 		
 	if($_GET['action']=='delete')
 	{
+		if(isset($_SESSION['minexAdminSession']['admin_rights']) && (in_array(4,$admin_rights) || in_array(7,$admin_rights)))
+		{
 		$result=deleteMachine($_GET["lid"]);
 		if($result=="success")
 			{
@@ -87,8 +91,19 @@ if(isset($_GET['action']))
 		header("Location: ".$_SERVER['PHP_SELF']);
 		exit;
 		}
+		else
+			{	
+			$_SESSION['ack']['msg']="Authentication Failed! Not enough access rights!";
+			$_SESSION['ack']['type']=5; // 5 for access
+			header("Location: ".$_SERVER['PHP_SELF']);
+			exit;
+			}
+		
+		}
 	if($_GET['action']=='edit')
 	{
+		if(isset($_SESSION['minexAdminSession']['admin_rights']) && (in_array(3,$admin_rights) || in_array(7,$admin_rights)))
+		{
 		$result=updateMachine($_POST['lid'], $_POST["department_id"], $_POST["name"], $_POST["code"], $_POST["description"]);
 		if($result=="success")
 			{
@@ -101,7 +116,16 @@ if(isset($_GET['action']))
 			}
 		header("Location: ".'index.php?view=details&lid='.$_POST['lid']);
 		exit;
-		}			
+		}
+		else
+			{	
+			$_SESSION['ack']['msg']="Authentication Failed! Not enough access rights!";
+			$_SESSION['ack']['type']=5; // 5 for access
+			header("Location: ".'index.php?view=details&lid='.$_POST['lid']);
+			exit;
+			}
+		}
+		
 	}
 ?>
 

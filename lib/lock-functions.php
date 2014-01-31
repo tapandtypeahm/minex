@@ -138,4 +138,3 @@ function updateLock($lock_id, $lock_by, $lock_applied, $lock_removed, $mdi_id)
 
 
 ?>
-

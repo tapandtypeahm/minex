@@ -71,7 +71,6 @@ setInterval('RefreshMe()', 3000); //every 5 secs
 			}
 		}
 	 ?>
-      
- 
+
 </body>
 </html>

@@ -51,6 +51,7 @@ document.getElementById("designation_id").options.add(optn);
 
 function createDropDownSmallestDesignationDepartment(department_id)
 {	
+
 	var xmlhttp1;
 if (window.XMLHttpRequest)
   {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -63,9 +64,10 @@ else
 
   xmlhttp1.onreadystatechange=function()                        
   {
+	
   if (xmlhttp1.readyState==4 && xmlhttp1.status==200)
     {
-	
+
     var myarray=eval(xmlhttp1.responseText);
 	
 // Before adding new we must remove previously loaded elements
