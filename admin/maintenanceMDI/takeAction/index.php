@@ -91,6 +91,8 @@ if(isset($_GET['action']))
 		
 	if($_GET['action']=='edit')
 	{
+		$id = getMdiIdFromActionId($_GET["lid"]);
+		
 		$result=updateAction($_POST['lid'], $_POST["department_id"], $_POST["assignName"], $_POST["jobDescription"]);
 		if($result=="success")
 			{
@@ -101,7 +103,7 @@ if(isset($_GET['action']))
 			$_SESSION['ack']['msg']="Cannot Update Action! Duplicate or Invalid Entry!";
 			$_SESSION['ack']['type']=4; // 4 for error
 			}
-		header("Location: ".WEB_ROOT."admin/maintenanceMDI/index.php?view=details&lid=".$_POST['mdi_id']);
+		header("Location: ".WEB_ROOT."admin/maintenanceMDI/index.php?view=details&lid=".$id);
 		exit;
 		}			
 	}
