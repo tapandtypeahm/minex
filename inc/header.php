@@ -63,6 +63,39 @@ if(isset($cssArray)){
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+<?php 
+if(isset($crude) && $crude==true)
+{
+ $departments_without_maintenance=listCrudeDepartmentsIDs();
+ if(in_array($_SESSION['minexAdminSession']['department_id'],$departments_without_maintenance)) { 
+$un_ack_actions=getUnAcknowledgedActionForCrudeDepartment($_SESSION['minexAdminSession']['department_id']);
+$all_actions=getEligibleActionsForCrudeDepartment($_SESSION['minexAdminSession']['department_id']);
+
+if($un_ack_actions!=false && is_array($un_ack_actions) && count($un_ack_actions)>0)
+{
+	$backdrop=true;
+	 ?>
+    
+<div class="backDrop"></div>  
+<?php  foreach($un_ack_actions as $un_ack) { ?> 
+ <div class="crudeAction">
+ 	 <div class="notificationCenter">
+       New Notification
+   </div>
+   <div class="crudeAssign">
+    	Assigned To : <?php echo $un_ack['assign_name']; ?>
+    </div>
+	<div class="crudeDescription">
+    	Description : <?php echo $un_ack['description']; ?>
+    </div>
+    <div class="ok_button_crude">
+    <a href="<?php echo WEB_ROOT ?>admin/indexes/workerController.php?action=acknowledge&lid=<?php echo $un_ack['action_id']; ?>"><button class="ok_button btn btn-warning">ok</button></a>
+    </div>
+</div>
+<?php 
+updateActionAsOld($un_ack['action_id']);
+} ?>
+ <?php } } } ?>
 	<div id="mainDiv">
 		<div id="header" class="no_print">
 			<a href="<?php echo WEB_ROOT; ?>"><div id="logo">Minex</div></a>

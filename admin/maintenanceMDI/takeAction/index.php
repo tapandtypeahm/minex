@@ -8,14 +8,6 @@ require_once "../../../lib/takeAction-functions.php";
 if(isset($_SESSION['minexAdminSession']['admin_rights']))
 $admin_rights=$_SESSION['minexAdminSession']['admin_rights'];
 
-if((in_array(4,$admin_rights) || in_array(7,$admin_rights)))
-{}
-else
-{
-	header("Location: ".WEB_ROOT."admin/MDI");
-	exit;
-	}
-
 if(isset($_GET['view']))
 {
 	if($_GET['view']=='add')
@@ -44,7 +36,8 @@ if(isset($_GET['action']))
 {
 	if($_GET['action']=='add')
 	{
-		
+		if(isset($_SESSION['minexAdminSession']['admin_rights']) && (in_array(2,$admin_rights) || in_array(7,$admin_rights)))
+		{
 		$result=insertAction($_POST['assignName'], $_POST['jobDescription'], $_POST['department_id'], $_POST['mdi_id']);
 		
 		
@@ -63,20 +56,32 @@ if(isset($_GET['action']))
 		header("Location: ".WEB_ROOT."admin/maintenanceMDI/index.php?view=details&lid=".$_POST['mdi_id']);
 		exit;
 		}
+		else
+			{	
+			$_SESSION['ack']['msg']="Authentication Failed! Not enough access rights!";
+			$_SESSION['ack']['type']=5; // 5 for access
+			header("Location: ".WEB_ROOT."admin/maintenanceMDI/index.php?view=details&lid=".$_POST['mdi_id']);
+			exit;
+			}
+		}
+		
 		
 	if($_GET['action']=='delete')
 	{
+
+		if(isset($_SESSION['minexAdminSession']['admin_rights']) && (in_array(4,$admin_rights) || in_array(7,$admin_rights)))
+		{
 		$id = getMdiIdFromActionId($_GET["lid"]);  // To Get the MDI Id for passing into the URL below to redirect
 		
 		$result=deleteAction($_GET["lid"]);
-		
 		
 		if($result=="success")
 			{
 			$_SESSION['ack']['msg']="Action deleted Successfuly!";
 		$_SESSION['ack']['type']=3; // 3 for delete
 			}
-			else if($result=="error"){
+			else if($result=="error")
+			{
 				
 			$_SESSION['ack']['msg']="Cannot delete Action! Machine already in use!";
 			$_SESSION['ack']['type']=4; // 4 for error
@@ -87,12 +92,23 @@ if(isset($_GET['action']))
 		header("Location: ".WEB_ROOT."admin/maintenanceMDI/index.php?view=details&lid=".$id);
 		exit;
 		}
+		else
+			{	
+			$_SESSION['ack']['msg']="Authentication Failed! Not enough access rights!";
+			$_SESSION['ack']['type']=5; // 5 for access
+			header("Location: ".WEB_ROOT."admin/maintenanceMDI/index.php?view=details&lid=".$id);
+			exit;
+			}
+	
+	}	
 		
 		
+	
 	if($_GET['action']=='edit')
 	{
+		if(isset($_SESSION['minexAdminSession']['admin_rights']) && (in_array(3,$admin_rights) || in_array(7,$admin_rights)))
+		{
 		$id = getMdiIdFromActionId($_GET["lid"]);
-		
 		$result=updateAction($_POST['lid'], $_POST["department_id"], $_POST["assignName"], $_POST["jobDescription"]);
 		if($result=="success")
 			{
@@ -105,7 +121,16 @@ if(isset($_GET['action']))
 			}
 		header("Location: ".WEB_ROOT."admin/maintenanceMDI/index.php?view=details&lid=".$id);
 		exit;
-		}			
+		}
+		else
+			{	
+			$_SESSION['ack']['msg']="Authentication Failed! Not enough access rights!";
+			$_SESSION['ack']['type']=5; // 5 for access
+			header("Location: ".'index.php?view=details&lid='.$_POST['lid']);
+			exit;
+			}
+		}
+		
 	}
 ?>
 

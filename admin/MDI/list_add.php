@@ -31,14 +31,13 @@ if(isset($_SESSION['ack']['msg']) && isset($_SESSION['ack']['type']))
 
 <tr >
 <td width="200px">
-Problematic Machine <span class="requiredField">* </span> : 
+Problematic Machine / General Utility Devices<span class="requiredField">* </span> : 
 </td>
 <td>
 <select type="text" name="machine_id" id="machine_id">
 	<option value="-1">-- Please Select --</option>
     <?php 
-	
-	$machines=listMachines();
+	$machines=getMachinesFromDepartmentId($_SESSION['minexAdminSession']['department_id']);
 	
 	foreach($machines as $machine)
 	{
@@ -120,7 +119,7 @@ Problematic Machine <span class="requiredField">* </span> :
     <tbody>
         
         <?php
-		$forms=listMDIForm();
+		$forms=listMDIFormForDepartment($_SESSION['minexAdminSession']['department_id']);
 		
 		$no=0;
 		foreach($forms as $form)

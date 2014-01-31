@@ -83,6 +83,84 @@ function dateHeight(dateStr){
 						
                         return z;
                 };
+				
+function dateTimeHeight(dateStr){
+	    
+        if (trim(dateStr) != '' && dateStr.search("/")!=-1) {
+				
+                var frDate = trim(dateStr).split(' ');
+                var frTime = frDate[1].split(':');
+                var frDateParts = frDate[0].split('/');
+			   
+			
+                var day = frDateParts[0] * 60 * 24;
+                var month = frDateParts[1] * 60 * 24 * 31;
+                var year = frDateParts[2] * 60 * 24 * 366;
+                var hour = frTime[0] * 60;
+                var minutes = frTime[1];
+				var seconds = frTime[2];
+                var x = day+month+year+hour+minutes+seconds;
+				
+        } else {
+			   
+                var x = 99999999999999999; //GoHorse!
+        }
+        return x;
+}
+ 
+jQuery.fn.dataTableExt.oSort['datetime-euro-asc'] = function(a, b) {
+					 
+						
+					   if(a!="na" && a!="NA")
+					   {
+						 var x = dateTimeHeight(a);
+						 
+					   }
+						else
+						{
+						
+						x=9999999999999999999;
+						}
+                       
+					    if(b!="na" && b!="NA")
+                        var y = dateTimeHeight(b);
+						else
+						{
+						
+						y=99999999999999999999;
+						}
+						
+                        var z = ((x < y) ? -1 : ((x > y) ? 1 : 0));
+						
+                        return z;
+                };
+ 
+                jQuery.fn.dataTableExt.oSort['datetime-euro-desc'] = function(a, b) {
+						
+					
+					
+                         if(a!="na" && a!="NA")
+					   {
+						 var x = dateTimeHeight(a);
+						
+					   }
+						else
+						{
+						
+						x=-9999999999999999999999999;
+						}
+                      
+					    if(b!="na" && b!="NA")
+                        var y = dateTimeHeight(b);
+						else
+						{
+						y=-9999999999999999999999999;
+						}
+						
+                        var z = ((x < y) ? 1 : ((x > y) ? -1 : 0));
+						
+                        return z;
+                };				
  
 
 jQuery.fn.dataTableExt.oSort['string-case-asc']  = function(x,y) {
@@ -161,6 +239,10 @@ var dontSort = [];
                     if($(this).hasClass( 'date' ))
 					{
                         dontSort.push({ "sType": "date-euro"});
+                    }
+					else if($(this).hasClass( 'datetime' ))
+					{
+                        dontSort.push({ "sType": "datetime-euro"});
                     }
 					else if($(this).hasClass( 'numeric' ))
 					{

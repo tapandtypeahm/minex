@@ -12,14 +12,6 @@ require_once "../../lib/notifyGenerator-functions.php";
 if(isset($_SESSION['minexAdminSession']['admin_rights']))
 $admin_rights=$_SESSION['minexAdminSession']['admin_rights'];
 
-if((in_array(4,$admin_rights) || in_array(7,$admin_rights)))
-{}
-else
-{
-	header("Location: ".WEB_ROOT."admin/settings");
-	exit;
-	}
-
 if(isset($_GET['view']))
 {
 	if($_GET['view']=='add')
@@ -47,6 +39,8 @@ if(isset($_GET['action']))
 {
 	if($_GET['action']=='add')
 	{
+		if(isset($_SESSION['minexAdminSession']['admin_rights']) && (in_array(3,$admin_rights) || in_array(7,					$admin_rights)))
+		{
 		$result=insertMDI($_POST["condition"], $_POST["faultExplanation"], $_POST["fault_id"],  $_POST['machine_id']);
 		
 		if($result=="success")
@@ -63,8 +57,18 @@ if(isset($_GET['action']))
 		header("Location: ".$_SERVER['PHP_SELF']);
 		exit;
 		}
+		else
+		{	
+		$_SESSION['ack']['msg']="Authentication Failed! Not enough access rights!";
+		$_SESSION['ack']['type']=5; // 5 for access
+		header("Location: ".$_SERVER['PHP_SELF']);
+		exit;
+			}
+	}
 	if($_GET['action']=='acknowledge')
 	{
+		if(isset($_SESSION['minexAdminSession']['admin_rights']) && (in_array(2,$admin_rights) || in_array(7,					$admin_rights)))
+		{
 		$result=AcknowledgeMDI($_GET["lid"]);
 		
 		if($result=="success")
@@ -80,9 +84,19 @@ if(isset($_GET['action']))
 		
 		header("Location: ".$_SERVER['PHP_SELF']);
 		exit;
+		}
+		else
+		{	
+		$_SESSION['ack']['msg']="Authentication Failed! Not enough access rights!";
+		$_SESSION['ack']['type']=5; // 5 for access
+		header("Location: ".$_SERVER['PHP_SELF']);
+		exit;
+			}
 		}	
 	if($_GET['action']=='delete')
 	{
+		if(isset($_SESSION['minexAdminSession']['admin_rights']) && (in_array(4,$admin_rights) || in_array(7,					$admin_rights)))
+		{
 		$result=deleteMDIForm($_GET["lid"]);
 		if($result=="success")
 			{
@@ -104,8 +118,18 @@ if(isset($_GET['action']))
 		header("Location: ".$_SERVER['PHP_SELF']);
 		exit;
 		}
+		else
+		{	
+		$_SESSION['ack']['msg']="Authentication Failed! Not enough access rights!";
+		$_SESSION['ack']['type']=5; // 5 for access
+		header("Location: ".$_SERVER['PHP_SELF']);
+		exit;
+			}
+		}
 	if($_GET['action']=='edit')
 	{
+		if(isset($_SESSION['minexAdminSession']['admin_rights']) && (in_array(3,$admin_rights) || in_array(7,					$admin_rights)))
+		{
 		$result=updateMDIForm($_POST['lid'], $_POST["condition"], $_POST["faultExplanation"], $_POST["fault_id"], $_POST["machine_id"]);
 		if($result=="success")
 			{
@@ -118,7 +142,15 @@ if(isset($_GET['action']))
 			}
 		header("Location: ".$_SERVER['PHP_SELF']);
 		exit;
-		}			
+		}	
+		else
+		{	
+		$_SESSION['ack']['msg']="Authentication Failed! Not enough access rights!";
+		$_SESSION['ack']['type']=5; // 5 for access
+		header("Location: ".$_SERVER['PHP_SELF']);
+		exit;
+		}
+	}
 	}
 ?>
 

@@ -34,7 +34,7 @@ if(isset($_GET['action']))
 {
 		if($_GET['action']=='add')
 		{
-			if(isset($_SESSION['minexAdminSession']['admin_rights']) && (in_array(2,$admin_rights) || in_array(7,					$admin_rights)))
+			if(isset($_SESSION['minexAdminSession']['admin_rights']) && (in_array(2,$admin_rights) || in_array(7,$admin_rights)))
 			{	
 			
 			$result=insertDepartment($_POST["name"], $_POST["parent_id"], $_POST["description"], $_POST['crude']);

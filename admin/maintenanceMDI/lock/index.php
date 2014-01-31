@@ -45,11 +45,9 @@ if(isset($_GET['action']))
 {
 	if($_GET['action']=='add')
 	{
-		
+			if(isset($_SESSION['minexAdminSession']['admin_rights']) && (in_array(2,$admin_rights) || in_array(7,$admin_rights)))
+		{	
 		$result=insertLock($_POST['name'], $_POST['applying'], $_POST['removing'], $_POST['mdi_id']);
-		
-		
-		
 		if($result=="success")
 			{
 			$_SESSION['ack']['msg']="Action successfully added!";
@@ -64,29 +62,50 @@ if(isset($_GET['action']))
 		header("Location: ".WEB_ROOT."admin/maintenanceMDI/index.php?view=details&lid=".$_POST['mdi_id']);
 		exit;
 		}
+		else
+			{	
+			$_SESSION['ack']['msg']="Authentication Failed! Not enough access rights!";
+			$_SESSION['ack']['type']=5; // 5 for access
+			header("Location: ".WEB_ROOT."admin/maintenanceMDI/index.php?view=details&lid=".$_POST['mdi_id']);
+			exit;
+			}
+	}
 		
 	if($_GET['action']=='delete')
 	{	
+		
+		if(isset($_SESSION['minexAdminSession']['admin_rights']) && (in_array(4,$admin_rights) || in_array(7,$admin_rights)))
+		{
 		$result=deleteLock($_GET["lid"]);
+
 		if($result=="success")
 			{
 			$_SESSION['ack']['msg']="Lock deleted Successfuly!";
 		$_SESSION['ack']['type']=3; // 3 for delete
 			}
-			else if($result=="error"){
-				
+			else if($result=="error"){	
 			$_SESSION['ack']['msg']="Cannot delete Lock!";
 			$_SESSION['ack']['type']=4; // 4 for error
 			}
-			
-			
-		
+
 		header("Location: ".$_SERVER['PHP_SELF']);
 		exit;
 		}
+		else
+			{	
+			$_SESSION['ack']['msg']="Authentication Failed! Not enough access rights!";
+			$_SESSION['ack']['type']=5; // 5 for access
+			header("Location: ".WEB_ROOT."admin/maintenanceMDI/index.php?view=details&lid=".$_POST['mdi_id']);
+			exit;
+			}
+		}
 	if($_GET['action']=='edit')
 	{
+
+		if(isset($_SESSION['minexAdminSession']['admin_rights']) && (in_array(3,$admin_rights) || in_array(7,$admin_rights)))
+		{
 		$result=updateLock($_POST['lid'], $_POST["name"], $_POST["applying"], $_POST["removing"], $_POST["mdi_id"]);
+
 		if($result=="success")
 			{
 			$_SESSION['ack']['msg']="Lock Updated Successfuly!";
@@ -98,10 +117,17 @@ if(isset($_GET['action']))
 			}
 		header("Location: ".WEB_ROOT."admin/maintenanceMDI/index.php?view=details&lid=".$_POST['mdi_id']);
 		exit;
+		}	
+		else
+			{	
+			$_SESSION['ack']['msg']="Authentication Failed! Not enough access rights!";
+			$_SESSION['ack']['type']=5; // 5 for access
+			header("Location: ".WEB_ROOT.'admin/maintenanceMDI/index.php?view=details&lid='.$_POST['mdi_id']);
+			exit;
+			}
 		}			
 	}
 ?>
-
 <?php
 
 $pathLinks=array("Home","Registration Form","Manage Locations");
@@ -110,7 +136,6 @@ $jsArray=array("jquery.validate.js","validators/action.js","dropDown.js","cScrip
 $cssArray=array("datetimepicker.min.css");
 require_once "../../../inc/template.php";
  ?>
- 
  <script type="text/javascript">
   $(function() {
     $('#datetimepicker3').datetimepicker({

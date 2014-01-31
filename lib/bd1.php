@@ -16,7 +16,4 @@ CONTENT="1;URL='.WEB_ROOT.'">'); */
 	
 	return $result;
 }
-
-
-
- ?>
+?>

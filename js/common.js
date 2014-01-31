@@ -175,4 +175,3 @@ $('.showCB').change(function(e) {
 	}); 	
    
  }
- 
