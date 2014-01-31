@@ -294,6 +294,7 @@ else
 
 </div>
 
+
 <?php
 if(!validateForNull($actions))
 {
@@ -336,20 +337,22 @@ Action <?php echo $i++;  ?> [<?php echo date("d/m/Y H:i:s",strtotime($action['da
 <?php  
 $adminId = $action['created_by'];
 
+
 $adminNameArray = getAdminUserByID($adminId);
 $adminName = $adminNameArray['admin_name'];
 echo $adminName; 
 ?>
 </td> 
 </tr>
-
 <tr class="no_print">
 <td></td>
 <td>
-
+<a href="<?php echo WEB_ROOT.'admin/maintenanceMDI/takeAction/index.php?action=edit&lid='.$action['action_id']?>"><button title="Edit this entry" class="btn editBtn"><span class="delete">E</span></button></a>
+<a href="<?php echo WEB_ROOT.'admin/maintenanceMDI/takeAction/index.php?action=delete&lid='.$action['action_id'] ?>"><button title="Delete this entry" class="btn delBtn"><span class="delete">X</span></button></a>
 
 </td>
 </tr>
+
 </table>
 
 </div>

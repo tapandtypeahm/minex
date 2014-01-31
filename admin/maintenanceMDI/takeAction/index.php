@@ -66,40 +66,42 @@ if(isset($_GET['action']))
 		
 	if($_GET['action']=='delete')
 	{
-		$result=deleteMachine($_GET["lid"]);
+		$id = getMdiIdFromActionId($_GET["lid"]);  // To Get the MDI Id for passing into the URL below to redirect
+		
+		$result=deleteAction($_GET["lid"]);
+		
+		
 		if($result=="success")
 			{
-			$_SESSION['ack']['msg']="Machine deleted Successfuly!";
+			$_SESSION['ack']['msg']="Action deleted Successfuly!";
 		$_SESSION['ack']['type']=3; // 3 for delete
 			}
 			else if($result=="error"){
 				
-			$_SESSION['ack']['msg']="Cannot delete Machine! Machine already in use!";
-			$_SESSION['ack']['type']=4; // 4 for error
-			}
-			else if($result=="error1"){
-				
-			$_SESSION['ack']['msg']="Cannot Delete Machine! Minimum One Machine is Required!";
+			$_SESSION['ack']['msg']="Cannot delete Action! Machine already in use!";
 			$_SESSION['ack']['type']=4; // 4 for error
 			}
 			
+			
 		
-		header("Location: ".$_SERVER['PHP_SELF']);
+		header("Location: ".WEB_ROOT."admin/maintenanceMDI/index.php?view=details&lid=".$id);
 		exit;
 		}
+		
+		
 	if($_GET['action']=='edit')
 	{
-		$result=updateMachine($_POST['lid'], $_POST["department_id"], $_POST["name"], $_POST["code"], $_POST["description"]);
+		$result=updateAction($_POST['lid'], $_POST["department_id"], $_POST["assignName"], $_POST["jobDescription"]);
 		if($result=="success")
 			{
-			$_SESSION['ack']['msg']="Machine Updated Successfuly!";
+			$_SESSION['ack']['msg']="Action Updated Successfuly!";
 		$_SESSION['ack']['type']=3; // 3 for delete
 			}
 			else if($result=="error"){
-			$_SESSION['ack']['msg']="Cannot Update Machine! Duplicate or Invalid Entry!";
+			$_SESSION['ack']['msg']="Cannot Update Action! Duplicate or Invalid Entry!";
 			$_SESSION['ack']['type']=4; // 4 for error
 			}
-		header("Location: ".'index.php?view=details&lid='.$_POST['lid']);
+		header("Location: ".WEB_ROOT."admin/maintenanceMDI/index.php?view=details&lid=".$_POST['mdi_id']);
 		exit;
 		}			
 	}

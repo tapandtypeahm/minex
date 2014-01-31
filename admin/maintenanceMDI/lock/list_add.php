@@ -92,7 +92,7 @@ else if($details!= false && checkForNumeric($details['lock_id']))
 <td><input type="text" name="name" id="txtName" 
     <?php if($details!=false) 
 	{ ?> 
-    value = <?php echo '"'.$details['lock_applied'].'"';}?> /> </td>
+    value = <?php echo '"'.$details['lock_by'].'"';}?> /> </td>
 </tr>
 
 <tr>
@@ -101,9 +101,9 @@ else if($details!= false && checkForNumeric($details['lock_id']))
 
   <div id="datetimepicker4" class="input-append date">
     <input data-format="dd/MM/yyyy hh:mm:ss" type="text" name="removing"
-    <?php if($details!=false && strtotime($details['job_removed'])>0) 
+    <?php if($details!=false && strtotime($details['lock_removed'])>0) 
 	{ ?> 
-    value= <?php echo '"'.date('d/m/Y H:i:s',strtotime($details['job_removed'])).'"';
+    value= <?php echo '"'.date('d/m/Y H:i:s',strtotime($details['lock_removed'])).'"';
 	}
 	?>
     />

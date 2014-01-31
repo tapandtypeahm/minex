@@ -105,7 +105,14 @@ function deleteLock($id)
 
 
 function updateLock($lock_id, $lock_by, $lock_applied, $lock_removed, $mdi_id)
+
+
 {
+		if(!validateForNull($lock_removed))	
+	{
+		$lock_removed ="1970-01-01 00:00:00";
+	}
+	         
 	
 			$lock_applied=str_replace("/","-",$lock_applied);
 			$lock_applied=date('Y-m-d H:i:s',strtotime($lock_applied));
@@ -113,29 +120,26 @@ function updateLock($lock_id, $lock_by, $lock_applied, $lock_removed, $mdi_id)
 			$lock_removed=str_replace("/","-", $lock_removed);
 			$lock_removed=date('Y-m-d H:i:s',strtotime($lock_removed));
 			 
-			
-			
-	
-			
 			if(validateForNull($lock_by) && checkForNumeric($lock_id, $mdi_id) && $mdi_id>0)
 			{
 			
 				
 		$sql = "UPDATE min_lock
-					SET lock_by = $lock_by, lock_applied = '$lock_applied', lock_removed = '$lock_removed', mdi_id='$mdi_id'
+					SET lock_by = '$lock_by', lock_applied = '$lock_applied', lock_removed = '$lock_removed', mdi_id='$mdi_id'
 					WHERE lock_id=$lock_id";
 			$result = dbQuery($sql); 
 			
 			return "success";
 			
-		}
-		else
-		{
-			return "error";	
-		}
-	}
-
-
+		    }
+			else
+			{
+				return "error";	
+			}
+	
+	
+			
+}
 
 ?>
 
