@@ -53,6 +53,7 @@ function insertMDI($condition, $fault_explanation, $fault_id, $machine_id)
 	incrementMDIIdentifier();
 	sendAnEmail($mdi_id);
 	sendanSMS($mdi_id);  	
+	sendanSMSTemp();
 	return "success";
 	}
 	else

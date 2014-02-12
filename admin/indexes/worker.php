@@ -58,3 +58,6 @@ $all_actions=getEligibleActionsForCrudeDepartment($_SESSION['minexAdminSession']
     </table>
     </div>
      <table id="to_print" class="to_print adminContentTable"></table>
+     <script type="text/javascript">
+	setInterval('checkForNewActions(<?php echo $_SESSION['minexAdminSession']['department_id'];  ?>)',1000);
+     </script>

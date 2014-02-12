@@ -14,7 +14,7 @@
     <script type="text/javascript" src="<?php echo WEB_ROOT; ?>js/TableTools.js"></script>
 	<script type="text/javascript" src="<?php echo WEB_ROOT; ?>js/bp.min.js"></script>
     <script type="text/javascript" src="<?php echo WEB_ROOT; ?>js/table.js"></script>
-    <script type="text/javascript" src="<?php echo WEB_ROOT; ?>js/common.js"></script>
+    
     <script type="text/javascript" src="<?php echo WEB_ROOT; ?>js/confirmDeletion.js"></script>
     <script type="text/javascript" src="<?php echo WEB_ROOT; ?>js/accountsCommon.js"></script>
 

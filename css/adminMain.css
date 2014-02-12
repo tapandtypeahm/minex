@@ -488,7 +488,7 @@ padding-right:20px;
 {
 	box-shadow: 3px 3px 5px #888888;
 }
-.addContactbtn,.deleteContactbtn,.addContactbtnAdmin,.addContactbtnGuarantor,.addEMIDurationBtn,.deleteEMIDurationBtn,.addEMIDurationBtnAgency,.deleteEMIDurationBtnAgency{
+.addContactbtn,.deleteContactbtn,.addContactbtnAdmin,.addContactbtnGuarantor,.addEMIDurationBtn,.deleteEMIDurationBtn,.addEMIDurationBtnAgency,.deleteEMIDurationBtnAgency,.addContactbtnDealer{
 	position:relative;
 	top:-5px;
 	margin-left:5px;
@@ -550,7 +550,7 @@ body .insertTableStyling span.contactNoError,.Adminror{display:none;}
 .btnCol{width:20px;}
 body .to_print{display:none;
 	width:100%;}
-#addcontactTrGeneratedAdmin,#addcontactTrGeneratedGuarantor,#AdminProofImgTr
+#addcontactTrGeneratedAdmin,#addcontactTrGeneratedGuarantor,#AdminProofImgTr, #addcontactTrGeneratedDealer
 {
 	display:none;
 	}	

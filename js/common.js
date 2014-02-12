@@ -175,3 +175,34 @@ $('.showCB').change(function(e) {
 	}); 	
    
  }
+ 
+function checkForNewActions(department_id)
+{	
+	var xmlhttp1;
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp1 = new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp1 = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+
+  xmlhttp1.onreadystatechange=function()                        
+  {
+  if (xmlhttp1.readyState==4 && xmlhttp1.status==200)
+    {
+
+    var no_of_actions=parseInt(xmlhttp1.responseText);
+	
+		if(no_of_actions>0)
+		{
+			window.location.reload();
+			}
+		
+    }
+  }
+  
+  xmlhttp1.open('GET', "getNewActionStatus.php?id="+department_id, true );    
+  xmlhttp1.send(null);
+}

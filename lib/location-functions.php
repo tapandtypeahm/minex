@@ -3,12 +3,12 @@ require_once("cg.php");
 require_once("bd.php");
 require_once("common.php");
 
-function listCities(){
+function listLocations(){
 	
 	try
 	{
-		$sql="SELECT city_id,city_name
-		      FROM fin_city ORDER BY city_name";
+		$sql="SELECT machine_location_id , location_name
+		      FROM min_machine_location ORDER BY location_name";
 		$result=dbQuery($sql);	 
 		$resultArray=dbResultToArray($result);
 		return $resultArray; 
@@ -18,13 +18,13 @@ function listCities(){
 	}
 }
 
-function listCitiesAlpha(){
+function listlocationsAlpha(){
 	
 	try
 	{
-		$sql="SELECT city_id,city_name
-		      FROM fin_city
-			  ORDER BY city_name";
+		$sql="SELECT machine_location_id , location_name
+		      FROM min_machine_location
+			  ORDER BY location_name";
 		$result=dbQuery($sql);	 
 		$resultArray=dbResultToArray($result);
 		return $resultArray; 
@@ -36,18 +36,18 @@ function listCitiesAlpha(){
 
 
 
-function insertCity($name){
+function insertLocation($name){
 	
 	try
 	{
 		$name=clean_data($name);
 		$name = ucfirst(strtolower($name));
-		$duplicate=checkForDuplicateCity($name);
+		$duplicate=checkForDuplicateLocation($name);
 		if(validateForNull($name) && !$duplicate)
 		{
 			$admin_id=$_SESSION['minexAdminSession']['admin_id'];
 		$sql="INSERT INTO
-		      fin_city (city_name, created_by, last_updated_by, date_added, date_modified)
+		      min_machine_location (location_name, created_by, last_updated_by, date_added, date_modified)
 			  VALUES
 			  ('$name', $admin_id, $admin_id, NOW(), NOW())";
 		$result=dbQuery($sql);	
@@ -64,18 +64,18 @@ function insertCity($name){
 	}
 	
 }
-function insertCityIfNotDuplicate($name)
+function insertLocationIfNotDuplicate($name)
 {
 	try
 	{
 		$name=clean_data($name);
 		$name = ucfirst(strtolower($name));
-		$duplicate=checkForDuplicateCity($name);
+		$duplicate=checkForDuplicateLocation($name);
 		if(validateForNull($name) && !$duplicate)
 		{
 			$admin_id=$_SESSION['minexAdminSession']['admin_id'];
 		$sql="INSERT INTO
-		      fin_city (city_name, created_by, last_updated_by, date_added, date_modified)
+		      min_machine_location (location_name, created_by, last_updated_by, date_added, date_modified)
 			  VALUES
 			  ('$name', $admin_id, $admin_id, NOW(), NOW())";
 		$result=dbQuery($sql);	
@@ -93,16 +93,16 @@ function insertCityIfNotDuplicate($name)
 	
 	}
 
-function deleteCity($id){
+function deleteLocation($id){
 	
 	try
 	{
-		if(checkForNumeric($id) && !checkIfCityInUse($id))
+		if(checkForNumeric($id) && !checkIfLocationInUse($id))
 		{
 		$admin_id=$_SESSION['minexAdminSession']['admin_id'];
 		$sql="DELETE FROM
-			  fin_city
-			  WHERE city_id=$id";
+			  min_machine_location
+			  WHERE machine_location_id=$id";
 		dbQuery($sql);	
 		return  "success";
 		}
@@ -117,20 +117,20 @@ function deleteCity($id){
 	
 }
 
-function updateCity($id,$name){
+function updateLocation($id,$name){
 	
 	try
 	{
 		$name=clean_data($name);
 		$name = ucfirst(strtolower($name));
-		$duplicate=checkForDuplicateCity($name,$id);
+		$duplicate=checkForDuplicateLocation($name,$id);
 		if(validateForNull($name) && checkForNumeric($id) && !$duplicate)
 		{
 			
 		$admin_id=$_SESSION['minexAdminSession']['admin_id'];
-		$sql="UPDATE fin_city
-			  SET city_name='$name', last_updated_by=$admin_id, date_modified=NOW()
-			  WHERE city_id=$id";	  
+		$sql="UPDATE min_machine_location
+			  SET location_name='$name', last_updated_by=$admin_id, date_modified=NOW()
+			  WHERE machine_location_id=$id";	  
 		dbQuery($sql);
 		return "success";	
 		}
@@ -145,17 +145,17 @@ function updateCity($id,$name){
 	
 }
 
-function checkForDuplicateCity($name,$id=false)
+function checkForDuplicateLocation($name,$id=false)
 {
 	try{
-		$sql="SELECT city_id 
+		$sql="SELECT machine_location_id 
 			  FROM 
-			  fin_city 
-			  WHERE city_name='$name'";
+			  min_machine_location 
+			  WHERE location_name='$name'";
 		if($id==false)
 		$sql=$sql."";
 		else
-		$sql=$sql." AND city_id!=$id";		  
+		$sql=$sql." AND machine_location_id!=$id";		  
 		$result=dbQuery($sql);	
 		
 		if(dbNumRows($result)>0)
@@ -176,12 +176,12 @@ function checkForDuplicateCity($name,$id=false)
 	
 	}
 
-function getCityByID($id)
+function getLocationByID($id)
 {
-	$sql="SELECT city_id, city_name
+	$sql="SELECT machine_location_id, location_name
 			  FROM 
-			  fin_city 
-			  WHERE city_id=$id";
+			  min_machine_location 
+			  WHERE machine_location_id=$id";
 		$result=dbQuery($sql);	
 		$resultArray=dbResultToArray($result);
 	if(dbNumRows($result)>0)
@@ -193,43 +193,16 @@ function getCityByID($id)
 		return false;
 		}
 	}
-function checkIfCityInUse($id)
+function checkIfLocationInUse($id)
 {
-	$sql="SELECT city_id
-	      FROM fin_our_company
-		  WHERE city_id=$id LIMIT 0, 1";
+	$sql="SELECT machine_location_id
+	      FROM min_machines
+		  WHERE machine_location_id=$id LIMIT 0, 1";
 	$result=dbQuery($sql);
 	if(dbNumRows($result)>0)
 	{
 		return true;
 		}
-	
-		$sql="SELECT city_id
-	      FROM fin_customer
-		  WHERE city_id=$id LIMIT 0, 1";
-	$result=dbQuery($sql);
-	if(dbNumRows($result)>0)
-	{
-		return true;
-		}
-	
-	$sql="SELECT city_id
-	      FROM fin_guarantor
-		  WHERE city_id=$id LIMIT 0, 1";
-	$result=dbQuery($sql);
-	if(dbNumRows($result)>0)
-	{
-		return true;
-		}	
-	
-	$sql="SELECT city_id
-	      FROM fin_vehicle_dealer
-		  WHERE city_id=$id LIMIT 0, 1";
-	$result=dbQuery($sql);
-	if(dbNumRows($result)>0)
-	{
-		return true;
-		}		
 		
 		return false;
 			

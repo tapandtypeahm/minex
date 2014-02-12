@@ -1,11 +1,9 @@
 <?php
 require_once("cg.php");
-require_once("city-functions.php");
+require_once("location-functions.php");
 require_once("common.php");
 require_once("bd.php");
 require_once("backup.php");
-
-
 
 function InsertEMIsFromLoan($id,$duration,$starting_date)
 {
